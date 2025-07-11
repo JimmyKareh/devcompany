@@ -1,0 +1,4237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>POS System Pro - Enterprise Solution</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --primary-light: #eff6ff;
+        --secondary: #10b981;
+        --secondary-dark: #059669;
+        --danger: #ef4444;
+        --danger-dark: #dc2626;
+        --warning: #f59e0b;
+        --success: #10b981;
+        --dark: #111827;
+        --gray-900: #1f2937;
+        --gray-800: #374151;
+        --gray-700: #4b5563;
+        --gray-600: #6b7280;
+        --gray-500: #9ca3af;
+        --gray-400: #d1d5db;
+        --gray-300: #e5e7eb;
+        --gray-200: #f3f4f6;
+        --gray-100: #f9fafb;
+        --white: #ffffff;
+        --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+          0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+        background-color: var(--gray-100);
+        color: var(--gray-900);
+        line-height: 1.5;
+        font-size: 14px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Scrollbar Styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: var(--gray-100);
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--gray-400);
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--gray-500);
+      }
+
+      /* Layout */
+      .app-container {
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 280px;
+        background: var(--white);
+        border-right: 1px solid var(--gray-200);
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 100;
+      }
+
+      .sidebar-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--gray-200);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      .brand-logo {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--primary-dark)
+        );
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 20px;
+        font-weight: 700;
+        box-shadow: var(--shadow-md);
+      }
+
+      .brand-name {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        letter-spacing: -0.025em;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        background: var(--gray-50);
+        border-radius: 8px;
+      }
+
+      .user-avatar {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 600;
+      }
+
+      .user-details {
+        flex: 1;
+      }
+
+      .user-name {
+        font-weight: 600;
+        color: var(--gray-900);
+        font-size: 0.875rem;
+      }
+
+      .user-role {
+        font-size: 0.75rem;
+        color: var(--gray-600);
+      }
+
+      .nav-menu {
+        flex: 1;
+        padding: 1rem 0;
+        overflow-y: auto;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 0.875rem 1.5rem;
+        color: var(--gray-700);
+        text-decoration: none;
+        transition: var(--transition);
+        position: relative;
+        font-weight: 500;
+        font-size: 0.875rem;
+      }
+
+      .nav-item:hover {
+        color: var(--primary);
+        background: var(--primary-light);
+      }
+
+      .nav-item.active {
+        color: var(--primary);
+        background: var(--primary-light);
+      }
+
+      .nav-item.active::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--primary);
+      }
+
+      .nav-item i {
+        width: 20px;
+        margin-right: 0.75rem;
+        font-size: 1rem;
+      }
+
+      .nav-footer {
+        padding: 1.5rem;
+        border-top: 1px solid var(--gray-200);
+      }
+
+      .license-info {
+        background: var(--gray-100);
+        padding: 0.75rem;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .license-badge {
+        display: inline-block;
+        background: var(--danger);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .app-version {
+        text-align: center;
+        font-size: 0.75rem;
+        color: var(--gray-500);
+      }
+
+      /* Main Content */
+      .main-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: var(--gray-50);
+      }
+
+      /* Header */
+      .header {
+        background: var(--white);
+        padding: 1rem 2rem;
+        border-bottom: 1px solid var(--gray-200);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 64px;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .mobile-menu-btn {
+        display: none;
+        background: transparent;
+        border: none;
+        color: var(--gray-700);
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 6px;
+        transition: var(--transition);
+      }
+
+      .mobile-menu-btn:hover {
+        background: var(--gray-100);
+      }
+
+      .page-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        letter-spacing: -0.025em;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .search-container {
+        position: relative;
+        width: 320px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 0.625rem 1rem 0.625rem 2.75rem;
+        border: 1px solid var(--gray-300);
+        border-radius: 8px;
+        font-size: 0.875rem;
+        background: var(--gray-50);
+        transition: var(--transition);
+      }
+
+      .search-input:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: var(--white);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray-500);
+      }
+
+      .header-btn {
+        background: transparent;
+        border: 1px solid var(--gray-300);
+        color: var(--gray-700);
+        padding: 0.625rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .header-btn:hover {
+        background: var(--gray-50);
+        border-color: var(--gray-400);
+      }
+
+      .header-btn.primary {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+      }
+
+      .header-btn.primary:hover {
+        background: var(--primary-dark);
+        border-color: var(--primary-dark);
+      }
+
+      /* Page Content */
+      .page-content {
+        flex: 1;
+        padding: 1.5rem;
+        overflow-y: auto;
+      }
+
+      /* Sale Page */
+      .sale-layout {
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 1.5rem;
+        height: calc(100vh - 64px - 3rem);
+      }
+
+      .products-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        overflow: hidden;
+      }
+
+      /* Categories */
+      .categories-container {
+        background: var(--white);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-200);
+        overflow-x: auto;
+      }
+
+      .categories-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .categories-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--gray-900);
+      }
+
+      .categories-grid {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: nowrap;
+      }
+
+      .category-card {
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: 8px;
+        padding: 1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        flex: 0 0 130px;
+      }
+
+      .category-card:hover {
+        border-color: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
+
+      .category-card.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: white;
+      }
+
+      .category-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .category-name {
+        font-size: 0.875rem;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Products Grid */
+      .products-container {
+        background: var(--white);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-200);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .products-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .products-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .view-toggle {
+        display: flex;
+        background: var(--gray-100);
+        border-radius: 6px;
+        padding: 0.25rem;
+      }
+
+      .view-btn {
+        background: transparent;
+        border: none;
+        padding: 0.5rem 0.75rem;
+        border-radius: 4px;
+        cursor: pointer;
+        color: var(--gray-600);
+        transition: var(--transition);
+      }
+
+      .view-btn.active {
+        background: var(--white);
+        color: var(--primary);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 1rem;
+        overflow-y: auto;
+        flex: 1;
+        padding-right: 0.5rem;
+      }
+
+      .product-card {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 10px;
+        padding: 1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        text-align: center;
+        height: fit-content;
+      }
+
+      .product-card:hover {
+        border-color: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .product-image {
+        width: 100%;
+        height: 120px;
+        background: var(--gray-100);
+        border-radius: 8px;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .product-badge {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background: var(--danger);
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.625rem;
+        font-weight: 600;
+      }
+
+      .product-info {
+        text-align: left;
+      }
+
+      .product-name {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--gray-900);
+        margin-bottom: 0.5rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      .product-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .product-price {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      .product-stock {
+        font-size: 0.75rem;
+        color: var(--gray-500);
+      }
+
+      /* Cart Section */
+      .cart-section {
+        background: var(--white);
+        border-radius: 12px;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-200);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+      }
+
+      .cart-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--gray-200);
+      }
+
+      .cart-title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .cart-badge {
+        background: var(--primary);
+        color: white;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .customer-section {
+        background: var(--gray-50);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+      }
+
+      .select-wrapper {
+        position: relative;
+        margin-bottom: 0.75rem;
+      }
+
+      .select-input {
+        width: 100%;
+        padding: 0.75rem 2.5rem 0.75rem 1rem;
+        border: 1px solid var(--gray-300);
+        border-radius: 6px;
+        font-size: 0.875rem;
+        background: var(--white);
+        cursor: pointer;
+        appearance: none;
+      }
+
+      .select-icon {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray-500);
+        pointer-events: none;
+      }
+
+      .customer-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .customer-btn {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid var(--gray-300);
+        background: var(--white);
+        border-radius: 6px;
+        font-size: 0.75rem;
+        color: var(--gray-700);
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.25rem;
+      }
+
+      .customer-btn:hover {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-light);
+      }
+
+      .discount-section {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .discount-label {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--gray-700);
+      }
+
+      .discount-input-group {
+        display: flex;
+        align-items: center;
+        background: var(--white);
+        border: 1px solid var(--gray-300);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .discount-input {
+        width: 60px;
+        padding: 0.5rem;
+        border: none;
+        text-align: center;
+        font-size: 0.875rem;
+      }
+
+      .discount-input:focus {
+        outline: none;
+      }
+
+      .discount-symbol {
+        padding: 0.5rem;
+        background: var(--gray-100);
+        color: var(--gray-600);
+        font-weight: 500;
+      }
+
+      /* Cart Items */
+      .cart-items {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1rem;
+      }
+
+      .empty-cart {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: var(--gray-400);
+      }
+
+      .empty-cart-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .empty-cart-text {
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+
+      .cart-item {
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+        transition: var(--transition);
+      }
+
+      .cart-item:hover {
+        border-color: var(--gray-300);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .cart-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 0.5rem;
+      }
+
+      .cart-item-name {
+        font-weight: 600;
+        color: var(--gray-900);
+        font-size: 0.875rem;
+      }
+
+      .cart-item-remove {
+        background: transparent;
+        border: none;
+        color: var(--gray-400);
+        cursor: pointer;
+        transition: var(--transition);
+        padding: 0.25rem;
+      }
+
+      .cart-item-remove:hover {
+        color: var(--danger);
+      }
+
+      .cart-item-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .cart-item-price {
+        font-size: 0.875rem;
+        color: var(--gray-600);
+      }
+
+      .quantity-controls {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--white);
+        border: 1px solid var(--gray-300);
+        border-radius: 6px;
+        padding: 0.25rem;
+      }
+
+      .qty-btn {
+        width: 28px;
+        height: 28px;
+        border: none;
+        background: transparent;
+        color: var(--gray-600);
+        cursor: pointer;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+
+      .qty-btn:hover {
+        background: var(--gray-100);
+        color: var(--primary);
+      }
+
+      .qty-value {
+        min-width: 32px;
+        text-align: center;
+        font-weight: 600;
+        color: var(--gray-900);
+      }
+
+      /* Cart Footer */
+      .cart-footer {
+        border-top: 2px solid var(--gray-200);
+        padding: 1.5rem;
+        background: var(--gray-50);
+        border-radius: 0 0 12px 12px;
+      }
+
+      .cart-summary {
+        margin-bottom: 1rem;
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+        font-size: 0.875rem;
+      }
+
+      .summary-label {
+        color: var(--gray-600);
+      }
+
+      .summary-value {
+        font-weight: 600;
+        color: var(--gray-900);
+      }
+
+      .summary-row.total {
+        padding-top: 0.75rem;
+        border-top: 1px solid var(--gray-300);
+        font-size: 1.125rem;
+      }
+
+      .summary-row.total .summary-label {
+        font-weight: 600;
+        color: var(--gray-900);
+      }
+
+      .summary-row.total .summary-value {
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      .cart-actions {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 0.75rem;
+      }
+
+      /* Buttons */
+      .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        font-size: 0.875rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn:active {
+        transform: scale(0.98);
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: var(--primary-dark);
+        box-shadow: var(--shadow-md);
+      }
+
+      .btn-secondary {
+        background: var(--white);
+        color: var(--gray-700);
+        border: 1px solid var(--gray-300);
+      }
+
+      .btn-secondary:hover {
+        background: var(--gray-50);
+        border-color: var(--gray-400);
+      }
+
+      .btn-danger {
+        background: var(--white);
+        color: var(--danger);
+        border: 1px solid var(--danger);
+      }
+
+      .btn-danger:hover {
+        background: var(--danger);
+        color: white;
+      }
+
+      .btn-success {
+        background: var(--success);
+        color: white;
+      }
+
+      .btn-success:hover {
+        background: var(--secondary-dark);
+      }
+
+      .btn-icon {
+        padding: 0.625rem;
+        width: 40px;
+        height: 40px;
+      }
+
+      /* Tables */
+      .table-container {
+        background: var(--white);
+        border-radius: 12px;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-200);
+        overflow: hidden;
+      }
+
+      .table-header {
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--gray-200);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .table-title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--gray-900);
+      }
+
+      .table-actions {
+        display: flex;
+        gap: 0.75rem;
+      }
+
+      .table-wrapper {
+        overflow-x: auto;
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .table th {
+        background: var(--gray-50);
+        padding: 0.75rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.75rem;
+        color: var(--gray-700);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 1px solid var(--gray-200);
+      }
+
+      .table td {
+        padding: 1rem;
+        border-bottom: 1px solid var(--gray-100);
+        font-size: 0.875rem;
+        color: var(--gray-900);
+      }
+
+      .table tbody tr:hover {
+        background: var(--gray-50);
+      }
+
+      /* Badges */
+      .badge {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .badge-primary {
+        background: var(--primary-light);
+        color: var(--primary);
+      }
+
+      .badge-success {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+      }
+
+      .badge-danger {
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--danger);
+      }
+
+      .badge-warning {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .stat-card {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        transition: var(--transition);
+      }
+
+      .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--primary);
+      }
+
+      .stat-icon-wrapper {
+        width: 56px;
+        height: 56px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
+
+      .stat-icon-wrapper.primary {
+        background: var(--primary-light);
+        color: var(--primary);
+      }
+
+      .stat-icon-wrapper.success {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+      }
+
+      .stat-icon-wrapper.danger {
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--danger);
+      }
+
+      .stat-icon-wrapper.warning {
+        background: rgba(245, 158, 11, 0.1);
+        color: var(--warning);
+      }
+
+      .stat-icon-wrapper.purple {
+        background: rgba(139, 92, 246, 0.1);
+        color: #8b5cf6;
+      }
+
+      .stat-details {
+        flex: 1;
+      }
+
+      .stat-label {
+        font-size: 0.875rem;
+        color: var(--gray-600);
+        margin-bottom: 0.25rem;
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        line-height: 1;
+      }
+
+      .stat-change {
+        font-size: 0.75rem;
+        margin-top: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .stat-change.positive {
+        color: var(--success);
+      }
+
+      .stat-change.negative {
+        color: var(--danger);
+      }
+
+      /* Charts */
+      .charts-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .chart-container {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .chart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .chart-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--gray-900);
+      }
+
+      .chart-placeholder {
+        height: 300px;
+        background: var(--gray-50);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gray-400);
+        font-size: 0.875rem;
+      }
+
+      /* Forms */
+      .form-group {
+        margin-bottom: 1.5rem;
+      }
+
+      .form-label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--gray-700);
+        margin-bottom: 0.5rem;
+      }
+
+      .form-input,
+      .form-select,
+      .form-textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--gray-300);
+        border-radius: 8px;
+        font-size: 0.875rem;
+        background: var(--white);
+        transition: var(--transition);
+      }
+
+      .form-input:focus,
+      .form-select:focus,
+      .form-textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      .form-textarea {
+        resize: vertical;
+        min-height: 100px;
+      }
+
+      .form-hint {
+        font-size: 0.75rem;
+        color: var(--gray-500);
+        margin-top: 0.25rem;
+      }
+
+      /* Modals */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(4px);
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: var(--white);
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 500px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: var(--shadow-xl);
+        animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .modal-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--gray-900);
+      }
+
+      .modal-close {
+        background: transparent;
+        border: none;
+        color: var(--gray-400);
+        cursor: pointer;
+        font-size: 1.25rem;
+        padding: 0.25rem;
+        transition: var(--transition);
+      }
+
+      .modal-close:hover {
+        color: var(--gray-600);
+      }
+
+      .modal-footer {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--gray-200);
+      }
+
+      /* Loading */
+      .loading {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 0.8s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 1280px) {
+        .sale-layout {
+          grid-template-columns: 1fr 380px;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .sidebar {
+          position: fixed;
+          left: -280px;
+          top: 0;
+          height: 100vh;
+          z-index: 1000;
+          box-shadow: var(--shadow-xl);
+        }
+
+        .sidebar.active {
+          left: 0;
+        }
+
+        .mobile-menu-btn {
+          display: block;
+        }
+
+        .sale-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .cart-section {
+          position: fixed;
+          right: -420px;
+          top: 0;
+          width: 420px;
+          height: 100vh;
+          z-index: 999;
+          transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: var(--shadow-xl);
+          border-radius: 0;
+        }
+
+        .cart-section.active {
+          right: 0;
+        }
+
+        .mobile-cart-toggle {
+          position: fixed;
+          bottom: 2rem;
+          right: 2rem;
+          width: 60px;
+          height: 60px;
+          background: var(--primary);
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: var(--shadow-lg);
+          cursor: pointer;
+          z-index: 100;
+        }
+
+        .stats-grid {
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          padding: 1rem;
+        }
+
+        .search-container {
+          width: 100%;
+          order: 2;
+          margin-top: 1rem;
+        }
+
+        .header-actions {
+          width: 100%;
+          flex-wrap: wrap;
+        }
+
+        .categories-grid {
+          grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        }
+
+        .products-grid {
+          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        }
+
+        .cart-section {
+          width: 100%;
+          right: -100%;
+        }
+
+        .charts-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .purchase-row {
+          grid-template-columns: 1fr 70px 50px 70px 50px auto;
+        }
+      }
+
+      /* Print Styles */
+      @media print {
+        .sidebar,
+        .header,
+        .mobile-cart-toggle {
+          display: none;
+        }
+
+        .main-content {
+          margin: 0;
+        }
+
+        .page-content {
+          padding: 0;
+        }
+      }
+
+      /* Animations */
+      .fade-in {
+        animation: fadeIn 0.3s ease-in-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .slide-in {
+        animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      /* Customer Modal Input Styles */
+      .modal.customer-modal .form-input,
+      .modal.customer-modal .form-select,
+      .modal.customer-modal .form-textarea {
+        background: var(--primary-light);
+        border: none;
+      }
+
+      /* Settings Modal List Rows */
+      .settings-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .settings-icon {
+        color: var(--gray-500);
+        font-size: 1rem;
+        width: 20px;
+        text-align: center;
+      }
+
+      .settings-label {
+        flex: 1;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--gray-700);
+      }
+
+      /* Product Settings Modal */
+      .modal#product-settings-modal .settings-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .modal#product-settings-modal .settings-icon {
+        color: var(--gray-500);
+        font-size: 1rem;
+        width: 20px;
+        text-align: center;
+      }
+
+      .modal#product-settings-modal .settings-label {
+        flex: 1;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--gray-700);
+      }
+
+      /* Category Settings Modal */
+      .modal#category-settings-modal .settings-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .modal#category-settings-modal .settings-icon {
+        color: var(--gray-500);
+        font-size: 1rem;
+        width: 20px;
+        text-align: center;
+      }
+
+      .modal#category-settings-modal .settings-label {
+        flex: 1;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--gray-700);
+      }
+
+      .btn.btn-sm {
+        padding: 0.25rem 0.75rem;
+        font-size: 0.75rem;
+      }
+
+      /* Category Add/Edit Modal Input Styles */
+      .modal.category-modal .form-input,
+      .modal.category-modal .form-textarea,
+      .modal.category-modal input[type="file"] {
+        background: var(--primary-light);
+        border: none;
+      }
+
+      /* Products list view */
+      .products-grid.list-view {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .products-grid.list-view .product-card {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+      }
+
+      .products-grid.list-view .product-image {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 0;
+        margin-right: 1rem;
+        flex-shrink: 0;
+      }
+
+      .products-grid.list-view .product-info {
+        flex: 1;
+      }
+
+      .products-grid.list-view .product-meta {
+        justify-content: flex-end;
+      }
+
+      /* Toggle Button Group */
+      .toggle-group {
+        display: inline-flex;
+        border: 1px solid var(--gray-300);
+        border-radius: 6px;
+        overflow: hidden;
+      }
+
+      .toggle-group .toggle-btn {
+        padding: 0.5rem 1rem;
+        background: var(--white);
+        border: none;
+        font-size: 0.75rem;
+        cursor: pointer;
+        color: var(--gray-700);
+        transition: var(--transition);
+      }
+
+      .toggle-group .toggle-btn.active {
+        background: var(--primary);
+        color: white;
+      }
+
+      /* Daily Sales Summary Panel */
+      .sales-summary {
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        max-width: 300px;
+        background: var(--white);
+        color: var(--danger);
+        font-size: 0.9rem;
+        line-height: 1.8;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .sales-summary .summary-row {
+        display: flex;
+        justify-content: space-between;
+        white-space: nowrap;
+      }
+
+      .sales-summary .summary-label {
+        font-weight: 600;
+      }
+
+      .sales-summary .summary-box {
+        border: 1px solid var(--gray-300);
+        border-radius: 8px;
+        padding: 0.5rem;
+        margin-top: 0.75rem;
+        font-size: 0.75rem;
+        color: var(--gray-700);
+      }
+
+      /* Invoice Modal Table */
+      .invoice-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+
+      .invoice-table th,
+      .invoice-table td {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.75rem;
+        border-bottom: 1px solid var(--gray-300);
+        text-align: left;
+      }
+
+      .invoice-table th {
+        color: var(--gray-600);
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+      }
+
+      .invoice-total {
+        text-align: right;
+        font-weight: 700;
+        margin-top: 1rem;
+        color: var(--danger);
+      }
+
+      /* Shift Summary */
+      .shift-summary {
+        border: 1px solid var(--danger);
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        max-width: 380px;
+        background: var(--white);
+        color: var(--danger);
+        font-size: 0.9rem;
+        line-height: 1.8;
+      }
+
+      /* Shift Info Cards */
+      .shift-info-card {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--primary-light);
+        border: 1px solid var(--primary);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        color: var(--primary);
+        font-weight: 600;
+        flex-wrap: wrap;
+      }
+      .shift-info-card .shift-number {
+        color: var(--primary-dark);
+      }
+      .shift-info-card .shift-time {
+        color: var(--gray-700);
+        font-weight: 500;
+      }
+      .shift-summary .summary-row {
+        display: flex;
+        justify-content: space-between;
+        white-space: nowrap;
+      }
+      .shift-summary .summary-label {
+        font-weight: 600;
+      }
+      .shift-summary .cash-box {
+        border: 1px solid var(--gray-300);
+        border-radius: 8px;
+        padding: 0.5rem;
+        font-size: 0.75rem;
+        color: var(--gray-700);
+        margin-top: 0.5rem;
+        text-align: center;
+      }
+
+      .shift-net {
+        color: var(--danger);
+        font-weight: 700;
+        margin-left: 1rem;
+        white-space: nowrap;
+      }
+
+      /* Download button */
+      .btn-download {
+        border: 1px solid var(--success);
+        color: var(--success);
+        background: var(--white);
+      }
+      .btn-download:hover {
+        background: var(--success);
+        color: white;
+      }
+
+      /* Product Settings specific */
+      .modal#product-settings-modal .toggle-group {
+        border: 1px solid var(--gray-300);
+        border-radius: 20px;
+        overflow: hidden;
+      }
+      .modal#product-settings-modal .toggle-group .toggle-btn {
+        background: var(--gray-100);
+        color: var(--gray-700);
+        padding: 0.5rem 1.25rem;
+        border: none;
+        font-size: 0.75rem;
+        cursor: pointer;
+        flex: 1;
+        transition: var(--transition);
+      }
+      .modal#product-settings-modal .toggle-group .toggle-btn.active {
+        background: var(--primary);
+        color: white;
+      }
+      .modal#product-settings-modal .settings-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      .modal#product-settings-modal .settings-hint {
+        font-size: 0.75rem;
+        color: var(--gray-500);
+        margin-left: 2.2rem;
+      }
+      .modal#product-settings-modal .btn-save-block {
+        width: 100%;
+      }
+
+      /* -------- Purchases Modern Styles -------- */
+      .purchase-totals {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+      .purchase-total-label {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--danger);
+      }
+      .purchase-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+      }
+      .purchase-item {
+        display: grid;
+        grid-template-columns: 1fr 120px 80px 220px 80px 40px;
+        align-items: center;
+        gap: 0.75rem;
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.5rem;
+        box-shadow: var(--shadow-sm);
+      }
+      .purchase-name {
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .old-details {
+        font-weight: 400;
+        color: var(--gray-600);
+        margin-left: 0.25rem;
+      }
+      .icon-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.65rem;
+        font-weight: 600;
+        padding: 0.15rem 0.5rem;
+        border-radius: 6px;
+        margin-left: 0.5rem;
+        cursor: pointer;
+      }
+      .icon-btn.history {
+        color: var(--success);
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid var(--success);
+      }
+      .icon-btn.chart {
+        color: var(--danger);
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid var(--danger);
+      }
+      .purchase-item .form-input {
+        width: 100%;
+      }
+      @media (max-width: 768px) {
+        .purchase-item {
+          grid-template-columns: 1fr 90px 60px 150px 60px 40px;
+        }
+      }
+      /* ----------------------------------------- */
+
+      /* Field container with inline label */
+      .purchase-field {
+        display: flex;
+        align-items: center;
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: 10px;
+        overflow: hidden;
+        height: 40px;
+      }
+      .purchase-field input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 0.5rem;
+        text-align: center;
+        font-size: 0.875rem;
+      }
+      .purchase-field .purchase-label {
+        padding: 0 0.75rem;
+        font-size: 0.75rem;
+        color: var(--gray-600);
+        background: var(--white);
+        border-left: 1px solid var(--gray-300);
+        white-space: nowrap;
+      }
+
+      .purchase-hint {
+        grid-column: span 6;
+        font-size: 0.75rem;
+        color: var(--danger);
+        margin-top: -4px;
+      }
+
+      /* Field group with label */
+      .field-group {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .field-label {
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--gray-600);
+        user-select: none;
+      }
+
+      /* Currency toggle */
+      .currency-toggle {
+        display: inline-flex;
+        border: 1px solid var(--primary);
+        border-radius: 6px;
+        overflow: hidden;
+        height: 40px;
+        align-items: stretch;
+      }
+      .currency-toggle .toggle-btn {
+        display:flex;
+        align-items:center;
+        padding: 0.25rem 0.6rem;
+        font-size: 0.7rem;
+        border: none;
+        background: transparent;
+        color: var(--primary);
+        cursor: pointer;
+        transition: var(--transition);
+        height: 100%;
+      }
+      .currency-toggle .toggle-btn.active {
+        background: var(--primary);
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <div class="brand">
+            <div class="brand-logo">MC</div>
+            <div class="brand-name">POS Pro</div>
+          </div>
+          <div class="user-info">
+            <div class="user-avatar">MA</div>
+            <div class="user-details">
+              <div class="user-name">Meat & Cheese</div>
+              <div class="user-role">Superadmin</div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="nav-menu">
+          <a
+            href="#sale"
+            class="nav-item active"
+            onclick="event.preventDefault(); showPage('sale')"
+          >
+            <i class="fas fa-cash-register"></i>
+            <span>Point of Sale</span>
+          </a>
+          <a
+            href="#daily-sales"
+            class="nav-item"
+            onclick="event.preventDefault(); showPage('daily-sales')"
+          >
+            <i class="fas fa-chart-line"></i>
+            <span>Daily Sales</span>
+          </a>
+          <a
+            href="#shift"
+            class="nav-item"
+            onclick="event.preventDefault(); showPage('shift')"
+          >
+            <i class="fas fa-clock"></i>
+            <span>Shift Management</span>
+          </a>
+          <a
+            href="#inventory"
+            class="nav-item"
+            onclick="event.preventDefault(); showPage('inventory')"
+          >
+            <i class="fas fa-warehouse"></i>
+            <span>Inventory</span>
+          </a>
+          <a
+            href="#purchases"
+            class="nav-item"
+            onclick="event.preventDefault(); showPage('purchases')"
+          >
+            <i class="fas fa-shopping-cart"></i>
+            <span>Purchases</span>
+          </a>
+          <a
+            href="#customers"
+            class="nav-item"
+            onclick="event.preventDefault(); showPage('customers')"
+          >
+            <i class="fas fa-users"></i>
+            <span>Customers</span>
+          </a>
+          <a
+            href="#users"
+            class="nav-item"
+            onclick="event.preventDefault(); showPage('users')"
+          >
+            <i class="fas fa-user-cog"></i>
+            <span>User Management</span>
+          </a>
+          <a
+            href="#settings"
+            class="nav-item"
+            onclick="event.preventDefault(); showPage('settings')"
+          >
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </a>
+          <a
+            href="#reports"
+            class="nav-item"
+            onclick="event.preventDefault(); showPage('reports')"
+          >
+            <i class="fas fa-file-alt"></i>
+            <span>Reports</span>
+          </a>
+          <a
+            href="#dashboard"
+            class="nav-item"
+            onclick="event.preventDefault(); showPage('dashboard')"
+          >
+            <i class="fas fa-tachometer-alt"></i>
+            <span>Dashboard</span>
+          </a>
+        </nav>
+
+        <div class="nav-footer">
+          <div class="license-info">
+            <div class="license-badge">3 Days Left</div>
+          </div>
+          <div class="app-version">Version 1.7.2 · © 2025 Company</div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+          <div class="header-left">
+            <button class="mobile-menu-btn" onclick="toggleSidebar()">
+              <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="page-title" id="page-title">Point of Sale</h1>
+          </div>
+          <div class="header-actions">
+            <div class="search-container">
+              <i class="fas fa-search search-icon"></i>
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Search by barcode or name..."
+              />
+            </div>
+            <button class="header-btn">
+              <i class="fas fa-bell"></i>
+            </button>
+            <button class="header-btn" onclick="openModal('product-settings-modal')">
+              <i class="fas fa-cog"></i>
+            </button>
+          </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content" id="page-content">
+          <!-- Content will be dynamically loaded here -->
+        </div>
+      </main>
+    </div>
+
+    <!-- Mobile Cart Toggle (for Sale page) -->
+    <div
+      class="mobile-cart-toggle"
+      id="mobile-cart-toggle"
+      style="display: none"
+      onclick="toggleCart()"
+    >
+      <i class="fas fa-shopping-cart"></i>
+    </div>
+
+    <!-- Add Customer Modal -->
+    <div class="modal customer-modal" id="add-customer-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Add New Customer</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('add-customer-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form>
+          <div class="form-group">
+            <label class="form-label">Customer Name</label>
+            <input
+              type="text"
+              class="form-input"
+              placeholder="Enter customer name"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input
+              type="tel"
+              class="form-input"
+              placeholder="Enter phone number"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input
+              type="email"
+              class="form-input"
+              placeholder="Enter email (optional)"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Address</label>
+            <textarea
+              class="form-textarea"
+              placeholder="Enter address"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Discount (%)</label>
+            <input
+              type="number"
+              class="form-input"
+              placeholder="0"
+              min="0"
+              max="100"
+            />
+            <div class="form-hint">Customer-specific discount percentage</div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="closeModal('add-customer-modal')"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-plus"></i>
+              Add Customer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Edit Customer Modal -->
+    <div class="modal customer-modal" id="edit-customer-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Edit Customer</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('edit-customer-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form>
+          <div class="form-group">
+            <label class="form-label">Customer Name</label>
+            <input
+              type="text"
+              class="form-input"
+              placeholder="Enter customer name"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input
+              type="tel"
+              class="form-input"
+              placeholder="Enter phone number"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" placeholder="Enter email" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Address</label>
+            <textarea
+              class="form-textarea"
+              placeholder="Enter address"
+            ></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Discount (%)</label>
+            <input
+              type="number"
+              class="form-input"
+              placeholder="0"
+              min="0"
+              max="100"
+            />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="closeModal('edit-customer-modal')"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i>
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Product Settings Modal -->
+    <div class="modal" id="product-settings-modal">
+      <div class="modal-content" style="max-width: 640px;">
+        <div class="modal-header">
+          <h2 class="modal-title">Product Settings</h2>
+          <button class="modal-close" onclick="closeModal('product-settings-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <!-- SETTINGS LIST -->
+        <div class="settings-item">
+          <i class="fas fa-bold settings-icon"></i>
+          <span class="settings-label">Font Weight Bold ?</span>
+          <div class="toggle-group">
+            <button type="button" class="toggle-btn" onclick="switchToggle(this)">On</button>
+            <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Off</button>
+          </div>
+        </div>
+        <div class="settings-item">
+          <i class="fas fa-shopping-basket settings-icon"></i>
+          <span class="settings-label">Show Qty ?</span>
+          <div class="toggle-group">
+            <button type="button" class="toggle-btn" onclick="switchToggle(this)">On</button>
+            <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Off</button>
+          </div>
+        </div>
+        <div class="settings-item">
+          <i class="fas fa-arrows-alt-h settings-icon"></i>
+          <span class="settings-label">Product width</span>
+          <button class="btn btn-secondary">
+            90.0 <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="settings-item" style="flex-direction:column; align-items:flex-start; gap:0.25rem;">
+          <div style="display:flex; align-items:center; gap:1rem; width:100%;">
+            <i class="fas fa-eye settings-icon"></i>
+            <span class="settings-label">Hide or Show text</span>
+            <div style="margin-left:auto;" class="toggle-group">
+              <button type="button" class="toggle-btn" onclick="switchToggle(this)">Hide</button>
+              <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Show</button>
+            </div>
+          </div>
+          <span class="settings-hint">Press 'Hide' to hide or 'Show' to show text for products with images</span>
+        </div>
+        <div class="settings-item">
+          <i class="fas fa-percentage settings-icon"></i>
+          <span class="settings-label">default profit rate %</span>
+          <button class="btn btn-secondary">
+            0.0 <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="settings-item">
+          <i class="fas fa-eye settings-icon"></i>
+          <span class="settings-label">show Min selling Price</span>
+          <div class="toggle-group">
+            <button type="button" class="toggle-btn" onclick="switchToggle(this)">On</button>
+            <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Off</button>
+          </div>
+        </div>
+        <div class="settings-item">
+          <i class="fas fa-eye settings-icon"></i>
+          <span class="settings-label">show Weighted product</span>
+          <div class="toggle-group">
+            <button type="button" class="toggle-btn" onclick="switchToggle(this)">On</button>
+            <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Off</button>
+          </div>
+        </div>
+        <div class="settings-item" style="flex-direction:column; align-items:flex-start; gap:0.25rem;">
+          <div style="display:flex; align-items:center; gap:1rem; width:100%;">
+            <i class="fas fa-copy settings-icon"></i>
+            <span class="settings-label">Quick Add: Duplicate Latest Added Product</span>
+            <div style="margin-left:auto;" class="toggle-group">
+              <button type="button" class="toggle-btn" onclick="switchToggle(this)">On</button>
+              <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Off</button>
+            </div>
+          </div>
+          <span class="settings-hint">When adding a new product, the form pre-fills with the details of the latest added product, allowing quick edits and adjustments</span>
+        </div>
+        <div class="modal-footer" style="border-top:none; justify-content:center;">
+          <button type="button" class="btn btn-secondary btn-save-block" onclick="closeModal('product-settings-modal')">
+            <i class="fas fa-save"></i> save
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Settings Modal -->
+    <div class="modal" id="category-settings-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Categories Settings</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('category-settings-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="settings-item">
+          <i class="fas fa-arrows-alt-h settings-icon"></i>
+          <span class="settings-label">Category Width</span>
+          <button class="btn btn-secondary">
+            100.0 <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="settings-item">
+          <i class="fas fa-bars settings-icon"></i>
+          <span class="settings-label">Number of Lines</span>
+          <button class="btn btn-secondary">
+            2 <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="settings-item">
+          <i class="fas fa-sort settings-icon"></i>
+          <span class="settings-label">Change Category Order</span>
+          <button class="btn btn-secondary">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="closeModal('category-settings-modal')"
+          >
+            Cancel
+          </button>
+          <button type="button" class="btn btn-primary">
+            <i class="fas fa-save"></i> Save
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div class="modal category-modal" id="add-category-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Add Category</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('add-category-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form>
+          <div class="form-group">
+            <label class="form-label">Category Title</label>
+            <input
+              type="text"
+              class="form-input"
+              placeholder="Enter category title"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Image / Icon</label>
+            <input type="file" accept="image/*" required />
+            <div class="form-hint">Recommended size: 128×128px (PNG / JPG)</div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="closeModal('add-category-modal')"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-plus"></i> Add Category
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Add Transaction Modal -->
+    <div class="modal" id="add-transaction-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Add Transaction</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('add-transaction-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form
+          onsubmit="event.preventDefault(); /* TODO: save transaction */ closeModal('add-transaction-modal');"
+        >
+          <div class="form-group" style="text-align: center">
+            <div class="toggle-group">
+              <button
+                type="button"
+                class="toggle-btn active"
+                onclick="switchToggle(this)"
+              >
+                Deposit
+              </button>
+              <button
+                type="button"
+                class="toggle-btn"
+                onclick="switchToggle(this)"
+              >
+                Withdraw
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Amount</label>
+            <input
+              type="number"
+              class="form-input"
+              placeholder="Amount"
+              required
+              min="0"
+              step="0.01"
+            />
+          </div>
+          <div class="form-group" style="text-align: center">
+            <div class="toggle-group">
+              <button
+                type="button"
+                class="toggle-btn active"
+                onclick="switchToggle(this)"
+              >
+                USD
+              </button>
+              <button
+                type="button"
+                class="toggle-btn"
+                onclick="switchToggle(this)"
+              >
+                LBP
+              </button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="closeModal('add-transaction-modal')"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Invoice Details Modal -->
+    <div class="modal" id="invoice-modal">
+      <div class="modal-content" style="max-width: 600px">
+        <div class="modal-header">
+          <h2 class="modal-title" id="invoice-title">Invoice</h2>
+          <button class="modal-close" onclick="closeModal('invoice-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="invoice-body">
+          <!-- dynamic table here -->
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="closeModal('invoice-modal')"
+          >
+            Cancel
+          </button>
+          <button type="button" class="btn btn-secondary">
+            <i class="fas fa-print"></i> Print Receipt
+          </button>
+          <button type="button" class="btn btn-danger">
+            <i class="fas fa-download"></i> Download
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal" id="add-product-modal">
+      <div class="modal-content" style="max-width: 800px; width:90%;">
+        <div class="modal-header">
+          <h2 class="modal-title">Add Product</h2>
+          <button class="modal-close" onclick="closeModal('add-product-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form onsubmit="event.preventDefault(); /* TODO: Save product */ closeModal('add-product-modal');">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+            <div class="form-group">
+              <label class="form-label">Category</label>
+              <select class="form-select">
+                <option>Sandwiches</option>
+                <option>Burger</option>
+                <option>Drinks</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Discount (%)</label>
+              <input type="number" class="form-input" placeholder="0" min="0" max="100" step="0.1" />
+            </div>
+            <div class="form-group" style="grid-column:span 2;">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-input" placeholder="Product name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Barcode</label>
+              <input type="text" class="form-input" placeholder="Barcode" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Cost Price</label>
+              <input type="number" class="form-input" placeholder="0.00" min="0" step="0.01" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Profit rate (%)</label>
+              <input type="number" class="form-input" placeholder="0" min="0" step="0.1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Selling Price (USD)</label>
+              <input type="number" class="form-input" placeholder="0.00" min="0" step="0.01" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Selling Price (LBP)</label>
+              <input type="number" class="form-input" placeholder="0" min="0" step="1" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Qty</label>
+              <input type="number" class="form-input" placeholder="0" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Warning Alert</label>
+              <input type="number" class="form-input" placeholder="1" min="0" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Expiry Date</label>
+              <input type="date" class="form-input" />
+            </div>
+            <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;">
+              <input type="checkbox" id="tracked-checkbox" />
+              <label for="tracked-checkbox" class="form-label" style="margin:0;">Tracked</label>
+            </div>
+            <div class="form-group" style="grid-column:span 2; text-align:center;">
+              <label class="form-label">Product Image</label>
+              <input type="file" accept="image/*" style="display:none" id="product-image-input" />
+              <label for="product-image-input" style="display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed var(--gray-300);border-radius:8px;padding:2rem;cursor:pointer;color:var(--gray-500);">
+                <i class="fas fa-cloud-upload-alt" style="font-size:2rem;margin-bottom:0.5rem;"></i>
+                <span>Click to upload</span>
+              </label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('add-product-modal')">Cancel</button>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Supplier Modal -->
+    <div class="modal" id="supplier-modal">
+      <div class="modal-content" style="max-width:600px;">
+        <div class="modal-header">
+          <h2 class="modal-title">Suppliers</h2>
+          <button class="modal-close" onclick="closeModal('supplier-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="form-group">
+          <input id="supplier-search" class="form-input" placeholder="Search suppliers" oninput="renderSupplierList()" />
+        </div>
+        <div class="table-wrapper">
+          <table class="table">
+            <thead><tr><th>Name</th><th style="width:120px;">Actions</th></tr></thead>
+            <tbody id="supplier-table-body"></tbody>
+          </table>
+        </div>
+        <div class="modal-footer" style="justify-content:flex-start;">
+          <button class="btn btn-primary" onclick="openAddSupplierForm()"><i class="fas fa-plus"></i> Add Supplier</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item History Modal -->
+    <div class="modal" id="item-history-modal">
+      <div class="modal-content" style="max-width:700px;">
+        <div class="modal-header">
+          <h2 class="modal-title" id="history-title">Item History</h2>
+          <button class="modal-close" onclick="closeModal('item-history-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div style="text-align:center;margin-bottom:1rem;">
+          <div class="currency-toggle" id="history-tab-toggle">
+            <button type="button" class="toggle-btn active" onclick="switchHistoryTab('table')">Table</button>
+            <button type="button" class="toggle-btn" onclick="switchHistoryTab('chart')">Chart</button>
+          </div>
+        </div>
+        <div id="history-body"></div>
+      </div>
+    </div>
+
+    <script>
+      // Global variables
+      let cart = [];
+      let currentPage = "sale";
+      let cartOpen = false;
+
+      // ---------------- Inventory Data & Helpers ----------------
+      /* Sample inventory dataset – replace with real data source when available */
+      const inventoryData = [
+        { name: "Chicken Sub Sand", barcode: "1234567890", category: "Sandwiches", stock: 45, cost: 3.5, price: 5.99 },
+        { name: "Fahita Sand", barcode: "1234567891", category: "Sandwiches", stock: 32, cost: 4.0, price: 6.99 },
+        { name: "Chilly Chicken", barcode: "1234567892", category: "Sandwiches", stock: 28, cost: 4.5, price: 7.99 },
+      ];
+
+      function getInventoryCategories() {
+        return ["All", ...new Set(inventoryData.map((p) => p.category))];
+      }
+
+      function formatUsd(value) {
+        return `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      }
+
+      function computeInventoryStats(filterCat = "All") {
+        const items = filterCat === "All" ? inventoryData : inventoryData.filter((p) => p.category === filterCat);
+        const totalProducts = items.length;
+        const totalCost = items.reduce((sum, p) => sum + p.cost * p.stock, 0);
+        const totalPrice = items.reduce((sum, p) => sum + p.price * p.stock, 0);
+        return { totalProducts, totalCost, totalPrice };
+      }
+
+      function generateInventoryRows(filterCat = "All") {
+        const rows = (filterCat === "All" ? inventoryData : inventoryData.filter((p) => p.category === filterCat))
+          .map(
+            (p) => `
+              <tr>
+                <td>${p.name}</td>
+                <td>${p.barcode}
+                  <button class="btn btn-icon btn-secondary" style="margin-left:0.25rem;" onclick="printBarcode('${p.barcode}')">
+                    <i class="fas fa-print"></i>
+                  </button>
+                </td>
+                <td><span class="badge badge-primary">${p.category}</span></td>
+                <td>${p.stock}</td>
+                <td>${formatUsd(p.cost)}</td>
+                <td>${formatUsd(p.price)}</td>
+                <td>
+                  <button class="btn btn-secondary btn-icon"><i class="fas fa-edit"></i></button>
+                </td>
+              </tr>`
+          )
+          .join("");
+        return rows || `<tr><td colspan="7" style="text-align:center; padding:2rem; color:var(--gray-500);">No items found</td></tr>`;
+      }
+
+      function printBarcode(code) {
+        alert('Printing barcode: ' + code);
+      }
+
+      function renderInventory(filterCat = "All") {
+        // Update rows
+        const tbody = document.getElementById("inventory-table-body");
+        if (tbody) tbody.innerHTML = generateInventoryRows(filterCat);
+
+        // Update stats
+        const stats = computeInventoryStats(filterCat);
+        const productEl = document.getElementById("stat-total-products");
+        const costEl = document.getElementById("stat-total-cost");
+        const priceEl = document.getElementById("stat-total-price");
+        if (productEl) productEl.textContent = stats.totalProducts;
+        if (costEl) costEl.textContent = formatUsd(stats.totalCost);
+        if (priceEl) priceEl.textContent = formatUsd(stats.totalPrice);
+      }
+
+      function initInventoryPage() {
+        const select = document.getElementById("inventory-category-filter");
+        if (select && select.options.length === 0) {
+          getInventoryCategories().forEach((cat) => {
+            const opt = document.createElement("option");
+            opt.value = cat;
+            opt.textContent = cat;
+            select.appendChild(opt);
+          });
+        }
+        renderInventory(select ? select.value : "All");
+      }
+
+      // Event handler wired in HTML
+      function filterInventory() {
+        const select = document.getElementById("inventory-category-filter");
+        renderInventory(select ? select.value : "All");
+      }
+      // ---------------- End Inventory helpers ----------------
+
+      // Page content functions
+      function getSalePage() {
+        return `
+                <div class="sale-layout">
+                    <div class="products-section">
+                        <div class="categories-container">
+                            <div class="categories-header">
+                                <h3 class="categories-title">Categories</h3>
+                                <div style="display:flex; gap:0.5rem;">
+                                    <button class="btn btn-icon btn-secondary" onclick="openModal('category-settings-modal')">
+                                        <i class="fas fa-cog"></i>
+                                    </button>
+                                    <button class="btn btn-icon btn-secondary" onclick="openModal('add-category-modal')">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="categories-grid">
+                                <div class="category-card active">
+                                    <span class="category-icon">🥪</span>
+                                    <span class="category-name">Sandwiches</span>
+                                </div>
+                                <div class="category-card">
+                                    <span class="category-icon">🍔</span>
+                                    <span class="category-name">Beef Burger</span>
+                                </div>
+                                <div class="category-card">
+                                    <span class="category-icon">🍕</span>
+                                    <span class="category-name">Expert Burger</span>
+                                </div>
+                                <div class="category-card">
+                                    <span class="category-icon">🌭</span>
+                                    <span class="category-name">HotDog</span>
+                                </div>
+                                <div class="category-card">
+                                    <span class="category-icon">🍟</span>
+                                    <span class="category-name">Appetisers</span>
+                                </div>
+                                <div class="category-card">
+                                    <span class="category-icon">🍗</span>
+                                    <span class="category-name">Fried Chicken</span>
+                                </div>
+                                <div class="category-card">
+                                    <span class="category-icon">🥗</span>
+                                    <span class="category-name">Meals</span>
+                                </div>
+                                <div class="category-card">
+                                    <span class="category-icon">🥤</span>
+                                    <span class="category-name">Beverages</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="products-container">
+                            <div class="products-header">
+                                <h3 class="categories-title">Products</h3>
+                                <div class="products-actions">
+                                    <button class="btn btn-icon btn-secondary" onclick="openModal('product-settings-modal')">
+                                        <i class="fas fa-cog"></i>
+                                    </button>
+                                    <div class="view-toggle">
+                                        <button class="view-btn active" onclick="changeProductView(this,'grid')">
+                                            <i class="fas fa-th"></i>
+                                        </button>
+                                        <button class="view-btn" onclick="changeProductView(this,'list')">
+                                            <i class="fas fa-list"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="products-grid">
+                                ${generateProductCards()}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="cart-section" id="cart">
+                        <div class="cart-header">
+                            <div class="cart-title">
+                                <i class="fas fa-shopping-cart"></i>
+                                Current Order
+                                <span class="cart-badge" id="cart-count">0</span>
+                            </div>
+                            <div class="customer-section">
+                                <div class="select-wrapper">
+                                    <select class="select-input">
+                                        <option>Walk-in Customer</option>
+                                        <option>Samih Damaj</option>
+                                    </select>
+                                    <i class="fas fa-chevron-down select-icon"></i>
+                                </div>
+                                <div class="customer-actions">
+                                    <button class="customer-btn" onclick="openModal('add-customer-modal')">
+                                        <i class="fas fa-plus"></i>
+                                        Add
+                                    </button>
+                                    <button class="customer-btn" onclick="openModal('edit-customer-modal')">
+                                        <i class="fas fa-edit"></i>
+                                        Edit
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="discount-section">
+                                <label class="discount-label">Discount:</label>
+                                <div class="discount-input-group">
+                                    <input type="number" class="discount-input" value="0" min="0" max="100">
+                                    <span class="discount-symbol">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="cart-items" id="cart-items">
+                            <div class="empty-cart">
+                                <i class="fas fa-shopping-basket empty-cart-icon"></i>
+                                <span class="empty-cart-text">Your cart is empty</span>
+                            </div>
+                        </div>
+                        
+                        <div class="cart-footer">
+                            <div class="cart-summary">
+                                <div class="summary-row">
+                                    <span class="summary-label">Subtotal</span>
+                                    <span class="summary-value" id="subtotal">$0.00</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Discount</span>
+                                    <span class="summary-value" id="discount-amount">$0.00</span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Tax (10%)</span>
+                                    <span class="summary-value" id="tax-amount">$0.00</span>
+                                </div>
+                                <div class="summary-row total">
+                                    <span class="summary-label">Total</span>
+                                    <span class="summary-value" id="total-amount">$0.00</span>
+                                </div>
+                            </div>
+                            <div class="cart-actions">
+                                <button class="btn btn-danger" onclick="clearCart()">
+                                    <i class="fas fa-trash"></i>
+                                    Clear
+                                </button>
+                                <button class="btn btn-primary" onclick="processPayment()">
+                                    <i class="fas fa-credit-card"></i>
+                                    Pay Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      function generateProductCards() {
+        const products = [
+          { name: "Chicken Sub Sand", price: 5.99, icon: "🥪" },
+          { name: "Fahita Sand", price: 6.99, icon: "🌯" },
+          { name: "Chilly Chicken", price: 7.99, icon: "🍗", badge: "HOT" },
+          { name: "Special Crispy", price: 8.99, icon: "🍔" },
+          { name: "Escalope Sand", price: 6.49, icon: "🥖" },
+          { name: "Crispy Sand", price: 5.49, icon: "🥪" },
+          { name: "Mexicana Sand", price: 9.99, icon: "🌮", badge: "NEW" },
+          { name: "Cheesy Chicken", price: 7.49, icon: "🧀" },
+        ];
+
+        return products
+          .map(
+            (product) => `
+                <div class="product-card" onclick="addToCart('${
+                  product.name
+                }', ${product.price})">
+                    <div class="product-image">
+                        ${
+                          product.badge
+                            ? `<span class="product-badge">${product.badge}</span>`
+                            : ""
+                        }
+                        ${product.icon}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-meta">
+                            <span class="product-price">$${product.price.toFixed(
+                              2
+                            )}</span>
+                            <span class="product-stock">In Stock</span>
+                        </div>
+                    </div>
+                </div>
+            `
+          )
+          .join("");
+      }
+
+      function getDailySalesPage() {
+        return `
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="table-title">Daily Sales Report</h2>
+                        <div class="table-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-download"></i>
+                                Export
+                            </button>
+                            <button class="btn btn-primary" onclick="openModal('add-transaction-modal')">
+                                <i class="fas fa-plus"></i>
+                                Add Transaction
+                            </button>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; overflow-x: auto;">
+                            <button class="btn btn-secondary">Jul 5</button>
+                            <button class="btn btn-secondary">Jul 6</button>
+                            <button class="btn btn-secondary">Jul 7</button>
+                            <button class="btn btn-secondary">Jul 8</button>
+                            <button class="btn btn-secondary">Jul 9</button>
+                            <button class="btn btn-secondary">Jul 10</button>
+                            <button class="btn btn-primary">TODAY</button>
+                        </div>
+                        <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start;">
+                            <div class="stats-grid" style="flex:1 1 300px;">
+                                <div class="stat-card">
+                                    <div class="stat-icon-wrapper success">
+                                        <i class="fas fa-dollar-sign"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <div class="stat-label">Total Sales</div>
+                                        <div class="stat-value">$0.00</div>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon-wrapper primary">
+                                        <i class="fas fa-receipt"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <div class="stat-label">Transactions</div>
+                                        <div class="stat-value">0</div>
+                                    </div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-icon-wrapper warning">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <div class="stat-label">Cash Payments</div>
+                                        <div class="stat-value">$0.00</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sales-summary">
+                                <div class="summary-row"><span class="summary-label">Sales:</span> <span>0.0 USD&nbsp;|&nbsp;0.0 LBP</span></div>
+                                <div class="summary-row"><span class="summary-label">Deposit:</span> <span>0.0 USD&nbsp;|&nbsp;0.0 LBP</span></div>
+                                <div class="summary-row"><span class="summary-label">Expenses:</span> <span>0.0 USD&nbsp;|&nbsp;0.0 LBP</span></div>
+                                <div class="summary-box">
+                                    from cash: 0.0 USD<br>0.0 LBP
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Receipt ID</th>
+                                        <th>Time</th>
+                                        <th>Amount (USD)</th>
+                                        <th>Amount (LBP)</th>
+                                        <th>Payment Type</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="6" style="text-align: center; padding: 3rem; color: var(--gray-500);">
+                                            No transactions found for today
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      function getShiftPage() {
+        return `
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="table-title">Shift Management</h2>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-sign-out-alt"></i>
+                            End Shift
+                        </button>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <div style="width:100%;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;">
+                            <!-- Shift Info Lines -->
+                            <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                                <div class="shift-info-card">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Current Shift :</span>
+                                    <span class="shift-number">#266</span>
+                                    <span class="shift-time">- 14-05-2025 11:55 PM → now</span>
+                                </div>
+                                <div class="shift-info-card">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Selected Shift :</span>
+                                    <span class="shift-number">#266</span>
+                                    <span class="shift-time">- 14-05-2025 11:55 PM → now</span>
+                                    <button class="btn btn-secondary btn-sm" style="margin-left:0.5rem;">Open latest Shifts</button>
+                                </div>
+                            </div>
+
+                            <!-- Summary + Net -->
+                            <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin-bottom:1.5rem;">
+                                <div class="shift-summary">
+                                    <div class="summary-row"><span class="summary-label">Sales :</span> <span>16289.265 USD&nbsp;|&nbsp;1,466,033,868 LBP</span></div>
+                                    <div class="summary-row"><span class="summary-label">Deposit :</span> <span>0.0 USD&nbsp;|&nbsp;0.0 LBP</span></div>
+                                    <div class="summary-row"><span class="summary-label">Expenses :</span> <span>4315.26 USD&nbsp;|&nbsp;11.0 LBP</span></div>
+                                    <div class="cash-box">from cash : 3,246.9 USD<br>11.0 LBP</div>
+                                </div>
+                                <div class="shift-net">&nbsp;&nbsp;--&gt; 13,042.405 USD</div>
+                            </div>
+                        </div>
+                        <!-- Action Buttons Row -->
+                        <div style="display:flex; gap:0.75rem; align-items:center;justify-content:flex-end; margin-bottom:1rem; flex-wrap:wrap;">
+                            <button class="btn btn-secondary">All <i class="fas fa-chevron-down"></i></button>
+                            <button class="btn btn-secondary">Balance <i class="fas fa-chevron-down"></i></button>
+                            <button class="btn btn-download"><i class="fas fa-download"></i> download</button>
+                            <button class="btn btn-primary"><i class="fas fa-sign-out-alt"></i> End Of Shift</button>
+                        </div>
+
+                        
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Receipt No.</th>
+                                        <th>Time</th>
+                                        <th>Amount (USD)</th>
+                                        <th>Amount (LBP)</th>
+                                        <th>Payment Type</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>#1-10711</td>
+                                        <td>05-07-2025 2:53 PM</td>
+                                        <td>$34.00</td>
+                                        <td>3,060,000 LBP</td>
+                                        <td><span class="badge badge-success">Cash</span></td>
+                                        <td>
+                                            <button class="btn btn-secondary btn-icon" onclick="openInvoiceModal('#1-10711')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                      <tr>
+                                        <td>#1-10711</td>
+                                        <td>05-07-2025 2:53 PM</td>
+                                        <td>$34.00</td>
+                                        <td>3,060,000 LBP</td>
+                                        <td><span class="badge badge-success">Cash</span></td>
+                                        <td>
+                                            <button class="btn btn-secondary btn-icon" onclick="openInvoiceModal('#1-10711')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                      <tr>
+                                        <td>#1-10711</td>
+                                        <td>05-07-2025 2:53 PM</td>
+                                        <td>$34.00</td>
+                                        <td>3,060,000 LBP</td>
+                                        <td><span class="badge badge-success">Cash</span></td>
+                                        <td>
+                                            <button class="btn btn-secondary btn-icon" onclick="openInvoiceModal('#1-10711')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                      <tr>
+                                        <td>#1-10711</td>
+                                        <td>05-07-2025 2:53 PM</td>
+                                        <td>$34.00</td>
+                                        <td>3,060,000 LBP</td>
+                                        <td><span class="badge badge-success">Cash</span></td>
+                                        <td>
+                                            <button class="btn btn-secondary btn-icon" onclick="openInvoiceModal('#1-10711')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                      <tr>
+                                        <td>#1-10711</td>
+                                        <td>05-07-2025 2:53 PM</td>
+                                        <td>$34.00</td>
+                                        <td>3,060,000 LBP</td>
+                                        <td><span class="badge badge-success">Cash</span></td>
+                                        <td>
+                                            <button class="btn btn-secondary btn-icon" onclick="openInvoiceModal('#1-10711')">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      function getInventoryPage() {
+        return `
+          <div class="table-container">
+            <div class="table-header">
+              <h2 class="table-title">Inventory Management</h2>
+              <div class="table-actions">
+                <button class="btn btn-secondary"><i class="fas fa-download"></i> Download All Stock</button>
+                <button class="btn btn-secondary"><i class="fas fa-file-import"></i> Import Data</button>
+                <button class="btn btn-secondary btn-icon" onclick="openModal('product-settings-modal')"><i class="fas fa-cog"></i></button>
+                <button class="btn btn-primary" onclick="openModal('add-product-modal')"><i class="fas fa-plus"></i> Add</button>
+              </div>
+            </div>
+            <div style="padding:1.5rem;">
+              <!-- CATEGORY FILTER -->
+              <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem; flex-wrap:wrap;">
+                <label class="form-label" style="margin:0;">Filter by Category:</label>
+                <select id="inventory-category-filter" class="form-select" style="width:auto; min-width:180px;" onchange="filterInventory()"></select>
+              </div>
+
+              <!-- STATS -->
+              <div class="stats-grid" style="margin-bottom:1.5rem;" id="inventory-stats">
+                <div class="stat-card">
+                  <div class="stat-icon-wrapper primary"><i class="fas fa-box"></i></div>
+                  <div class="stat-details">
+                    <div class="stat-label">Total Products</div>
+                    <div class="stat-value" id="stat-total-products">0</div>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon-wrapper warning"><i class="fas fa-money-bill-wave"></i></div>
+                  <div class="stat-details">
+                    <div class="stat-label">Total Cost</div>
+                    <div class="stat-value" id="stat-total-cost">$0.00</div>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon-wrapper success"><i class="fas fa-dollar-sign"></i></div>
+                  <div class="stat-details">
+                    <div class="stat-label">Total Price</div>
+                    <div class="stat-value" id="stat-total-price">$0.00</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- TABLE -->
+              <div class="table-wrapper">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th>Barcode</th>
+                      <th>Category</th>
+                      <th>Stock</th>
+                      <th>Cost</th>
+                      <th>Price</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventory-table-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      function getPurchasesPage() {
+        return `
+          <div style="padding:1rem;">
+            <!-- Totals Row -->
+            <div class="purchase-totals">
+              <span class="purchase-total-label">
+                TOTAL: <span id="purchase-total-usd">0.0 USD</span> / <span id="purchase-total-lbp">0.0 LBP</span> , Qty: <span id="purchase-total-qty">0.0</span>
+              </span>
+              <input id="purchase-reference" class="form-input" placeholder="reference id" style="max-width:160px;" />
+              <input id="purchase-date" class="form-input" type="date" style="max-width:160px;" />
+              <button class="btn btn-secondary" onclick="openSupplierModal()"><i class="fas fa-search"></i> Supplier</button>
+            </div>
+
+            <!-- Search / Actions Row -->
+            <div class="purchase-actions">
+              <input id="purchase-search" class="form-input" style="flex:1;min-width:240px;" placeholder="search by name or barcode" onkeydown="handlePurchaseSearch(event)" />
+              <button class="btn btn-secondary" onclick="openModal('add-product-modal')"><i class="fas fa-plus"></i> Add Product</button>
+              <button class="btn btn-success" onclick="savePurchase()"><i class="fas fa-save"></i> save</button>
+            </div>
+
+            <!-- Items Container -->
+            <div id="purchase-items-container"></div>
+          </div>
+        `;
+      }
+
+      function getCustomersPage() {
+        return `
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="table-title">Customer Management</h2>
+                        <div class="table-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-file-import"></i>
+                                Import
+                            </button>
+                            <button class="btn btn-primary" onclick="openModal('add-customer-modal')">
+                                <i class="fas fa-plus"></i>
+                                New Customer
+                            </button>
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon-wrapper purple">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-details">
+                                    <div class="stat-label">Total Customers</div>
+                                    <div class="stat-value">1</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-wrapper success">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                                <div class="stat-details">
+                                    <div class="stat-label">Active Customers</div>
+                                    <div class="stat-value">1</div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-wrapper primary">
+                                    <i class="fas fa-percentage"></i>
+                                </div>
+                                <div class="stat-details">
+                                    <div class="stat-label">Avg. Discount</div>
+                                    <div class="stat-value">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-wrapper" style="margin-top: 1.5rem;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>Address</th>
+                                        <th>Discount</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Samih Damaj</td>
+                                        <td>71940445</td>
+                                        <td>-</td>
+                                        <td>Sebline 7ay m3sra</td>
+                                        <td><span class="badge badge-primary">0%</span></td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <button class="btn btn-secondary btn-icon" onclick="openModal('edit-customer-modal')">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-icon">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      function getUsersPage() {
+        return `
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="table-title">User Management</h2>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i>
+                            New User
+                        </button>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <div class="table-wrapper">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>Last Login</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.875rem;">MA</div>
+                                                <div>
+                                                    <div style="font-weight: 600;">Meat and Cheese</div>
+                                                    <div style="font-size: 0.75rem; color: var(--gray-500);">Administrator</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>mohamad@gmail.com</td>
+                                        <td><span class="badge badge-primary">Superadmin</span></td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>Today, 2:30 PM</td>
+                                        <td>
+                                            <button class="btn btn-secondary btn-icon">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.875rem; background: linear-gradient(135deg, #8b5cf6, #6366f1);">AD</div>
+                                                <div>
+                                                    <div style="font-weight: 600;">Abd</div>
+                                                    <div style="font-size: 0.75rem; color: var(--gray-500);">Staff Member</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>user@example.com</td>
+                                        <td><span class="badge badge-success">User</span></td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>Yesterday, 5:15 PM</td>
+                                        <td>
+                                            <button class="btn btn-secondary btn-icon">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-icon">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                                <div class="user-avatar" style="width: 32px; height: 32px; font-size: 0.875rem; background: linear-gradient(135deg, #f59e0b, #f97316);">MZ</div>
+                                                <div>
+                                                    <div style="font-weight: 600;">Mazen</div>
+                                                    <div style="font-size: 0.75rem; color: var(--gray-500);">Manager</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>mazen@example.com</td>
+                                        <td><span class="badge badge-primary">Admin</span></td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>3 days ago</td>
+                                        <td>
+                                            <button class="btn btn-secondary btn-icon">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-icon">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      function getSettingsPage() {
+        return `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h2 class="table-title">
+                                <i class="fas fa-print" style="margin-right: 0.5rem;"></i>
+                                Printer Settings
+                            </h2>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Save
+                            </button>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <div class="form-group">
+                                <label class="form-label">Default Printer</label>
+                                <select class="form-select">
+                                    <option>Select Printer</option>
+                                    <option>EPSON TM-T88V</option>
+                                    <option>Star TSP100</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Network Printing</label>
+                                <div style="display: flex; gap: 1rem;">
+                                    <button class="btn btn-secondary">Off</button>
+                                    <button class="btn btn-primary">On</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Receipt Font Size</label>
+                                <input type="number" class="form-input" value="20">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Receipt Width</label>
+                                <input type="number" class="form-input" value="500">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h2 class="table-title">
+                                <i class="fas fa-store" style="margin-right: 0.5rem;"></i>
+                                Store Information
+                            </h2>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Save
+                            </button>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <div class="form-group">
+                                <label class="form-label">Store Name</label>
+                                <input type="text" class="form-input" value="MEAT AND CHEESE">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Store Address</label>
+                                <input type="text" class="form-input" value="BARJA">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-input" value="81109698">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Store Notes</label>
+                                <textarea class="form-textarea" rows="3">Thank you for your business!</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h2 class="table-title">
+                                <i class="fas fa-coins" style="margin-right: 0.5rem;"></i>
+                                Currency Settings
+                            </h2>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Save
+                            </button>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <div class="form-group">
+                                <label class="form-label">Primary Currency</label>
+                                <select class="form-select">
+                                    <option>USD - US Dollar</option>
+                                    <option>EUR - Euro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Secondary Currency</label>
+                                <select class="form-select">
+                                    <option>LBP - Lebanese Pound</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Exchange Rate</label>
+                                <input type="number" class="form-input" value="90000">
+                                <div class="form-hint">1 USD = 90,000 LBP</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h2 class="table-title">
+                                <i class="fas fa-shield-alt" style="margin-right: 0.5rem;"></i>
+                                System Settings
+                            </h2>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Save
+                            </button>
+                        </div>
+                        <div style="padding: 1.5rem;">
+                            <div class="form-group">
+                                <label class="form-label">Full Screen Mode</label>
+                                <div style="display: flex; gap: 1rem;">
+                                    <button class="btn btn-primary">Off</button>
+                                    <button class="btn btn-secondary">On</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Language</label>
+                                <select class="form-select">
+                                    <option>English</option>
+                                    <option>Arabic</option>
+                                    <option>French</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-download"></i>
+                                    Backup Data
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      function getReportsPage() {
+        return `
+                <div class="table-container">
+                    <div class="table-header">
+                        <h2 class="table-title">Profit Report</h2>
+                        <button class="btn btn-secondary">
+                            <i class="fas fa-download"></i>
+                            Download Report
+                        </button>
+                    </div>
+                    <div style="padding: 1.5rem;">
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                            <button class="btn btn-primary">Daily</button>
+                            <button class="btn btn-secondary">Weekly</button>
+                            <button class="btn btn-secondary">Monthly</button>
+                            <button class="btn btn-secondary">Yearly</button>
+                        </div>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon-wrapper success">
+                                    <i class="fas fa-arrow-up"></i>
+                                </div>
+                                <div class="stat-details">
+                                    <div class="stat-label">Total Revenue</div>
+                                    <div class="stat-value">$0.00</div>
+                                    <div class="stat-change positive">
+                                        <i class="fas fa-arrow-up"></i>
+                                        0% from yesterday
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-wrapper danger">
+                                    <i class="fas fa-arrow-down"></i>
+                                </div>
+                                <div class="stat-details">
+                                    <div class="stat-label">Total Expenses</div>
+                                    <div class="stat-value">$0.00</div>
+                                    <div class="stat-change negative">
+                                        <i class="fas fa-arrow-down"></i>
+                                        0% from yesterday
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon-wrapper primary">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="stat-details">
+                                    <div class="stat-label">Net Profit</div>
+                                    <div class="stat-value">$0.00</div>
+                                    <div class="stat-change positive">
+                                        <i class="fas fa-arrow-up"></i>
+                                        0% from yesterday
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container" style="margin-top: 1.5rem;">
+                            <div class="chart-header">
+                                <h3 class="chart-title">Sales Trend</h3>
+                            </div>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-area" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                <p>No data available for the selected period</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      function getDashboardPage() {
+        return `
+                <div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper primary">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-details">
+                                <div class="stat-label">Products</div>
+                                <div class="stat-value">92</div>
+                                <div class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    12% from last month
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper success">
+                                <i class="fas fa-receipt"></i>
+                            </div>
+                            <div class="stat-details">
+                                <div class="stat-label">Receipts Today</div>
+                                <div class="stat-value">0</div>
+                                <div class="stat-change negative">
+                                    <i class="fas fa-arrow-down"></i>
+                                    No sales yet
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper purple">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-details">
+                                <div class="stat-label">Customers</div>
+                                <div class="stat-value">1</div>
+                                <div class="stat-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    New this week
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper warning">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="stat-details">
+                                <div class="stat-label">Stock Warnings</div>
+                                <div class="stat-value">0</div>
+                                <div class="stat-change">
+                                    <i class="fas fa-check-circle" style="color: var(--success);"></i>
+                                    All items in stock
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="charts-grid">
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3 class="chart-title">Sales Today</h3>
+                                <button class="btn btn-secondary btn-icon">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-line" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                <p>Sales chart will appear here</p>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-header">
+                                <h3 class="chart-title">Top Selling Products</h3>
+                                <button class="btn btn-secondary btn-icon">
+                                    <i class="fas fa-expand"></i>
+                                </button>
+                            </div>
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                <p>Product chart will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+      }
+
+      // Cart functions
+      function addToCart(name, price) {
+        const existingItem = cart.find((item) => item.name === name);
+        if (existingItem) {
+          existingItem.quantity++;
+        } else {
+          cart.push({ name, price, quantity: 1 });
+        }
+        updateCartDisplay();
+      }
+
+      function updateCartDisplay() {
+        const cartItems = document.getElementById("cart-items");
+        const cartCount = document.getElementById("cart-count");
+        const subtotal = document.getElementById("subtotal");
+        const discountAmount = document.getElementById("discount-amount");
+        const taxAmount = document.getElementById("tax-amount");
+        const totalAmount = document.getElementById("total-amount");
+
+        if (!cartItems) return;
+
+        if (cart.length === 0) {
+          cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-basket empty-cart-icon"></i>
+                        <span class="empty-cart-text">Your cart is empty</span>
+                    </div>
+                `;
+          if (cartCount) cartCount.textContent = "0";
+          if (subtotal) subtotal.textContent = "$0.00";
+          if (discountAmount) discountAmount.textContent = "$0.00";
+          if (taxAmount) taxAmount.textContent = "$0.00";
+          if (totalAmount) totalAmount.textContent = "$0.00";
+          return;
+        }
+
+        let subtotalValue = 0;
+        cartItems.innerHTML = cart
+          .map((item, index) => {
+            const itemTotal = item.price * item.quantity;
+            subtotalValue += itemTotal;
+            return `
+                    <div class="cart-item fade-in">
+                        <div class="cart-item-header">
+                            <span class="cart-item-name">${item.name}</span>
+                            <button class="cart-item-remove" onclick="removeFromCart(${index})">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="cart-item-details">
+                            <span class="cart-item-price">${item.price.toFixed(
+                              2
+                            )} × ${item.quantity} = ${itemTotal.toFixed(
+              2
+            )}</span>
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="updateQuantity(${index}, ${
+              item.quantity - 1
+            })">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span class="qty-value">${item.quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity(${index}, ${
+              item.quantity + 1
+            })">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+          })
+          .join("");
+
+        const discountInput = document.querySelector(".discount-input");
+        const discountPercent = discountInput
+          ? parseFloat(discountInput.value) || 0
+          : 0;
+        const discount = subtotalValue * (discountPercent / 100);
+        const afterDiscount = subtotalValue - discount;
+        const tax = afterDiscount * 0.1;
+        const total = afterDiscount + tax;
+
+        if (cartCount)
+          cartCount.textContent = cart.reduce(
+            (sum, item) => sum + item.quantity,
+            0
+          );
+        if (subtotal) subtotal.textContent = `${subtotalValue.toFixed(2)}`;
+        if (discountAmount)
+          discountAmount.textContent = `-${discount.toFixed(2)}`;
+        if (taxAmount) taxAmount.textContent = `${tax.toFixed(2)}`;
+        if (totalAmount) totalAmount.textContent = `${total.toFixed(2)}`;
+      }
+
+      function updateQuantity(index, newQuantity) {
+        if (newQuantity <= 0) {
+          removeFromCart(index);
+        } else {
+          cart[index].quantity = newQuantity;
+          updateCartDisplay();
+        }
+      }
+
+      function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCartDisplay();
+      }
+
+      function clearCart() {
+        if (
+          cart.length > 0 &&
+          confirm("Are you sure you want to clear the cart?")
+        ) {
+          cart = [];
+          updateCartDisplay();
+        }
+      }
+
+      function processPayment() {
+        if (cart.length === 0) {
+          alert("Cart is empty!");
+          return;
+        }
+        alert("Payment processing would be implemented here");
+      }
+
+      // Page navigation
+      function showPage(pageName) {
+        console.log("Navigating to:", pageName);
+        currentPage = pageName;
+        const pageTitle = document.getElementById("page-title");
+        const pageContent = document.getElementById("page-content");
+        const mobileCartToggle = document.getElementById("mobile-cart-toggle");
+
+        // Update active nav item
+        document.querySelectorAll(".nav-item").forEach((item) => {
+          item.classList.remove("active");
+          if (item.getAttribute("href") === `#${pageName}`) {
+            item.classList.add("active");
+          }
+        });
+
+        // Update page title
+        const titles = {
+          sale: "Point of Sale",
+          "daily-sales": "Daily Sales",
+          shift: "Shift Management",
+          inventory: "Inventory",
+          purchases: "Purchases",
+          customers: "Customers",
+          users: "User Management",
+          settings: "Settings",
+          reports: "Reports",
+          dashboard: "Dashboard",
+        };
+
+        pageTitle.textContent = titles[pageName] || "Point of Sale";
+
+        // Show/hide mobile cart toggle
+        mobileCartToggle.style.display =
+          pageName === "sale" && window.innerWidth <= 1024 ? "flex" : "none";
+
+        // Load page content
+        let pageHTML = "";
+        try {
+          switch (pageName) {
+            case "sale":
+              pageHTML = getSalePage();
+              break;
+            case "daily-sales":
+              pageHTML = getDailySalesPage();
+              break;
+            case "shift":
+              pageHTML = getShiftPage();
+              break;
+            case "inventory":
+              pageHTML = getInventoryPage();
+              break;
+            case "purchases":
+              pageHTML = getPurchasesPage();
+              break;
+            case "customers":
+              pageHTML = getCustomersPage();
+              break;
+            case "users":
+              pageHTML = getUsersPage();
+              break;
+            case "settings":
+              pageHTML = getSettingsPage();
+              break;
+            case "reports":
+              pageHTML = getReportsPage();
+              break;
+            case "dashboard":
+              pageHTML = getDashboardPage();
+              break;
+            default:
+              pageHTML = getSalePage();
+          }
+
+          pageContent.innerHTML = pageHTML;
+
+          // Update cart display if on sale page
+          if (pageName === "sale") {
+            updateCartDisplay();
+          } else if (pageName === "inventory") {
+            initInventoryPage();
+          } else if (pageName === "purchases") {
+            // Show sample item automatically for demonstration
+            purchaseItems.length = 0;
+            if (inventoryData.length) {
+              addPurchaseItem(inventoryData[0]);
+            }
+          }
+        } catch (error) {
+          console.error("Error loading page:", error);
+          pageContent.innerHTML =
+            '<div style="padding: 2rem; text-align: center; color: var(--danger);">Error loading page. Please refresh and try again.</div>';
+        }
+
+        // Close mobile sidebar
+        document.getElementById("sidebar").classList.remove("active");
+      }
+
+      // Toggle functions
+      function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("active");
+      }
+
+      function toggleCart() {
+        const cart = document.getElementById("cart");
+        if (cart) {
+          cart.classList.toggle("active");
+          cartOpen = !cartOpen;
+        }
+      }
+
+      // Modal functions
+      function openModal(modalId) {
+        document.getElementById(modalId).classList.add("active");
+      }
+
+      function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove("active");
+      }
+
+      // Initialize
+      window.addEventListener("load", () => {
+        showPage("sale");
+      });
+
+      // Handle window resize
+      window.addEventListener("resize", () => {
+        const mobileCartToggle = document.getElementById("mobile-cart-toggle");
+        if (currentPage === "sale") {
+          mobileCartToggle.style.display =
+            window.innerWidth <= 1024 ? "flex" : "none";
+        }
+      });
+
+      // Close modals on outside click
+      window.addEventListener("click", (e) => {
+        if (e.target.classList.contains("modal")) {
+          e.target.classList.remove("active");
+        }
+      });
+
+      // Handle discount input change
+      document.addEventListener("input", (e) => {
+        if (e.target.classList.contains("discount-input")) {
+          updateCartDisplay();
+        }
+      });
+
+      // Product view toggle
+      function changeProductView(button, view) {
+        const productsGrid = document.querySelector(".products-grid");
+        if (!productsGrid) return;
+        document
+          .querySelectorAll(".view-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        button.classList.add("active");
+        if (view === "list") {
+          productsGrid.classList.add("list-view");
+        } else {
+          productsGrid.classList.remove("list-view");
+        }
+      }
+
+      function switchToggle(btn) {
+        const group = btn.parentElement;
+        group
+          .querySelectorAll(".toggle-btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      }
+
+      // Invoice modal populate (dummy data for now)
+      function openInvoiceModal(receipt) {
+        const body = document.getElementById("invoice-body");
+        const title = document.getElementById("invoice-title");
+        title.textContent = `Invoice ${receipt.replace("#", "")}`;
+        // Sample products
+        const products = [
+          { name: "Fat Guy (beef)", qty: 1, cost: 3.856, price: 10.0 },
+          { name: "Special Beef Burger", qty: 1, cost: 2.327, price: 7.0 },
+        ];
+        let rows = products
+          .map(
+            (p) =>
+              `<tr><td>${p.name}</td><td>${p.qty}</td><td>${p.cost}</td><td>${
+                p.price
+              }</td><td>${(p.price * p.qty).toFixed(2)}</td></tr>`
+          )
+          .join("");
+        const totalUsd = products
+          .reduce((s, p) => s + p.price * p.qty, 0)
+          .toFixed(2);
+        body.innerHTML = `<table class='invoice-table'>
+                <thead><tr><th>Product</th><th>Qty</th><th>Cost Price</th><th>Selling Price</th><th>Total</th></tr></thead>
+                <tbody>${rows}</tbody></table>
+                <div class='invoice-total'>TOTAL : ${totalUsd} USD</div>`;
+        openModal("invoice-modal");
+      }
+
+      /* ---------------- Purchases & Suppliers Logic ---------------- */
+      const purchaseItems = [];
+      const suppliers = [{ name: "Default Supplier" }];
+
+      function handlePurchaseSearch(e) {
+        if (e.key === "Enter") {
+          const term = e.target.value.trim().toLowerCase();
+          if (!term) return;
+          const product = inventoryData.find(
+            (p) => p.name.toLowerCase().includes(term) || p.barcode.includes(term)
+          );
+          if (product) {
+            addPurchaseItem(product);
+            e.target.value = "";
+          } else {
+            alert("Product not found");
+          }
+        }
+      }
+
+      function addPurchaseItem(prod) {
+        const existing = purchaseItems.find((i) => i.barcode === prod.barcode);
+        if (existing) {
+          existing.qty += 1;
+        } else {
+          purchaseItems.push({
+            ...prod,
+            profitRate: 0,
+            sellingPrice: prod.price,
+            qty: 1,
+          });
+        }
+        renderPurchaseItems();
+      }
+
+      function removePurchaseItem(idx) {
+        purchaseItems.splice(idx, 1);
+        renderPurchaseItems();
+      }
+
+      function updatePurchaseField(idx, field, value) {
+        purchaseItems[idx][field] = parseFloat(value) || 0;
+        renderPurchaseItems();
+      }
+
+      function renderPurchaseItems() {
+        const container = document.getElementById("purchase-items-container");
+        if (!container) return;
+
+        if (purchaseItems.length === 0) {
+          container.innerHTML = `<div style="padding:1rem;color:var(--gray-500);">No items added</div>`;
+          updatePurchaseTotals();
+          return;
+        }
+
+        container.innerHTML = purchaseItems
+          .map((item, idx) => `
+            <div class="purchase-item">
+              <span class="purchase-name">${idx + 1}) ${item.name}<span class="old-details"> (old qty :0.0 - old cost :${item.cost.toFixed(3)} USD)</span>
+                <button class="icon-btn history" onclick="openItemHistory(${idx},'table')"><i class="fas fa-table"></i></button>
+                <button class="icon-btn chart" onclick="openItemHistory(${idx},'chart')"><i class="fas fa-chart-line"></i></button>
+              </span>
+              <div class="field-group" style="min-width:110px;">
+                <label class="field-label">Cost Price</label>
+                <input type="number" class="form-input" value="${item.cost}" oninput="updatePurchaseField(${idx}, 'cost', this.value)" />
+              </div>
+              <div class="field-group" style="max-width:80px;">
+                <label class="field-label">Profit %</label>
+                <input type="number" class="form-input" value="${item.profitRate}" oninput="updatePurchaseField(${idx}, 'profitRate', this.value)" />
+              </div>
+              <div class="field-group" style="min-width:200px;">
+                <label class="field-label">Selling Price</label>
+                <div style="display:flex;gap:4px;align-items:center;">
+                  <input type="number" class="form-input" value="${item.sellingPrice}" oninput="updatePurchaseField(${idx}, 'sellingPrice', this.value)" style="flex:1;" />
+                  <div class="currency-toggle">
+                    <button type="button" class="toggle-btn active" onclick="switchToggle(this)">USD</button>
+                    <button type="button" class="toggle-btn" onclick="switchToggle(this)">LBP</button>
+                  </div>
+                </div>
+              </div>
+              <div class="field-group" style="max-width:80px;">
+                <label class="field-label">Qty</label>
+                <input type="number" class="form-input" value="${item.qty}" oninput="updatePurchaseField(${idx}, 'qty', this.value)" />
+              </div>
+              <button class="btn btn-danger btn-icon" onclick="removePurchaseItem(${idx})"><i class="fas fa-trash"></i></button>
+              <div class="purchase-hints" style="grid-column:1 / -1; font-size:0.75rem; color:var(--danger);">new avg cost : ${item.cost.toFixed(3)} (Saved to Stock) &nbsp;|&nbsp; Selling Price => ${(item.sellingPrice * 90000).toLocaleString()} LBP</div>
+            </div>
+          `)
+          .join("");
+
+        updatePurchaseTotals();
+      }
+
+      function updatePurchaseTotals() {
+        const totalQty = purchaseItems.reduce((s, i) => s + (i.qty || 0), 0);
+        const totalUsd = purchaseItems.reduce((s, i) => s + i.cost * i.qty, 0);
+        document.getElementById("purchase-total-qty").textContent = totalQty.toFixed(1);
+        document.getElementById("purchase-total-usd").textContent = totalUsd.toFixed(2) + " USD";
+        document.getElementById("purchase-total-lbp").textContent = (totalUsd * 90000).toLocaleString() + " LBP";
+      }
+
+      function savePurchase() {
+        if (purchaseItems.length === 0) {
+          alert("No items to save");
+          return;
+        }
+        alert("Purchase saved (demo)");
+        // reset
+        purchaseItems.length = 0;
+        renderPurchaseItems();
+      }
+
+      /* ------------- Supplier helpers ------------- */
+      function openSupplierModal() {
+        renderSupplierList();
+        openModal("supplier-modal");
+      }
+
+      function renderSupplierList() {
+        const term = (document.getElementById("supplier-search").value || "").toLowerCase();
+        const body = document.getElementById("supplier-table-body");
+        if (!body) return;
+        const rows = suppliers
+          .filter((s) => s.name.toLowerCase().includes(term))
+          .map(
+            (s, i) => `
+              <tr>
+                <td>${s.name}</td>
+                <td>
+                  <button class="btn btn-secondary btn-icon" onclick="editSupplier(${i})"><i class="fas fa-edit"></i></button>
+                  <button class="btn btn-danger btn-icon" onclick="deleteSupplier(${i})"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>`
+          )
+          .join("") ||
+          `<tr><td colspan="2" style="text-align:center;padding:1rem;color:var(--gray-500);">No suppliers found</td></tr>`;
+        body.innerHTML = rows;
+      }
+
+      function openAddSupplierForm() {
+        const name = prompt("Supplier Name:");
+        if (name) {
+          suppliers.push({ name });
+          renderSupplierList();
+        }
+      }
+
+      function editSupplier(idx) {
+        const name = prompt("Edit Supplier Name:", suppliers[idx].name);
+        if (name) {
+          suppliers[idx].name = name;
+          renderSupplierList();
+        }
+      }
+
+      function deleteSupplier(idx) {
+        if (confirm("Delete supplier?")) {
+          suppliers.splice(idx, 1);
+          renderSupplierList();
+        }
+      }
+      /* ------------------------------------------------------------ */
+
+      /* ------------ Item History Modal ------------ */
+      let currentHistoryIdx = null;
+      function openItemHistory(idx, defaultTab = 'table') {
+        currentHistoryIdx = idx;
+        const prod = purchaseItems[idx] || inventoryData[idx] || { name: 'Product' };
+        document.getElementById('history-title').textContent = `History - ${prod.name}`;
+        // reset toggle states
+        document.querySelectorAll('#history-tab-toggle .toggle-btn').forEach(btn => btn.classList.remove('active'));
+        if (defaultTab === 'chart') {
+          document.querySelector('#history-tab-toggle .toggle-btn:nth-child(2)').classList.add('active');
+        } else {
+          document.querySelector('#history-tab-toggle .toggle-btn:nth-child(1)').classList.add('active');
+        }
+        switchHistoryTab(defaultTab);
+        openModal('item-history-modal');
+      }
+
+      function switchHistoryTab(type) {
+        const body = document.getElementById('history-body');
+        if (!body) return;
+        if (type === 'table') {
+          body.innerHTML = `<table class="table" style="margin-top:0.5rem;">
+              <thead><tr><th>Date</th><th>Qty</th><th>Cost</th><th>Price</th></tr></thead>
+              <tbody>
+                <tr><td>10-07-2025</td><td>12</td><td>$3.50</td><td>$6.00</td></tr>
+                <tr><td>09-07-2025</td><td>8</td><td>$3.45</td><td>$6.00</td></tr>
+                <tr><td>08-07-2025</td><td>15</td><td>$3.40</td><td>$6.00</td></tr>
+              </tbody>
+            </table>`;
+        } else {
+          body.innerHTML = `<div style="height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gray-400);">
+              <i class="fas fa-chart-line" style="font-size:3rem;"></i>
+              <p>Chart preview coming soon...</p>
+            </div>`;
+        }
+        // update toggle active state
+        document.querySelectorAll('#history-tab-toggle .toggle-btn').forEach(btn => btn.classList.remove('active'));
+        if (type === 'chart') {
+          document.querySelector('#history-tab-toggle .toggle-btn:nth-child(2)').classList.add('active');
+        } else {
+          document.querySelector('#history-tab-toggle .toggle-btn:nth-child(1)').classList.add('active');
+        }
+      }
+      /* -------------------------------------------- */
+    </script>
+  </body>
+</html>

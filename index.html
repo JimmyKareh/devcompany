@@ -2221,6 +2221,32 @@
         gap: 1.5rem;
       }
       /* ---- End Dashboard Modern Styles ---- */
+
+      /* ---------- Product Card Hover & Quick Action Styles ---------- */
+      .product-card {
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+      .product-card:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: var(--shadow-md);
+      }
+      /* Quick Action Modal */
+      .modal#product-action-modal .quick-action-btn {
+        width: 100%;
+      }
+      .modal#product-action-modal .modal-content {
+        max-width: 300px;
+      }
+      /* ---------- End Custom Styles ---------- */
+
+      /* Category card hover same effect */
+      .category-card {
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+      .category-card:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: var(--shadow-md);
+      }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <script>
@@ -3545,6 +3571,23 @@
     </div>
     <!-- END period modals -->
 
+    <!-- Product Quick Action Modal -->
+    <div class="modal" id="product-action-modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Product Actions</h2>
+          <button class="modal-close" onclick="closeModal('product-action-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div style="padding:1rem 0; display:flex; flex-direction:column; gap:0.75rem;">
+          <button class="btn btn-primary quick-action-btn" onclick="editSelectedProduct()">Edit</button>
+          <button class="btn btn-danger quick-action-btn" onclick="deleteSelectedProduct()">Delete</button>
+        </div>
+      </div>
+    </div>
+    <!-- END Product Quick Action Modal -->
+
     <script>
       // Global variables
       let cart = [];
@@ -4838,6 +4881,7 @@
             updateCartDisplay();
             const imgToggle = document.getElementById("toggle-product-images");
             if (imgToggle) toggleProductImages(imgToggle);
+            attachProductCardLongPress();
           } else if (pageName === "inventory") {
             initInventoryPage();
           } else if (pageName === "dashboard") {
@@ -6743,6 +6787,55 @@
           alert("Error: " + error.message);
         }
       };
+
+      /* ---------- Product Quick Action (Long Press) ---------- */
+      let longPressTimer;
+      let selectedProductCard = null;
+
+      function attachProductCardLongPress() {
+        const cards = document.querySelectorAll('.product-card');
+        cards.forEach(card => {
+          card.removeEventListener('mousedown', startProductLongPress);
+          card.removeEventListener('touchstart', startProductLongPress);
+          card.removeEventListener('mouseup', cancelProductLongPress);
+          card.removeEventListener('mouseleave', cancelProductLongPress);
+          card.removeEventListener('touchend', cancelProductLongPress);
+
+          card.addEventListener('mousedown', startProductLongPress);
+          card.addEventListener('touchstart', startProductLongPress);
+          card.addEventListener('mouseup', cancelProductLongPress);
+          card.addEventListener('mouseleave', cancelProductLongPress);
+          card.addEventListener('touchend', cancelProductLongPress);
+        });
+      }
+
+      function startProductLongPress(e) {
+        e.preventDefault();
+        selectedProductCard = this;
+        longPressTimer = setTimeout(() => {
+          openModal('product-action-modal');
+        }, 600);
+      }
+
+      function cancelProductLongPress() {
+        clearTimeout(longPressTimer);
+      }
+
+      function editSelectedProduct() {
+        if (!selectedProductCard) return;
+        alert('Edit product: ' + (selectedProductCard.querySelector('.product-name')?.textContent || ''));
+        closeModal('product-action-modal');
+      }
+
+      function deleteSelectedProduct() {
+        if (!selectedProductCard) return;
+        const productName = selectedProductCard.querySelector('.product-name')?.textContent || '';
+        if (confirm('Are you sure you want to delete ' + productName + '?')) {
+          selectedProductCard.remove();
+        }
+        closeModal('product-action-modal');
+      }
+      /* ---------- End Product Quick Action ---------- */
     </script>
   </body>
 </html>

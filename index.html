@@ -40,6 +40,13 @@
         --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
           0 10px 10px -5px rgba(0, 0, 0, 0.04);
         --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        --palette-purple: #7d3cff;
+        --palette-green: #28a745;
+        --palette-orange: #ff9500;
+        --palette-red: #ff3b30;
+        --palette-yellow: #f2c94c;
+        --palette-blue: #007aff;
+        --discounted-row: rgba(255, 0, 0, 0.15);
       }
 
       * {
@@ -269,7 +276,7 @@
       }
 
       .mobile-menu-btn {
-        display: none;
+        display: block;
         background: transparent;
         border: none;
         color: var(--gray-700);
@@ -404,48 +411,60 @@
       }
 
       .categories-grid {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
         gap: 0.75rem;
-        flex-wrap: nowrap;
+        flex-wrap: unset; /* override previous flex */
+        overflow-x: unset;
       }
 
       .category-card {
-        background: var(--gray-50);
-        border: 1px solid var(--gray-200);
-        border-radius: 8px;
-        padding: 1rem;
-        cursor: pointer;
-        transition: var(--transition);
-        text-align: center;
-        position: relative;
-        overflow: hidden;
-        flex: 0 0 130px;
+        padding: 0.5rem;
+        flex: 1 1 auto; /* override fixed width */
+        border: none;
+        color: #fff;
+      }
+      .category-card:nth-child(1) {
+        background: var(--palette-purple);
+      }
+      .category-card:nth-child(2) {
+        background: var(--palette-green);
+      }
+      .category-card:nth-child(3) {
+        background: var(--palette-orange);
+      }
+      .category-card:nth-child(4) {
+        background: var(--palette-red);
+      }
+      .category-card:nth-child(5) {
+        background: var(--palette-yellow);
+        color: #000;
+      }
+      .category-card:nth-child(6) {
+        background: var(--palette-blue);
+      }
+      .category-card:nth-child(7) {
+        background: var(--palette-orange);
+      }
+      .category-card:nth-child(8) {
+        background: var(--palette-red);
       }
 
-      .category-card:hover {
-        border-color: var(--primary);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
+      /* --- Neutralize category & product backgrounds --- */
+      .category-card {
+        background: var(--gray-50) !important;
+        border: 1px solid var(--gray-200) !important;
+        color: var(--gray-900) !important;
       }
-
-      .category-card.active {
-        background: var(--primary);
-        border-color: var(--primary);
-        color: white;
+      .product-card {
+        background: var(--white) !important;
+        border: 1px solid var(--gray-200) !important;
+        color: var(--gray-900) !important;
       }
-
-      .category-icon {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-        display: block;
-      }
-
-      .category-name {
-        font-size: 0.875rem;
-        font-weight: 600;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      /* Remove specific nth-child color overrides */
+      .category-card:nth-child(n),
+      .product-card:nth-child(n) {
+        background: inherit !important;
       }
 
       /* Products Grid */
@@ -506,20 +525,15 @@
       }
 
       .product-card {
-        background: var(--white);
-        border: 1px solid var(--gray-200);
-        border-radius: 10px;
-        padding: 1rem;
-        cursor: pointer;
-        transition: var(--transition);
-        text-align: center;
-        height: fit-content;
+        padding: 0.5rem;
+        border: none;
+        color: #fff;
       }
-
-      .product-card:hover {
-        border-color: var(--primary);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-lg);
+      .product-card:nth-child(odd) {
+        background: var(--palette-purple);
+      }
+      .product-card:nth-child(even) {
+        background: var(--palette-blue);
       }
 
       .product-image {
@@ -698,6 +712,24 @@
         border: 1px solid var(--gray-300);
         border-radius: 6px;
         overflow: hidden;
+      }
+
+      .disc-btn {
+        width: 32px;
+        height: 32px;
+        border: none;
+        background: var(--gray-100);
+        color: var(--gray-600);
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: var(--transition);
+      }
+      .disc-btn:hover {
+        background: var(--gray-200);
+        color: var(--primary);
       }
 
       .discount-input {
@@ -1008,6 +1040,32 @@
 
       .table tbody tr:hover {
         background: var(--gray-50);
+      }
+
+      /* Improved table striping */
+      .table tbody tr:nth-child(even) {
+        background: var(--gray-100);
+      }
+      .table tbody tr:hover {
+        background: var(--gray-200);
+      }
+
+      /* Inline progress bar for percentage visuals */
+      .progress-container {
+        position: relative;
+        width: 100%;
+        height: 6px;
+        background: var(--gray-300);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        background: var(--primary);
+        border-radius: 3px;
       }
 
       /* Badges */
@@ -1376,6 +1434,10 @@
 
         .stats-grid {
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .keypad-section {
+          display: none;
         }
       }
 
@@ -1901,8 +1963,8 @@
         align-items: stretch;
       }
       .currency-toggle .toggle-btn {
-        display:flex;
-        align-items:center;
+        display: flex;
+        align-items: center;
         padding: 0.25rem 0.6rem;
         font-size: 0.7rem;
         border: none;
@@ -1916,7 +1978,275 @@
         background: var(--primary);
         color: #fff;
       }
+
+      /* --- Sidebar toggle enhancements --- */
+      @media (min-width: 1025px) {
+        .sidebar.collapsed {
+          display: none;
+        }
+      }
+
+      /* Center category text and ensure icons hidden */
+      .category-card {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .category-name {
+        text-align: center !important;
+      }
+
+      /* ---------------- CUSTOM POS MODIFICATIONS ---------------- */
+      /* Product card sizing */
+      .product-card {
+        font-size: 0.75rem;
+      }
+      .product-image {
+        height: 60px !important;
+        font-size: 2rem !important;
+        display: flex !important; /* restore visibility when not hidden */
+      }
+      /* Hide images when toggle off */
+      .products-grid.hide-images .product-image {
+        display: none !important;
+      }
+      /* ------------------------------------------------------------ */
+      /* Ensure cards shrink when images hidden */
+      .products-grid.hide-images .product-card {
+        height: 70px !important; /* compressed height roughly similar to category cards */
+        width: 100%;
+      }
+      /* Compact style for product cards when images hidden */
+      .products-grid.hide-images .product-card {
+        padding: 0.4rem 0.3rem !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.15rem;
+      }
+      .products-grid.hide-images .product-name {
+        font-size: 0.75rem !important;
+        line-height: 1.1;
+        -webkit-line-clamp: 2;
+      }
+      .products-grid.hide-images .product-meta {
+        display: none !important; /* hide price+stock row to reduce height */
+      }
+
+      /* ----- Header extra elements (order-type & exchange rate) ----- */
+      .order-type-toggle {
+        margin-left: 1rem;
+      }
+      .exchange-rate {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--secondary);
+        margin-left: 1rem;
+        white-space: nowrap;
+      }
+
+      /* Toolbar just below the Products header */
+      .products-toolbar {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 0.75rem;
+      }
+
+      /* ---------- KEYPAD STYLES ---------- */
+      .keypad-section {
+        width: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .keypad-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+        width: 100%;
+      }
+      .key-btn {
+        padding: 0.75rem 0;
+        background: var(--white);
+        border: 1px solid var(--gray-300);
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      .key-btn:hover {
+        background: var(--primary-light);
+      }
+      .cart-item.selected {
+        border-color: var(--primary);
+        box-shadow: var(--shadow-md);
+      }
+      @media (max-width: 1024px) {
+        .keypad-section {
+          display: none;
+        }
+      }
+      /* ---------- KEYPAD STYLES ---------- */
+      .top-row {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+      }
+      .top-row .categories-container {
+        flex: 1;
+      }
+
+      /***** Add or update CSS rule *****/
+      .discounted-row {
+        background-color: #ffe5e5 !important; /* lighter red */
+        border-left: 4px solid #b91c1c !important; /* darker red border */
+      }
+      .invoice-discount {
+        color: var(--danger);
+        font-weight: 700;
+      }
+
+      /* Report totals styling */
+      .stat-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        margin-bottom: 0.35rem;
+        font-weight: 600;
+      }
+      .stat-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .stat-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .dot-revenue {
+        background: var(--warning);
+      }
+      .dot-cost {
+        background: var(--primary);
+      }
+      .dot-profit {
+        background: var(--success);
+      }
+      .dot-exp {
+        background: var(--danger);
+      }
+      .stat-value {
+        white-space: nowrap;
+        color: var(--gray-800);
+      }
+
+      /* ---- Dashboard Modern Styles ---- */
+      .period-toggle {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+      .period-btn {
+        padding: 0.5rem 1.25rem;
+        font-size: 0.75rem;
+        border-radius: 9999px;
+        border: 1px solid var(--gray-300);
+        background: var(--white);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+      .period-btn.active {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+      }
+
+      .quick-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .quick-stat-card {
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        box-shadow: var(--shadow-sm);
+        background: var(--white);
+      }
+      .quick-stat-value {
+        font-size: 1.75rem;
+        font-weight: 700;
+      }
+      .quick-stat-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--gray-600);
+      }
+      .quick-stat-card.products {
+        background: var(--primary-light);
+        color: var(--primary);
+      }
+      .quick-stat-card.receipts {
+        background: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+      }
+      .quick-stat-card.customers {
+        background: rgba(239, 68, 68, 0.1);
+        color: var(--danger);
+      }
+      .quick-stat-card.users {
+        background: rgba(59, 130, 246, 0.1);
+        color: var(--primary);
+      }
+      .quick-stat-card.warnings {
+        background: rgba(245, 158, 11, 0.15);
+        color: var(--warning);
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+        gap: 1.5rem;
+      }
+      /* ---- End Dashboard Modern Styles ---- */
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <script>
+      // Fallback for Chart.js CDN failure
+      window.addEventListener("load", function () {
+        if (typeof Chart === "undefined") {
+          console.warn("Primary Chart.js CDN failed, trying fallback...");
+          var script = document.createElement("script");
+          script.src =
+            "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js";
+          script.onload = function () {
+            console.log("Fallback Chart.js loaded successfully");
+            if (
+              typeof initializeDashboardCharts !== "undefined" &&
+              document.getElementById("topProductsChart")
+            ) {
+              initializeDashboardCharts();
+            }
+          };
+          script.onerror = function () {
+            console.error("Both Chart.js CDNs failed to load");
+          };
+          document.head.appendChild(script);
+        }
+      });
+    </script>
   </head>
   <body>
     <div class="app-container">
@@ -1924,11 +2254,12 @@
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
           <div class="brand">
-            <div class="brand-logo">MC</div>
-            <div class="brand-name">POS Pro</div>
+            <img
+              src="./images/logo.png"
+              style="width: 200px; height: 140px; object-fit: cover"
+            />
           </div>
           <div class="user-info">
-            <div class="user-avatar">MA</div>
             <div class="user-details">
               <div class="user-name">Meat & Cheese</div>
               <div class="user-role">Superadmin</div>
@@ -2046,10 +2377,17 @@
                 placeholder="Search by barcode or name..."
               />
             </div>
+            <!-- Exchange Rate Display -->
+            <div class="exchange-rate" id="exchange-rate-display">
+              1 USD => 90,000 LBP
+            </div>
             <button class="header-btn">
               <i class="fas fa-bell"></i>
             </button>
-            <button class="header-btn" onclick="openModal('product-settings-modal')">
+            <button
+              class="header-btn"
+              onclick="openModal('product-settings-modal')"
+            >
               <i class="fas fa-cog"></i>
             </button>
           </div>
@@ -2213,10 +2551,13 @@
 
     <!-- Product Settings Modal -->
     <div class="modal" id="product-settings-modal">
-      <div class="modal-content" style="max-width: 640px;">
+      <div class="modal-content" style="max-width: 640px">
         <div class="modal-header">
           <h2 class="modal-title">Product Settings</h2>
-          <button class="modal-close" onclick="closeModal('product-settings-modal')">
+          <button
+            class="modal-close"
+            onclick="closeModal('product-settings-modal')"
+          >
             <i class="fas fa-times"></i>
           </button>
         </div>
@@ -2225,16 +2566,40 @@
           <i class="fas fa-bold settings-icon"></i>
           <span class="settings-label">Font Weight Bold ?</span>
           <div class="toggle-group">
-            <button type="button" class="toggle-btn" onclick="switchToggle(this)">On</button>
-            <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Off</button>
+            <button
+              type="button"
+              class="toggle-btn"
+              onclick="switchToggle(this)"
+            >
+              On
+            </button>
+            <button
+              type="button"
+              class="toggle-btn active"
+              onclick="switchToggle(this)"
+            >
+              Off
+            </button>
           </div>
         </div>
         <div class="settings-item">
           <i class="fas fa-shopping-basket settings-icon"></i>
           <span class="settings-label">Show Qty ?</span>
           <div class="toggle-group">
-            <button type="button" class="toggle-btn" onclick="switchToggle(this)">On</button>
-            <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Off</button>
+            <button
+              type="button"
+              class="toggle-btn"
+              onclick="switchToggle(this)"
+            >
+              On
+            </button>
+            <button
+              type="button"
+              class="toggle-btn active"
+              onclick="switchToggle(this)"
+            >
+              Off
+            </button>
           </div>
         </div>
         <div class="settings-item">
@@ -2244,16 +2609,36 @@
             90.0 <i class="fas fa-chevron-right"></i>
           </button>
         </div>
-        <div class="settings-item" style="flex-direction:column; align-items:flex-start; gap:0.25rem;">
-          <div style="display:flex; align-items:center; gap:1rem; width:100%;">
+        <div
+          class="settings-item"
+          style="flex-direction: column; align-items: flex-start; gap: 0.25rem"
+        >
+          <div
+            style="display: flex; align-items: center; gap: 1rem; width: 100%"
+          >
             <i class="fas fa-eye settings-icon"></i>
             <span class="settings-label">Hide or Show text</span>
-            <div style="margin-left:auto;" class="toggle-group">
-              <button type="button" class="toggle-btn" onclick="switchToggle(this)">Hide</button>
-              <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Show</button>
+            <div style="margin-left: auto" class="toggle-group">
+              <button
+                type="button"
+                class="toggle-btn"
+                onclick="switchToggle(this)"
+              >
+                Hide
+              </button>
+              <button
+                type="button"
+                class="toggle-btn active"
+                onclick="switchToggle(this)"
+              >
+                Show
+              </button>
             </div>
           </div>
-          <span class="settings-hint">Press 'Hide' to hide or 'Show' to show text for products with images</span>
+          <span class="settings-hint"
+            >Press 'Hide' to hide or 'Show' to show text for products with
+            images</span
+          >
         </div>
         <div class="settings-item">
           <i class="fas fa-percentage settings-icon"></i>
@@ -2266,31 +2651,84 @@
           <i class="fas fa-eye settings-icon"></i>
           <span class="settings-label">show Min selling Price</span>
           <div class="toggle-group">
-            <button type="button" class="toggle-btn" onclick="switchToggle(this)">On</button>
-            <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Off</button>
+            <button
+              type="button"
+              class="toggle-btn"
+              onclick="switchToggle(this)"
+            >
+              On
+            </button>
+            <button
+              type="button"
+              class="toggle-btn active"
+              onclick="switchToggle(this)"
+            >
+              Off
+            </button>
           </div>
         </div>
         <div class="settings-item">
           <i class="fas fa-eye settings-icon"></i>
           <span class="settings-label">show Weighted product</span>
           <div class="toggle-group">
-            <button type="button" class="toggle-btn" onclick="switchToggle(this)">On</button>
-            <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Off</button>
+            <button
+              type="button"
+              class="toggle-btn"
+              onclick="switchToggle(this)"
+            >
+              On
+            </button>
+            <button
+              type="button"
+              class="toggle-btn active"
+              onclick="switchToggle(this)"
+            >
+              Off
+            </button>
           </div>
         </div>
-        <div class="settings-item" style="flex-direction:column; align-items:flex-start; gap:0.25rem;">
-          <div style="display:flex; align-items:center; gap:1rem; width:100%;">
+        <div
+          class="settings-item"
+          style="flex-direction: column; align-items: flex-start; gap: 0.25rem"
+        >
+          <div
+            style="display: flex; align-items: center; gap: 1rem; width: 100%"
+          >
             <i class="fas fa-copy settings-icon"></i>
-            <span class="settings-label">Quick Add: Duplicate Latest Added Product</span>
-            <div style="margin-left:auto;" class="toggle-group">
-              <button type="button" class="toggle-btn" onclick="switchToggle(this)">On</button>
-              <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Off</button>
+            <span class="settings-label"
+              >Quick Add: Duplicate Latest Added Product</span
+            >
+            <div style="margin-left: auto" class="toggle-group">
+              <button
+                type="button"
+                class="toggle-btn"
+                onclick="switchToggle(this)"
+              >
+                On
+              </button>
+              <button
+                type="button"
+                class="toggle-btn active"
+                onclick="switchToggle(this)"
+              >
+                Off
+              </button>
             </div>
           </div>
-          <span class="settings-hint">When adding a new product, the form pre-fills with the details of the latest added product, allowing quick edits and adjustments</span>
+          <span class="settings-hint"
+            >When adding a new product, the form pre-fills with the details of
+            the latest added product, allowing quick edits and adjustments</span
+          >
         </div>
-        <div class="modal-footer" style="border-top:none; justify-content:center;">
-          <button type="button" class="btn btn-secondary btn-save-block" onclick="closeModal('product-settings-modal')">
+        <div
+          class="modal-footer"
+          style="border-top: none; justify-content: center"
+        >
+          <button
+            type="button"
+            class="btn btn-secondary btn-save-block"
+            onclick="closeModal('product-settings-modal')"
+          >
             <i class="fas fa-save"></i> save
           </button>
         </div>
@@ -2487,7 +2925,12 @@
           <button type="button" class="btn btn-secondary">
             <i class="fas fa-print"></i> Print Receipt
           </button>
-          <button type="button" class="btn btn-danger">
+          <button
+            type="button"
+            id="invoice-download-btn"
+            class="btn btn-danger"
+            style="display: none"
+          >
             <i class="fas fa-download"></i> Download
           </button>
         </div>
@@ -2496,15 +2939,23 @@
 
     <!-- Add Product Modal -->
     <div class="modal" id="add-product-modal">
-      <div class="modal-content" style="max-width: 800px; width:90%;">
+      <div class="modal-content" style="max-width: 800px; width: 90%">
         <div class="modal-header">
           <h2 class="modal-title">Add Product</h2>
           <button class="modal-close" onclick="closeModal('add-product-modal')">
             <i class="fas fa-times"></i>
           </button>
         </div>
-        <form onsubmit="event.preventDefault(); /* TODO: Save product */ closeModal('add-product-modal');">
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;">
+        <form
+          onsubmit="event.preventDefault(); /* TODO: Save product */ closeModal('add-product-modal');"
+        >
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+              gap: 1rem;
+            "
+          >
             <div class="form-group">
               <label class="form-label">Category</label>
               <select class="form-select">
@@ -2515,11 +2966,23 @@
             </div>
             <div class="form-group">
               <label class="form-label">Discount (%)</label>
-              <input type="number" class="form-input" placeholder="0" min="0" max="100" step="0.1" />
+              <input
+                type="number"
+                class="form-input"
+                placeholder="0"
+                min="0"
+                max="100"
+                step="0.1"
+              />
             </div>
-            <div class="form-group" style="grid-column:span 2;">
+            <div class="form-group" style="grid-column: span 2">
               <label class="form-label">Name</label>
-              <input type="text" class="form-input" placeholder="Product name" required />
+              <input
+                type="text"
+                class="form-input"
+                placeholder="Product name"
+                required
+              />
             </div>
             <div class="form-group">
               <label class="form-label">Barcode</label>
@@ -2527,19 +2990,43 @@
             </div>
             <div class="form-group">
               <label class="form-label">Cost Price</label>
-              <input type="number" class="form-input" placeholder="0.00" min="0" step="0.01" />
+              <input
+                type="number"
+                class="form-input"
+                placeholder="0.00"
+                min="0"
+                step="0.01"
+              />
             </div>
             <div class="form-group">
               <label class="form-label">Profit rate (%)</label>
-              <input type="number" class="form-input" placeholder="0" min="0" step="0.1" />
+              <input
+                type="number"
+                class="form-input"
+                placeholder="0"
+                min="0"
+                step="0.1"
+              />
             </div>
             <div class="form-group">
               <label class="form-label">Selling Price (USD)</label>
-              <input type="number" class="form-input" placeholder="0.00" min="0" step="0.01" />
+              <input
+                type="number"
+                class="form-input"
+                placeholder="0.00"
+                min="0"
+                step="0.01"
+              />
             </div>
             <div class="form-group">
               <label class="form-label">Selling Price (LBP)</label>
-              <input type="number" class="form-input" placeholder="0" min="0" step="1" />
+              <input
+                type="number"
+                class="form-input"
+                placeholder="0"
+                min="0"
+                step="1"
+              />
             </div>
             <div class="form-group">
               <label class="form-label">Qty</label>
@@ -2553,22 +3040,121 @@
               <label class="form-label">Expiry Date</label>
               <input type="date" class="form-input" />
             </div>
-            <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;">
+            <div
+              class="form-group"
+              style="display: flex; align-items: center; gap: 0.5rem"
+            >
               <input type="checkbox" id="tracked-checkbox" />
-              <label for="tracked-checkbox" class="form-label" style="margin:0;">Tracked</label>
+              <label for="tracked-checkbox" class="form-label" style="margin: 0"
+                >Tracked</label
+              >
             </div>
-            <div class="form-group" style="grid-column:span 2; text-align:center;">
+            <div
+              class="form-group"
+              style="grid-column: span 2; text-align: center"
+            >
               <label class="form-label">Product Image</label>
-              <input type="file" accept="image/*" style="display:none" id="product-image-input" />
-              <label for="product-image-input" style="display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed var(--gray-300);border-radius:8px;padding:2rem;cursor:pointer;color:var(--gray-500);">
-                <i class="fas fa-cloud-upload-alt" style="font-size:2rem;margin-bottom:0.5rem;"></i>
+              <input
+                type="file"
+                accept="image/*"
+                style="display: none"
+                id="product-image-input"
+              />
+              <label
+                for="product-image-input"
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  border: 2px dashed var(--gray-300);
+                  border-radius: 8px;
+                  padding: 2rem;
+                  cursor: pointer;
+                  color: var(--gray-500);
+                "
+              >
+                <i
+                  class="fas fa-cloud-upload-alt"
+                  style="font-size: 2rem; margin-bottom: 0.5rem"
+                ></i>
                 <span>Click to upload</span>
               </label>
             </div>
+            <!-- Notifications toggle -->
+            <div
+              class="form-group"
+              style="
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                margin-bottom: 1rem;
+              "
+            >
+              <label class="form-label" style="margin: 0"
+                >Enable/Disable Notifications</label
+              >
+              <div class="toggle-group">
+                <button
+                  type="button"
+                  class="toggle-btn active"
+                  onclick="switchToggle(this)"
+                >
+                  On
+                </button>
+                <button
+                  type="button"
+                  class="toggle-btn"
+                  onclick="switchToggle(this)"
+                >
+                  Off
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- closing the big grid div -->
+          <!-- Select from stock row -->
+          <div
+            class="form-group"
+            style="
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              flex-wrap: wrap;
+              margin-top: 1rem;
+            "
+          >
+            <label
+              class="form-label"
+              style="
+                margin: 0;
+                display: flex;
+                align-items: center;
+                gap: 0.25rem;
+              "
+            >
+              <input type="checkbox" id="select-stock-checkbox" checked />
+              Select Products from stock
+            </label>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="alert('Add from stock (demo)')"
+            >
+              <i class="fas fa-plus"></i> Add From Stock
+            </button>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="closeModal('add-product-modal')">Cancel</button>
-            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="closeModal('add-product-modal')"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Save
+            </button>
           </div>
         </form>
       </div>
@@ -2576,42 +3162,388 @@
 
     <!-- Supplier Modal -->
     <div class="modal" id="supplier-modal">
-      <div class="modal-content" style="max-width:600px;">
+      <div class="modal-content" style="max-width: 600px">
         <div class="modal-header">
           <h2 class="modal-title">Suppliers</h2>
-          <button class="modal-close" onclick="closeModal('supplier-modal')"><i class="fas fa-times"></i></button>
+          <button class="modal-close" onclick="closeModal('supplier-modal')">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
         <div class="form-group">
-          <input id="supplier-search" class="form-input" placeholder="Search suppliers" oninput="renderSupplierList()" />
+          <input
+            id="supplier-search"
+            class="form-input"
+            placeholder="Search suppliers"
+            oninput="renderSupplierList()"
+          />
         </div>
         <div class="table-wrapper">
           <table class="table">
-            <thead><tr><th>Name</th><th style="width:120px;">Actions</th></tr></thead>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th style="width: 120px">Actions</th>
+              </tr>
+            </thead>
             <tbody id="supplier-table-body"></tbody>
           </table>
         </div>
-        <div class="modal-footer" style="justify-content:flex-start;">
-          <button class="btn btn-primary" onclick="openAddSupplierForm()"><i class="fas fa-plus"></i> Add Supplier</button>
+        <div class="modal-footer" style="justify-content: flex-start">
+          <button class="btn btn-primary" onclick="openAddSupplierForm()">
+            <i class="fas fa-plus"></i> Add Supplier
+          </button>
         </div>
       </div>
     </div>
 
     <!-- Item History Modal -->
     <div class="modal" id="item-history-modal">
-      <div class="modal-content" style="max-width:700px;">
+      <div class="modal-content" style="max-width: 700px">
         <div class="modal-header">
           <h2 class="modal-title" id="history-title">Item History</h2>
-          <button class="modal-close" onclick="closeModal('item-history-modal')"><i class="fas fa-times"></i></button>
+          <button
+            class="modal-close"
+            onclick="closeModal('item-history-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
         </div>
-        <div style="text-align:center;margin-bottom:1rem;">
+        <div style="text-align: center; margin-bottom: 1rem">
           <div class="currency-toggle" id="history-tab-toggle">
-            <button type="button" class="toggle-btn active" onclick="switchHistoryTab('table')">Table</button>
-            <button type="button" class="toggle-btn" onclick="switchHistoryTab('chart')">Chart</button>
+            <button
+              type="button"
+              class="toggle-btn active"
+              onclick="switchHistoryTab('table')"
+            >
+              Table
+            </button>
+            <button
+              type="button"
+              class="toggle-btn"
+              onclick="switchHistoryTab('chart')"
+            >
+              Chart
+            </button>
           </div>
         </div>
         <div id="history-body"></div>
       </div>
     </div>
+
+    <!-- Refund Modal -->
+    <div class="modal" id="refund-modal">
+      <div class="modal-content" style="max-width: 800px">
+        <div class="modal-header">
+          <h2 class="modal-title" id="refund-title">Refund</h2>
+          <button class="modal-close" onclick="closeModal('refund-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="refund-body"></div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="closeModal('refund-modal')"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick="processRefund()"
+          >
+            Refund
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shift Selector Modal -->
+    <div class="modal" id="shift-select-modal">
+      <div class="modal-content" style="max-width: 360px">
+        <div class="modal-header">
+          <h2 class="modal-title">Select Shift</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('shift-select-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="shift-list-body"></div>
+      </div>
+    </div>
+
+    <!-- Import Data Modal -->
+    <div class="modal" id="import-data-modal">
+      <div class="modal-content" style="max-width: 600px">
+        <div class="modal-header">
+          <h2 class="modal-title">Import Inventory Data</h2>
+          <button class="modal-close" onclick="closeModal('import-data-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form onsubmit="event.preventDefault(); importInventoryData();">
+          <div class="form-group">
+            <label class="form-label">Select File (CSV / Excel)</label>
+            <input
+              type="file"
+              id="inventory-import-file"
+              accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+              class="form-input"
+              required
+            />
+            <div class="form-hint">Supported formats: .csv, .xlsx</div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="closeModal('import-data-modal')"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-file-import"></i> Import
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Customer Details Modal -->
+    <div class="modal" id="customer-details-modal">
+      <div
+        class="modal-content"
+        style="
+          max-width: 900px;
+          width: 90%;
+          height: 90vh;
+          display: flex;
+          flex-direction: column;
+        "
+      >
+        <div class="modal-header" style="justify-content: space-between">
+          <h2 class="modal-title" id="customer-details-title">
+            Customer Details
+          </h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('customer-details-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div
+          style="
+            flex: 1;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+            overflow: hidden;
+          "
+        >
+          <!-- Left: invoices table -->
+          <div class="table-wrapper" style="overflow: auto">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Receipt Nb</th>
+                  <th>Time</th>
+                  <th>(USD)</th>
+                  <th>LBP</th>
+                </tr>
+              </thead>
+              <tbody id="customer-invoices-body"></tbody>
+            </table>
+          </div>
+          <!-- Right side charts -->
+          <div style="display: flex; flex-direction: column; gap: 1rem">
+            <div
+              class="table-wrapper"
+              style="
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid var(--gray-200);
+              "
+            >
+              <h3 style="font-size: 0.9rem; margin-bottom: 0.5rem">
+                Total Revenue / Total Profit
+              </h3>
+              <canvas id="customer-pie" width="150" height="150"></canvas>
+            </div>
+            <div
+              class="table-wrapper"
+              style="flex: 1; overflow: auto; border: 1px solid var(--gray-200)"
+            >
+              <h3 style="font-size: 0.9rem; margin: 0.5rem">
+                Top most bought items
+              </h3>
+              <table class="table" style="margin-top: 0.25rem">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th style="width: 80px">Qty</th>
+                  </tr>
+                </thead>
+                <tbody id="customer-top-items-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal" id="add-user-modal">
+      <div class="modal-content" style="max-width: 600px">
+        <div class="modal-header">
+          <h2 class="modal-title">Add New User</h2>
+          <button class="modal-close" onclick="closeModal('add-user-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <form id="add-user-form" onsubmit="event.preventDefault(); addUser();">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input
+              type="text"
+              id="new-user-name"
+              class="form-input"
+              placeholder="Full name"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input
+              type="email"
+              id="new-user-email"
+              class="form-input"
+              placeholder="Email"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Role</label>
+            <select id="new-user-role" class="form-select" required>
+              <option value="user">user</option>
+              <option value="sales">sales</option>
+              <option value="waiter">waiter</option>
+              <option value="admin">admin</option>
+              <option value="superadmin">superadmin</option>
+              <option value="priceChecker">priceChecker</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select id="new-user-status" class="form-select">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="closeModal('add-user-modal')"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Currency Selector Modal -->
+    <div class="modal" id="currency-select-modal">
+      <div class="modal-content" style="max-width: 340px; width: 90%">
+        <div class="modal-header">
+          <h2 class="modal-title" id="currency-modal-title">
+            Primary Currency
+          </h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('currency-select-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div
+          id="currency-list-body"
+          style="padding: 0.5rem 0; max-height: 60vh; overflow: auto"
+        ></div>
+      </div>
+    </div>
+
+    <!-- Report Period Selector Modals -->
+    <div class="modal" id="period-daily-modal">
+      <div class="modal-content" style="max-width: 320px">
+        <div class="modal-header">
+          <h2 class="modal-title">Select Day</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('period-daily-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <input
+          type="date"
+          id="report-date-input"
+          class="form-input"
+          style="width: 100%"
+          onchange="setReportDate(this.value)"
+        />
+      </div>
+    </div>
+    <div class="modal" id="period-monthly-modal">
+      <div class="modal-content" style="max-width: 280px">
+        <div class="modal-header">
+          <h2 class="modal-title">Select Month</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('period-monthly-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div
+          id="month-grid"
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            padding: 0.5rem;
+          "
+        ></div>
+      </div>
+    </div>
+    <div class="modal" id="period-yearly-modal">
+      <div class="modal-content" style="max-width: 220px">
+        <div class="modal-header">
+          <h2 class="modal-title">Select Year</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('period-yearly-modal')"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div
+          id="year-list"
+          style="padding: 0.5rem; max-height: 50vh; overflow: auto"
+        ></div>
+      </div>
+    </div>
+    <!-- END period modals -->
 
     <script>
       // Global variables
@@ -2619,12 +3551,40 @@
       let currentPage = "sale";
       let cartOpen = false;
 
+      // Order type (dinein / delivery)
+      let orderType = "dinein";
+      function setOrderType(type) {
+        orderType = type;
+        console.log("Order type set to", type);
+      }
+
       // ---------------- Inventory Data & Helpers ----------------
       /* Sample inventory dataset – replace with real data source when available */
       const inventoryData = [
-        { name: "Chicken Sub Sand", barcode: "1234567890", category: "Sandwiches", stock: 45, cost: 3.5, price: 5.99 },
-        { name: "Fahita Sand", barcode: "1234567891", category: "Sandwiches", stock: 32, cost: 4.0, price: 6.99 },
-        { name: "Chilly Chicken", barcode: "1234567892", category: "Sandwiches", stock: 28, cost: 4.5, price: 7.99 },
+        {
+          name: "Chicken Sub Sand",
+          barcode: "1234567890",
+          category: "Sandwiches",
+          stock: 45,
+          cost: 3.5,
+          price: 5.99,
+        },
+        {
+          name: "Fahita Sand",
+          barcode: "1234567891",
+          category: "Sandwiches",
+          stock: 32,
+          cost: 4.0,
+          price: 6.99,
+        },
+        {
+          name: "Chilly Chicken",
+          barcode: "1234567892",
+          category: "Sandwiches",
+          stock: 28,
+          cost: 4.5,
+          price: 7.99,
+        },
       ];
 
       function getInventoryCategories() {
@@ -2632,51 +3592,78 @@
       }
 
       function formatUsd(value) {
-        return `$${value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        return `$${value.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`;
       }
 
       function computeInventoryStats(filterCat = "All") {
-        const items = filterCat === "All" ? inventoryData : inventoryData.filter((p) => p.category === filterCat);
+        const items =
+          filterCat === "All"
+            ? inventoryData
+            : inventoryData.filter((p) => p.category === filterCat);
         const totalProducts = items.length;
         const totalCost = items.reduce((sum, p) => sum + p.cost * p.stock, 0);
         const totalPrice = items.reduce((sum, p) => sum + p.price * p.stock, 0);
         return { totalProducts, totalCost, totalPrice };
       }
 
-      function generateInventoryRows(filterCat = "All") {
-        const rows = (filterCat === "All" ? inventoryData : inventoryData.filter((p) => p.category === filterCat))
+      function generateInventoryRows(filterCat = "All", searchTerm = "") {
+        const items = (
+          filterCat === "All"
+            ? inventoryData
+            : inventoryData.filter((p) => p.category === filterCat)
+        ).filter((p) => {
+          if (!searchTerm) return true;
+          const term = searchTerm.toLowerCase();
+          return (
+            p.name.toLowerCase().includes(term) || p.barcode.includes(term)
+          );
+        });
+        const rows = items
           .map(
             (p) => `
-              <tr>
-                <td>${p.name}</td>
-                <td>${p.barcode}
-                  <button class="btn btn-icon btn-secondary" style="margin-left:0.25rem;" onclick="printBarcode('${p.barcode}')">
-                    <i class="fas fa-print"></i>
-                  </button>
-                </td>
-                <td><span class="badge badge-primary">${p.category}</span></td>
-                <td>${p.stock}</td>
-                <td>${formatUsd(p.cost)}</td>
-                <td>${formatUsd(p.price)}</td>
-                <td>
-                  <button class="btn btn-secondary btn-icon"><i class="fas fa-edit"></i></button>
-                </td>
-              </tr>`
+                <tr>
+                  <td>${p.name}</td>
+                  <td>${p.barcode}</td>
+                  <td><span class="badge badge-primary">${
+                    p.category
+                  }</span></td>
+                  <td>${p.stock}</td>
+                  <td>${formatUsd(p.cost)}</td>
+                  <td>${formatUsd(p.price)}</td>
+                  <td>
+                    <button class="btn btn-icon btn-secondary" title="Print barcode" onclick="printBarcode('${
+                      p.barcode
+                    }')"><i class="fas fa-print"></i></button>
+                  </td>
+                  <td>
+                    <button class="btn btn-secondary btn-icon" title="Download Excel" onclick="downloadExcel('${
+                      p.barcode
+                    }')"><i class="fas fa-file-excel"></i></button>
+                    <button class="btn btn-secondary btn-icon" title="History" onclick="openInventoryHistory('${
+                      p.barcode
+                    }','table')"><i class="fas fa-history"></i></button>
+                  </td>
+                </tr>`
           )
           .join("");
-        return rows || `<tr><td colspan="7" style="text-align:center; padding:2rem; color:var(--gray-500);">No items found</td></tr>`;
+        return (
+          rows ||
+          `<tr><td colspan="8" style="text-align:center; padding:2rem; color:var(--gray-500);">No items found</td></tr>`
+        );
       }
 
       function printBarcode(code) {
-        alert('Printing barcode: ' + code);
+        alert("Printing barcode: " + code);
       }
 
-      function renderInventory(filterCat = "All") {
-        // Update rows
+      function renderInventory(filterCat = "All", searchTerm = "") {
         const tbody = document.getElementById("inventory-table-body");
-        if (tbody) tbody.innerHTML = generateInventoryRows(filterCat);
+        if (tbody)
+          tbody.innerHTML = generateInventoryRows(filterCat, searchTerm);
 
-        // Update stats
         const stats = computeInventoryStats(filterCat);
         const productEl = document.getElementById("stat-total-products");
         const costEl = document.getElementById("stat-total-cost");
@@ -2697,12 +3684,16 @@
           });
         }
         renderInventory(select ? select.value : "All");
+        updateDownloadButtonLabel();
       }
 
       // Event handler wired in HTML
       function filterInventory() {
         const select = document.getElementById("inventory-category-filter");
-        renderInventory(select ? select.value : "All");
+        const searchInput = document.getElementById("inventory-search-input");
+        const term = searchInput ? searchInput.value : "";
+        renderInventory(select ? select.value : "All", term);
+        updateDownloadButtonLabel();
       }
       // ---------------- End Inventory helpers ----------------
 
@@ -2711,7 +3702,8 @@
         return `
                 <div class="sale-layout">
                     <div class="products-section">
-                        <div class="categories-container">
+                        <div class="top-row">
+                          <div class="categories-container">
                             <div class="categories-header">
                                 <h3 class="categories-title">Categories</h3>
                                 <div style="display:flex; gap:0.5rem;">
@@ -2725,44 +3717,63 @@
                             </div>
                             <div class="categories-grid">
                                 <div class="category-card active">
-                                    <span class="category-icon">🥪</span>
+                                    
                                     <span class="category-name">Sandwiches</span>
                                 </div>
                                 <div class="category-card">
-                                    <span class="category-icon">🍔</span>
+                                    
                                     <span class="category-name">Beef Burger</span>
                                 </div>
                                 <div class="category-card">
-                                    <span class="category-icon">🍕</span>
+                                    
                                     <span class="category-name">Expert Burger</span>
                                 </div>
                                 <div class="category-card">
-                                    <span class="category-icon">🌭</span>
+                                    
                                     <span class="category-name">HotDog</span>
                                 </div>
                                 <div class="category-card">
-                                    <span class="category-icon">🍟</span>
+                                    
                                     <span class="category-name">Appetisers</span>
                                 </div>
                                 <div class="category-card">
-                                    <span class="category-icon">🍗</span>
+                                    
                                     <span class="category-name">Fried Chicken</span>
                                 </div>
                                 <div class="category-card">
-                                    <span class="category-icon">🥗</span>
+                                    
                                     <span class="category-name">Meals</span>
                                 </div>
                                 <div class="category-card">
-                                    <span class="category-icon">🥤</span>
+                                    
                                     <span class="category-name">Beverages</span>
                                 </div>
                             </div>
+                          </div>
+                          <!-- keypad inside top-row -->
+                          <div class="keypad-section">
+                            <div class="keypad-grid">
+                              ${[7, 8, 9, 4, 5, 6, 1, 2, 3]
+                                .map(
+                                  (n) =>
+                                    `<button class="key-btn" onclick="keypadAppend(${n})">${n}</button>`
+                                )
+                                .join("")}
+                              <button class="key-btn" onclick="keypadClear()">C</button>
+                              <button class="key-btn" onclick="keypadAppend(0)">0</button>
+                              <button class="key-btn" onclick="keypadDelete()">Del</button>
+                            </div>
+                          </div>
                         </div>
                         
                         <div class="products-container">
                             <div class="products-header">
                                 <h3 class="categories-title">Products</h3>
                                 <div class="products-actions">
+                                    <label style="display:flex;align-items:center;gap:4px;font-size:0.75rem;">
+                                      <input type="checkbox" id="toggle-product-images" onchange="toggleProductImages(this)">
+                                      Show Images
+                                    </label>
                                     <button class="btn btn-icon btn-secondary" onclick="openModal('product-settings-modal')">
                                         <i class="fas fa-cog"></i>
                                     </button>
@@ -2776,6 +3787,13 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Quick-action toolbar below actions -->
+                            <div class="products-toolbar">
+                                <button class="btn btn-secondary" onclick="placeOnHold()">On Hold</button>
+                                <button class="btn btn-secondary" onclick="viewOnHold()">View On Hold</button>
+                                <button class="btn btn-danger" onclick="clearCart()">Clean The Basket</button>
+                                <button class="btn btn-icon btn-secondary" onclick="openModal('add-product-modal')"><i class="fas fa-plus"></i></button>
+                            </div>
                             <div class="products-grid">
                                 ${generateProductCards()}
                             </div>
@@ -2788,6 +3806,11 @@
                                 <i class="fas fa-shopping-cart"></i>
                                 Current Order
                                 <span class="cart-badge" id="cart-count">0</span>
+                                <!-- Order Type Toggle (now positioned beside Current Order) -->
+                                <div class="toggle-group order-type-toggle" id="order-type-toggle" style="margin-left:0.75rem;">
+                                  <button type="button" class="toggle-btn active" onclick="switchToggle(this); setOrderType('dinein')">Dine In</button>
+                                  <button type="button" class="toggle-btn" onclick="switchToggle(this); setOrderType('delivery')">Delivery</button>
+                                </div>
                             </div>
                             <div class="customer-section">
                                 <div class="select-wrapper">
@@ -2811,9 +3834,13 @@
                             <div class="discount-section">
                                 <label class="discount-label">Discount:</label>
                                 <div class="discount-input-group">
+                                    <button class="disc-btn" onclick="changeDiscount(-1)">-</button>
                                     <input type="number" class="discount-input" value="0" min="0" max="100">
+                                    <button class="disc-btn" onclick="changeDiscount(1)">+</button>
                                     <span class="discount-symbol">%</span>
                                 </div>
+                                <!-- Discount Slider -->
+                                <input type="range" class="discount-slider" min="0" max="100" value="0" style="width:120px;margin-left:0.75rem;" oninput="updateDiscountFromSlider(this.value)">
                             </div>
                         </div>
                         
@@ -2838,15 +3865,20 @@
                                     <span class="summary-label">Tax (10%)</span>
                                     <span class="summary-value" id="tax-amount">$0.00</span>
                                 </div>
-                                <div class="summary-row total">
+                                <div class="summary-row total" style="align-items:center;gap:0.5rem;">
                                     <span class="summary-label">Total</span>
                                     <span class="summary-value" id="total-amount">$0.00</span>
                                 </div>
+                                <div class="summary-row" style="align-items:center;gap:0.5rem;">
+                                    <span class="summary-label">Total (LBP)</span>
+                                    <span class="summary-value" id="total-amount-lbp">0 LBP</span>
+                                    <button class="btn btn-secondary btn-sm" id="invoice-btn" onclick="openInvoiceFromCart()"><i class="fas fa-file-alt"></i> Invoice</button>
+                                </div>
                             </div>
                             <div class="cart-actions">
-                                <button class="btn btn-danger" onclick="clearCart()">
-                                    <i class="fas fa-trash"></i>
-                                    Clear
+                                <button class="btn btn-secondary" onclick="openDrawer()">
+                                    <i class="fas fa-cash-register"></i>
+                                    Open Drawer
                                 </button>
                                 <button class="btn btn-primary" onclick="processPayment()">
                                     <i class="fas fa-credit-card"></i>
@@ -2861,6 +3893,22 @@
 
       function generateProductCards() {
         const products = [
+          { name: "Chicken Sub Sand", price: 5.99, icon: "🥪" },
+          { name: "Fahita Sand", price: 6.99, icon: "🌯" },
+          { name: "Chilly Chicken", price: 7.99, icon: "🍗", badge: "HOT" },
+          { name: "Special Crispy", price: 8.99, icon: "🍔" },
+          { name: "Escalope Sand", price: 6.49, icon: "🥖" },
+          { name: "Crispy Sand", price: 5.49, icon: "🥪" },
+          { name: "Mexicana Sand", price: 9.99, icon: "🌮", badge: "NEW" },
+          { name: "Cheesy Chicken", price: 7.49, icon: "🧀" },
+          { name: "Chicken Sub Sand", price: 5.99, icon: "🥪" },
+          { name: "Fahita Sand", price: 6.99, icon: "🌯" },
+          { name: "Chilly Chicken", price: 7.99, icon: "🍗", badge: "HOT" },
+          { name: "Special Crispy", price: 8.99, icon: "🍔" },
+          { name: "Escalope Sand", price: 6.49, icon: "🥖" },
+          { name: "Crispy Sand", price: 5.49, icon: "🥪" },
+          { name: "Mexicana Sand", price: 9.99, icon: "🌮", badge: "NEW" },
+          { name: "Cheesy Chicken", price: 7.49, icon: "🧀" },
           { name: "Chicken Sub Sand", price: 5.99, icon: "🥪" },
           { name: "Fahita Sand", price: 6.99, icon: "🌯" },
           { name: "Chilly Chicken", price: 7.99, icon: "🍗", badge: "HOT" },
@@ -2906,6 +3954,9 @@
                     <div class="table-header">
                         <h2 class="table-title">Daily Sales Report</h2>
                         <div class="table-actions">
+                            <input type="date" id="daily-date-picker" class="form-input" style="width:auto;" onchange="filterDailySalesByDate(this.value)">
+                            <input type="text" class="form-input" placeholder="Search ID" style="width:120px;" oninput="filterDailySalesBySearch(this.value)">
+                            <button class="btn btn-secondary" id="daily-stats-toggle" onclick="toggleDailyStats()">Hide Stats</button>
                             <button class="btn btn-secondary">
                                 <i class="fas fa-download"></i>
                                 Export
@@ -2977,10 +4028,10 @@
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="daily-sales-tbody">
                                     <tr>
                                         <td colspan="6" style="text-align: center; padding: 3rem; color: var(--gray-500);">
-                                            No transactions found for today
+                                            Loading...
                                         </td>
                                     </tr>
                                 </tbody>
@@ -3016,7 +4067,7 @@
                                     <span>Selected Shift :</span>
                                     <span class="shift-number">#266</span>
                                     <span class="shift-time">- 14-05-2025 11:55 PM → now</span>
-                                    <button class="btn btn-secondary btn-sm" style="margin-left:0.5rem;">Open latest Shifts</button>
+                                    <button class="btn btn-secondary btn-sm" style="margin-left:0.5rem;" onclick="openShiftSelector()">Open latest Shifts</button>
                                 </div>
                             </div>
 
@@ -3034,9 +4085,9 @@
                         <!-- Action Buttons Row -->
                         <div style="display:flex; gap:0.75rem; align-items:center;justify-content:flex-end; margin-bottom:1rem; flex-wrap:wrap;">
                             <button class="btn btn-secondary">All <i class="fas fa-chevron-down"></i></button>
-                            <button class="btn btn-secondary">Balance <i class="fas fa-chevron-down"></i></button>
+                            <button class="btn btn-secondary" id="balance-toggle-inside" style="margin-left:0.25rem;" onclick="toggleShiftBalance()">Hide Balance</button>
                             <button class="btn btn-download"><i class="fas fa-download"></i> download</button>
-                            <button class="btn btn-primary"><i class="fas fa-sign-out-alt"></i> End Of Shift</button>
+                            <!-- End Shift button removed as per spec -->
                         </div>
 
                         
@@ -3052,67 +4103,8 @@
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>#1-10711</td>
-                                        <td>05-07-2025 2:53 PM</td>
-                                        <td>$34.00</td>
-                                        <td>3,060,000 LBP</td>
-                                        <td><span class="badge badge-success">Cash</span></td>
-                                        <td>
-                                            <button class="btn btn-secondary btn-icon" onclick="openInvoiceModal('#1-10711')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                      <tr>
-                                        <td>#1-10711</td>
-                                        <td>05-07-2025 2:53 PM</td>
-                                        <td>$34.00</td>
-                                        <td>3,060,000 LBP</td>
-                                        <td><span class="badge badge-success">Cash</span></td>
-                                        <td>
-                                            <button class="btn btn-secondary btn-icon" onclick="openInvoiceModal('#1-10711')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                      <tr>
-                                        <td>#1-10711</td>
-                                        <td>05-07-2025 2:53 PM</td>
-                                        <td>$34.00</td>
-                                        <td>3,060,000 LBP</td>
-                                        <td><span class="badge badge-success">Cash</span></td>
-                                        <td>
-                                            <button class="btn btn-secondary btn-icon" onclick="openInvoiceModal('#1-10711')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                      <tr>
-                                        <td>#1-10711</td>
-                                        <td>05-07-2025 2:53 PM</td>
-                                        <td>$34.00</td>
-                                        <td>3,060,000 LBP</td>
-                                        <td><span class="badge badge-success">Cash</span></td>
-                                        <td>
-                                            <button class="btn btn-secondary btn-icon" onclick="openInvoiceModal('#1-10711')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                      <tr>
-                                        <td>#1-10711</td>
-                                        <td>05-07-2025 2:53 PM</td>
-                                        <td>$34.00</td>
-                                        <td>3,060,000 LBP</td>
-                                        <td><span class="badge badge-success">Cash</span></td>
-                                        <td>
-                                            <button class="btn btn-secondary btn-icon" onclick="openInvoiceModal('#1-10711')">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                <tbody id="shift-receipts-body">
+                                    <tr><td colspan="6" style="text-align:center;padding:1rem;color:var(--gray-500);">No receipts</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -3126,16 +4118,21 @@
           <div class="table-container">
             <div class="table-header">
               <h2 class="table-title">Inventory Management</h2>
-              <div class="table-actions">
-                <button class="btn btn-secondary"><i class="fas fa-download"></i> Download All Stock</button>
-                <button class="btn btn-secondary"><i class="fas fa-file-import"></i> Import Data</button>
+              <div class="table-actions" style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+                <div class="toggle-group">
+                  <button type="button" class="toggle-btn active" onclick="switchToggle(this)">Active</button>
+                  <button type="button" class="toggle-btn" onclick="switchToggle(this)">Deleted</button>
+                </div>
+                <button id="download-stock-btn" class="btn btn-secondary" onclick="downloadInventoryStock()"><i class="fas fa-download"></i> Download All Stock</button>
+                <button class="btn btn-secondary" onclick="openModal('import-data-modal')"><i class="fas fa-file-import"></i> Import Data</button>
                 <button class="btn btn-secondary btn-icon" onclick="openModal('product-settings-modal')"><i class="fas fa-cog"></i></button>
                 <button class="btn btn-primary" onclick="openModal('add-product-modal')"><i class="fas fa-plus"></i> Add</button>
               </div>
             </div>
             <div style="padding:1.5rem;">
-              <!-- CATEGORY FILTER -->
+              <!-- SEARCH ROW -->
               <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem; flex-wrap:wrap;">
+                <input id="inventory-search-input" class="form-input" style="flex:1; min-width:220px;" placeholder="search by name or barcode" oninput="filterInventory()" />
                 <label class="form-label" style="margin:0;">Filter by Category:</label>
                 <select id="inventory-category-filter" class="form-select" style="width:auto; min-width:180px;" onchange="filterInventory()"></select>
               </div>
@@ -3176,6 +4173,7 @@
                       <th>Stock</th>
                       <th>Cost</th>
                       <th>Price</th>
+                      <th>Print</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -3280,6 +4278,7 @@
                                         <td><span class="badge badge-primary">0%</span></td>
                                         <td><span class="badge badge-success">Active</span></td>
                                         <td>
+                                            <button class="btn btn-secondary btn-icon" title="Details" onclick="openCustomerDetails('Samih Damaj')"><i class="fas fa-eye"></i></button>
                                             <button class="btn btn-secondary btn-icon" onclick="openModal('edit-customer-modal')">
                                                 <i class="fas fa-edit"></i>
                                             </button>
@@ -3301,7 +4300,7 @@
                 <div class="table-container">
                     <div class="table-header">
                         <h2 class="table-title">User Management</h2>
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" onclick="openModal('add-user-modal')">
                             <i class="fas fa-user-plus"></i>
                             New User
                         </button>
@@ -3319,7 +4318,7 @@
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="users-table-body">
                                     <tr>
                                         <td>
                                             <div style="display: flex; align-items: center; gap: 0.75rem;">
@@ -3396,317 +4395,230 @@
 
       function getSettingsPage() {
         return `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h2 class="table-title">
-                                <i class="fas fa-print" style="margin-right: 0.5rem;"></i>
-                                Printer Settings
-                            </h2>
-                            <button class="btn btn-primary">
-                                <i class="fas fa-save"></i>
-                                Save
-                            </button>
-                        </div>
-                        <div style="padding: 1.5rem;">
-                            <div class="form-group">
-                                <label class="form-label">Default Printer</label>
-                                <select class="form-select">
-                                    <option>Select Printer</option>
-                                    <option>EPSON TM-T88V</option>
-                                    <option>Star TSP100</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Network Printing</label>
-                                <div style="display: flex; gap: 1rem;">
-                                    <button class="btn btn-secondary">Off</button>
-                                    <button class="btn btn-primary">On</button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Receipt Font Size</label>
-                                <input type="number" class="form-input" value="20">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Receipt Width</label>
-                                <input type="number" class="form-input" value="500">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h2 class="table-title">
-                                <i class="fas fa-store" style="margin-right: 0.5rem;"></i>
-                                Store Information
-                            </h2>
-                            <button class="btn btn-primary">
-                                <i class="fas fa-save"></i>
-                                Save
-                            </button>
-                        </div>
-                        <div style="padding: 1.5rem;">
-                            <div class="form-group">
-                                <label class="form-label">Store Name</label>
-                                <input type="text" class="form-input" value="MEAT AND CHEESE">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Store Address</label>
-                                <input type="text" class="form-input" value="BARJA">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Phone Number</label>
-                                <input type="tel" class="form-input" value="81109698">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Store Notes</label>
-                                <textarea class="form-textarea" rows="3">Thank you for your business!</textarea>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h2 class="table-title">
-                                <i class="fas fa-coins" style="margin-right: 0.5rem;"></i>
-                                Currency Settings
-                            </h2>
-                            <button class="btn btn-primary">
-                                <i class="fas fa-save"></i>
-                                Save
-                            </button>
-                        </div>
-                        <div style="padding: 1.5rem;">
-                            <div class="form-group">
-                                <label class="form-label">Primary Currency</label>
-                                <select class="form-select">
-                                    <option>USD - US Dollar</option>
-                                    <option>EUR - Euro</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Secondary Currency</label>
-                                <select class="form-select">
-                                    <option>LBP - Lebanese Pound</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Exchange Rate</label>
-                                <input type="number" class="form-input" value="90000">
-                                <div class="form-hint">1 USD = 90,000 LBP</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="table-container">
-                        <div class="table-header">
-                            <h2 class="table-title">
-                                <i class="fas fa-shield-alt" style="margin-right: 0.5rem;"></i>
-                                System Settings
-                            </h2>
-                            <button class="btn btn-primary">
-                                <i class="fas fa-save"></i>
-                                Save
-                            </button>
-                        </div>
-                        <div style="padding: 1.5rem;">
-                            <div class="form-group">
-                                <label class="form-label">Full Screen Mode</label>
-                                <div style="display: flex; gap: 1rem;">
-                                    <button class="btn btn-primary">Off</button>
-                                    <button class="btn btn-secondary">On</button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Language</label>
-                                <select class="form-select">
-                                    <option>English</option>
-                                    <option>Arabic</option>
-                                    <option>French</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-secondary">
-                                    <i class="fas fa-download"></i>
-                                    Backup Data
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem;">
+            <!-- Printer Properties (left top) -->
+            <div class="table-container">
+              <div class="table-header">
+                <h2 class="table-title">Printer Properties</h2>
+                <button class="btn btn-primary"><i class="fas fa-save"></i> save</button>
+              </div>
+              <div style="padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+                <div class="form-group"><label class="form-label">Selected Printer :</label><input class="form-input" placeholder="Printer Name" style="position:relative; padding-right:2rem;"><i class="fas fa-search" style="position:absolute; right:1rem; top:50%; transform:translateY(-50%); color:var(--gray-500);"></i></div>
+                <div class="settings-item"><i class="fas fa-network-wired settings-icon"></i><span class="settings-label">Network Printers ?</span><div class="toggle-group"><button type="button" class="toggle-btn active" onclick="switchToggle(this)">On</button><button type="button" class="toggle-btn" onclick="switchToggle(this)">Off</button></div></div>
+                <div class="settings-item"><i class="fas fa-font settings-icon"></i><span class="settings-label">Basket font size</span><input type="number" class="form-input" value="20.0" style="max-width:120px;"></div>
+                <div class="settings-item"><i class="fas fa-font settings-icon"></i><span class="settings-label">basketWidth</span><input type="number" class="form-input" value="500.0" style="max-width:120px;"></div>
+                ${[
+                  "Show open cash button",
+                  "Open change Dialog on pay",
+                  "Print Receipt ?",
+                  "Print Basket Items In USD ?",
+                  "Print Receipt USD ?",
+                  "Print Receipt LBP ?",
+                  "Print label on Label Printer ?",
+                  "print small label 30×20 ?",
+                ]
+                  .map(
+                    (l) =>
+                      `<div class="settings-item"><i class="fas fa-eye settings-icon"></i><span class="settings-label">${l}</span><div class="toggle-group"><button type="button" class="toggle-btn active" onclick="switchToggle(this)">On</button><button type="button" class="toggle-btn" onclick="switchToggle(this)">Off</button></div></div>`
+                  )
+                  .join("")}
+                <div class="settings-item"><i class="fas fa-receipt settings-icon"></i><span class="settings-label">Receipt Nb</span><input type="number" class="form-input" value="1" style="max-width:160px;"></div>
+              </div>
+            </div>
+            <!-- Store Info (right top) -->
+            <div class="table-container">
+              <div class="table-header"><h2 class="table-title">Store Info</h2><button class="btn btn-primary"><i class="fas fa-save"></i> save</button></div>
+              <div style="padding:1.5rem; display:flex; flex-direction:column; gap:1rem;">
+                <div class="form-group"><label class="form-label">Store Qr Code</label><input class="form-input" placeholder="store Qr Code"></div>
+                <div class="form-group"><label class="form-label">Name</label><input class="form-input" value="MEAT AND CHEESE"></div>
+                <div class="form-group"><label class="form-label">Address</label><input class="form-input" value="BARJA"></div>
+                <div class="form-group"><label class="form-label">Phone</label><input class="form-input" value="81109698"></div>
+                <div class="form-group"><label class="form-label">Note</label><input class="form-input" placeholder="Note"></div>
+                <button class="btn btn-secondary"><i class="fas fa-image"></i> pick logo</button>
+                <div class="settings-item"><i class="fas fa-print settings-icon"></i><span class="settings-label">Print logo on invoice</span><div class="toggle-group"><button type="button" class="toggle-btn active" onclick="switchToggle(this)">On</button><button type="button" class="toggle-btn" onclick="switchToggle(this)">Off</button></div></div>
+              </div>
+            </div>
+            <!-- General Section (left bottom) -->
+            <div class="table-container">
+              <div class="table-header"><h2 class="table-title">General Section</h2></div>
+              <div style="padding:1rem; display:flex; flex-direction:column; gap:0.75rem;">
+                ${[
+                  "Open the system in full screen mode",
+                  "Show table button",
+                  "Allow negative discount",
+                  "Show Select Module Screen",
+                  "Show Order Type Section ?",
+                  "Show Restaurant Stock ?",
+                ]
+                  .map(
+                    (l) =>
+                      `<div class="settings-item"><i class="fas fa-eye settings-icon"></i><span class="settings-label">${l}</span><div class="toggle-group"><button type="button" class="toggle-btn active" onclick="switchToggle(this)">On</button><button type="button" class="toggle-btn" onclick="switchToggle(this)">Off</button></div></div>`
+                  )
+                  .join("")}
+                <div class="settings-item"><i class="fas fa-language settings-icon"></i><span class="settings-label">Language</span><button class="btn btn-secondary">En <i class="fas fa-chevron-right"></i></button></div>
+                <div class="settings-item"><i class="fas fa-cloud settings-icon"></i><span class="settings-label">Backup</span><button class="btn btn-secondary"><i class="fas fa-chevron-right"></i></button></div>
+                <div class="settings-item"><i class="fas fa-history settings-icon"></i><span class="settings-label">Restore Data</span><button class="btn btn-secondary"><i class="fas fa-chevron-right"></i></button></div>
+                <div style="text-align:right; margin-top:0.5rem;"><button class="btn btn-secondary">Backup (3)</button></div>
+              </div>
+            </div>
+            <!-- Currencies (right bottom) -->
+            <div class="table-container">
+              <div class="table-header"><h2 class="table-title">Currencies</h2><button class="btn btn-primary"><i class="fas fa-save"></i> save</button></div>
+              <div style="padding:1rem; display:flex; flex-direction:column; gap:1rem;">
+                <div class="settings-item"><i class="fas fa-dollar-sign settings-icon"></i><span class="settings-label">Primary Currency</span><button id="primary-currency-btn" class="btn btn-secondary" onclick="openCurrencySelector('primary')">USD <i class="fas fa-chevron-right"></i></button></div>
+                <div class="settings-item"><i class="fas fa-dollar-sign settings-icon"></i><span class="settings-label">Secondary Currency</span><button id="secondary-currency-btn" class="btn btn-secondary" onclick="openCurrencySelector('secondary')">LBP <i class="fas fa-chevron-right"></i></button></div>
+              </div>
+            </div>
+          </div>`;
       }
 
       function getReportsPage() {
         return `
-                <div class="table-container">
-                    <div class="table-header">
-                        <h2 class="table-title">Profit Report</h2>
-                        <button class="btn btn-secondary">
-                            <i class="fas fa-download"></i>
-                            Download Report
-                        </button>
-                    </div>
-                    <div style="padding: 1.5rem;">
-                        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-                            <button class="btn btn-primary">Daily</button>
-                            <button class="btn btn-secondary">Weekly</button>
-                            <button class="btn btn-secondary">Monthly</button>
-                            <button class="btn btn-secondary">Yearly</button>
-                        </div>
-                        <div class="stats-grid">
-                            <div class="stat-card">
-                                <div class="stat-icon-wrapper success">
-                                    <i class="fas fa-arrow-up"></i>
-                                </div>
-                                <div class="stat-details">
-                                    <div class="stat-label">Total Revenue</div>
-                                    <div class="stat-value">$0.00</div>
-                                    <div class="stat-change positive">
-                                        <i class="fas fa-arrow-up"></i>
-                                        0% from yesterday
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon-wrapper danger">
-                                    <i class="fas fa-arrow-down"></i>
-                                </div>
-                                <div class="stat-details">
-                                    <div class="stat-label">Total Expenses</div>
-                                    <div class="stat-value">$0.00</div>
-                                    <div class="stat-change negative">
-                                        <i class="fas fa-arrow-down"></i>
-                                        0% from yesterday
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon-wrapper primary">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                                <div class="stat-details">
-                                    <div class="stat-label">Net Profit</div>
-                                    <div class="stat-value">$0.00</div>
-                                    <div class="stat-change positive">
-                                        <i class="fas fa-arrow-up"></i>
-                                        0% from yesterday
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="chart-container" style="margin-top: 1.5rem;">
-                            <div class="chart-header">
-                                <h3 class="chart-title">Sales Trend</h3>
-                            </div>
-                            <div class="chart-placeholder">
-                                <i class="fas fa-chart-area" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-                                <p>No data available for the selected period</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
+          <div class="table-container" style="border:none;">
+            <!-- PERIOD TOGGLE -->
+            <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
+              <button id="rep-daily-btn" class="btn btn-secondary" onclick="openReportPeriod('daily')">DAILY</button>
+              <button id="rep-monthly-btn" class="btn btn-primary" onclick="openReportPeriod('monthly')">MONTHLY</button>
+              <button id="rep-yearly-btn" class="btn btn-secondary" onclick="openReportPeriod('yearly')">YEARLY</button>
+            </div>
+
+            <!-- HEADER LINE -->
+            <h2 style="color:var(--danger); font-size:1.2rem; margin-bottom:0.75rem;">
+              Profit Report ( <span id="report-period-label">monthly - Jun 2025</span> ) => <span id="report-total-usd">2899.787</span> USD
+            </h2>
+
+            <!-- REPORT TABS NAV -->
+            <div style="display:flex; gap:1.5rem; margin-bottom:0.5rem; font-weight:600; border-bottom:2px solid var(--gray-200);">
+              <div style="padding-bottom:0.25rem; cursor:pointer;" class="rep-tab-link active" onclick="switchReportTab(0)">Sales</div>
+              <div style="padding-bottom:0.25rem; cursor:pointer;" class="rep-tab-link" onclick="switchReportTab(1)">Sales by categories</div>
+              <div style="padding-bottom:0.25rem; cursor:pointer;" class="rep-tab-link" onclick="switchReportTab(2)">Expenses / <span id="exp-total">1581.39</span> USD</div>
+              <div style="padding-bottom:0.25rem; cursor:pointer;" class="rep-tab-link" onclick="switchReportTab(3)">Report charts</div>
+            </div>
+
+            <!-- TAB CONTENTS -->
+            <div id="rep-tab-0" class="rep-tab-content active" style="padding-top:1rem;"></div>
+            <div id="rep-tab-1" class="rep-tab-content" style="display:none; padding-top:1rem;"></div>
+            <div id="rep-tab-2" class="rep-tab-content" style="display:none; padding-top:1rem;"></div>
+            <div id="rep-tab-3" class="rep-tab-content" style="display:none; padding-top:1rem; display:flex; gap:2rem; flex-wrap:wrap;"></div>
+          </div>`;
       }
 
       function getDashboardPage() {
         return `
-                <div>
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon-wrapper primary">
-                                <i class="fas fa-box"></i>
-                            </div>
-                            <div class="stat-details">
-                                <div class="stat-label">Products</div>
-                                <div class="stat-value">92</div>
-                                <div class="stat-change positive">
-                                    <i class="fas fa-arrow-up"></i>
-                                    12% from last month
-                                </div>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon-wrapper success">
-                                <i class="fas fa-receipt"></i>
-                            </div>
-                            <div class="stat-details">
-                                <div class="stat-label">Receipts Today</div>
-                                <div class="stat-value">0</div>
-                                <div class="stat-change negative">
-                                    <i class="fas fa-arrow-down"></i>
-                                    No sales yet
-                                </div>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon-wrapper purple">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="stat-details">
-                                <div class="stat-label">Customers</div>
-                                <div class="stat-value">1</div>
-                                <div class="stat-change positive">
-                                    <i class="fas fa-arrow-up"></i>
-                                    New this week
-                                </div>
-                            </div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon-wrapper warning">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                            <div class="stat-details">
-                                <div class="stat-label">Stock Warnings</div>
-                                <div class="stat-value">0</div>
-                                <div class="stat-change">
-                                    <i class="fas fa-check-circle" style="color: var(--success);"></i>
-                                    All items in stock
-                                </div>
-                            </div>
-                        </div>
+            <div>
+               
+                <!-- Period selector -->
+                <div class="period-toggle">
+                    <button class="period-btn">Last year</button>
+                    <button class="period-btn active">Last month</button>
+                    <button class="period-btn">Yesterday</button>
+                    <button class="period-btn">Today</button>
+                    <button class="period-btn">This week</button>
+                    <button class="period-btn">This month</button>
+                    <button class="period-btn">This year</button>
+                </div>
+
+                <!-- Quick stats -->
+                <div class="quick-stats-grid">
+                    <div class="quick-stat-card products">
+                        <div class="quick-stat-value">92</div>
+                        <div class="quick-stat-label">Products</div>
                     </div>
-                    
-                    <div class="charts-grid">
-                        <div class="chart-container">
-                            <div class="chart-header">
-                                <h3 class="chart-title">Sales Today</h3>
-                                <button class="btn btn-secondary btn-icon">
-                                    <i class="fas fa-expand"></i>
-                                </button>
-                            </div>
-                            <div class="chart-placeholder">
-                                <i class="fas fa-chart-line" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-                                <p>Sales chart will appear here</p>
-                            </div>
-                        </div>
-                        
-                        <div class="chart-container">
-                            <div class="chart-header">
-                                <h3 class="chart-title">Top Selling Products</h3>
-                                <button class="btn btn-secondary btn-icon">
-                                    <i class="fas fa-expand"></i>
-                                </button>
-                            </div>
-                            <div class="chart-placeholder">
-                                <i class="fas fa-chart-bar" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-                                <p>Product chart will appear here</p>
-                            </div>
-                        </div>
+                    <div class="quick-stat-card receipts">
+                        <div class="quick-stat-value">506</div>
+                        <div class="quick-stat-label">Receipts</div>
+                    </div>
+                    <div class="quick-stat-card customers">
+                        <div class="quick-stat-value">1</div>
+                        <div class="quick-stat-label">Customers</div>
+                    </div>
+                    <div class="quick-stat-card users">
+                        <div class="quick-stat-value">3</div>
+                        <div class="quick-stat-label">Users</div>
+                    </div>
+                    <div class="quick-stat-card warnings">
+                        <div class="quick-stat-value">0</div>
+                        <div class="quick-stat-label">Stock warning</div>
                     </div>
                 </div>
-            `;
+
+                <!-- Dashboard charts grid -->
+                <div class="dashboard-grid">
+                    <div class="chart-container">
+                      <div class="chart-header">
+                        <h3 class="chart-title">Top 10 Selling Products</h3>
+                        <button class="btn btn-secondary btn-icon"><i class="fas fa-expand"></i></button>
+                      </div>
+                      <div style="padding: 1rem;">
+                        <canvas id="topProductsChart"></canvas>
+                      </div>
+                    </div>
+
+                    <div class="chart-container">
+                      <div class="chart-header">
+                        <h3 class="chart-title">Expenses (1581.39 USD)</h3>
+                        <button class="btn btn-secondary btn-icon"><i class="fas fa-expand"></i></button>
+                      </div>
+                      <div style="padding: 1rem;">
+                        <canvas id="expensesChart"></canvas>
+                      </div>
+                    </div>
+
+                    <div class="chart-container">
+                      <div class="chart-header">
+                        <h3 class="chart-title">Sales by users <span style="color:var(--danger);font-weight:600;">7351.23 USD</span></h3>
+                        <button class="btn btn-secondary btn-icon"><i class="fas fa-expand"></i></button>
+                      </div>
+                      <div style="padding: 1rem;">
+                        <canvas id="salesByUsersChart"></canvas>
+                      </div>
+                    </div>
+
+                    <div class="chart-container">
+                      <div class="chart-header">
+                        <h3 class="chart-title">SALES Last month</h3>
+                        <button class="btn btn-secondary btn-icon"><i class="fas fa-expand"></i></button>
+                      </div>
+                      <div style="padding: 1rem;">
+                        <canvas id="monthlySalesChart"></canvas>
+                      </div>
+                    </div>
+
+                    <div class="chart-container">
+                      <div class="chart-header">
+                        <h3 class="chart-title">Hourly Customers Last month</h3>
+                        <button class="btn btn-secondary btn-icon"><i class="fas fa-expand"></i></button>
+                      </div>
+                      <div style="padding: 1rem;">
+                        <canvas id="hourlyCustomersChart"></canvas>
+                      </div>
+                    </div>
+
+                    <div class="chart-container">
+                      <div class="chart-header">
+                        <h3 class="chart-title">Top 10 spending Customers</h3>
+                        <button class="btn btn-secondary btn-icon"><i class="fas fa-expand"></i></button>
+                      </div>
+                      <div style="padding: 1rem;">
+                        <canvas id="topCustomersChart"></canvas>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        `;
       }
 
       // Cart functions
       function addToCart(name, price) {
-        const existingItem = cart.find((item) => item.name === name);
-        if (existingItem) {
-          existingItem.quantity++;
+        let idx = cart.findIndex((item) => item.name === name);
+        if (idx !== -1) {
+          cart[idx].quantity++;
         } else {
           cart.push({ name, price, quantity: 1 });
+          idx = cart.length - 1;
         }
+        selectedCartIndex = idx;
+        keypadBuffer = "";
         updateCartDisplay();
       }
 
@@ -3741,27 +4653,27 @@
             const itemTotal = item.price * item.quantity;
             subtotalValue += itemTotal;
             return `
-                    <div class="cart-item fade-in">
+                    <div class="cart-item fade-in" id="cart-item-${index}" onclick="selectCartItem(${index})">
                         <div class="cart-item-header">
                             <span class="cart-item-name">${item.name}</span>
-                            <button class="cart-item-remove" onclick="removeFromCart(${index})">
+                            <button class="cart-item-remove" onclick="event.stopPropagation(); removeFromCart(${index})">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
                         <div class="cart-item-details">
                             <span class="cart-item-price">${item.price.toFixed(
                               2
-                            )} × ${item.quantity} = ${itemTotal.toFixed(
-              2
-            )}</span>
+                            )} × ${item.quantity} = ${(
+              item.price * item.quantity
+            ).toFixed(2)}</span>
                             <div class="quantity-controls">
-                                <button class="qty-btn" onclick="updateQuantity(${index}, ${
+                                <button class="qty-btn" onclick="event.stopPropagation(); updateQuantity(${index}, ${
               item.quantity - 1
             })">
                                     <i class="fas fa-minus"></i>
                                 </button>
                                 <span class="qty-value">${item.quantity}</span>
-                                <button class="qty-btn" onclick="updateQuantity(${index}, ${
+                                <button class="qty-btn" onclick="event.stopPropagation(); updateQuantity(${index}, ${
               item.quantity + 1
             })">
                                     <i class="fas fa-plus"></i>
@@ -3792,6 +4704,17 @@
           discountAmount.textContent = `-${discount.toFixed(2)}`;
         if (taxAmount) taxAmount.textContent = `${tax.toFixed(2)}`;
         if (totalAmount) totalAmount.textContent = `${total.toFixed(2)}`;
+
+        // At end of updateCartDisplay before closing function
+        if (selectedCartIndex !== null) {
+          const elSel = document.getElementById(
+            "cart-item-" + selectedCartIndex
+          );
+          if (elSel) elSel.classList.add("selected");
+        }
+
+        const totalAmountLbp = document.getElementById("total-amount-lbp");
+        if (totalAmountLbp) totalAmountLbp.textContent = `${total * 90000} LBP`;
       }
 
       function updateQuantity(index, newQuantity) {
@@ -3805,6 +4728,10 @@
 
       function removeFromCart(index) {
         cart.splice(index, 1);
+        if (selectedCartIndex === index) {
+          selectedCartIndex = null;
+          keypadBuffer = "";
+        }
         updateCartDisplay();
       }
 
@@ -3824,6 +4751,10 @@
           return;
         }
         alert("Payment processing would be implemented here");
+      }
+
+      function openDrawer() {
+        alert("Drawer opened (demo)"); // Placeholder for actual drawer opening command
       }
 
       // Page navigation
@@ -3905,14 +4836,32 @@
           // Update cart display if on sale page
           if (pageName === "sale") {
             updateCartDisplay();
+            const imgToggle = document.getElementById("toggle-product-images");
+            if (imgToggle) toggleProductImages(imgToggle);
           } else if (pageName === "inventory") {
             initInventoryPage();
+          } else if (pageName === "dashboard") {
+            // Initialize dashboard charts after DOM is updated
+            setTimeout(function () {
+              console.log("Initializing dashboard charts after page load...");
+              if (window.initDashboardCharts) {
+                window.initDashboardCharts();
+              } else {
+                console.error("initDashboardCharts function not found!");
+              }
+            }, 100);
           } else if (pageName === "purchases") {
             // Show sample item automatically for demonstration
             purchaseItems.length = 0;
             if (inventoryData.length) {
               addPurchaseItem(inventoryData[0]);
             }
+          } else if (pageName === "daily-sales") {
+            filterDailySalesByDate(getTodayDateKey());
+          } else if (pageName === "shift") {
+            populateShiftPage();
+          } else if (pageName === "reports") {
+            if (typeof renderReportPage === "function") renderReportPage();
           }
         } catch (error) {
           console.error("Error loading page:", error);
@@ -3926,7 +4875,13 @@
 
       // Toggle functions
       function toggleSidebar() {
-        document.getElementById("sidebar").classList.toggle("active");
+        // Updated to allow sidebar toggle on all screen sizes
+        const sidebar = document.getElementById("sidebar");
+        if (window.innerWidth <= 1024) {
+          sidebar.classList.toggle("active");
+        } else {
+          sidebar.classList.toggle("collapsed");
+        }
       }
 
       function toggleCart() {
@@ -3970,9 +4925,32 @@
       // Handle discount input change
       document.addEventListener("input", (e) => {
         if (e.target.classList.contains("discount-input")) {
+          const slider = document.querySelector(".discount-slider");
+          if (slider) slider.value = e.target.value;
           updateCartDisplay();
         }
       });
+
+      // Sync slider to input
+      function updateDiscountFromSlider(val) {
+        const input = document.querySelector(".discount-input");
+        if (input) input.value = val;
+        updateCartDisplay();
+      }
+
+      // Update slider inside changeDiscount helper
+      function changeDiscount(delta) {
+        const input = document.querySelector(".discount-input");
+        if (!input) return;
+        let val = parseInt(input.value || 0, 10);
+        val = isNaN(val) ? 0 : val + delta;
+        if (val < 0) val = 0;
+        if (val > 100) val = 100;
+        input.value = val;
+        const slider = document.querySelector(".discount-slider");
+        if (slider) slider.value = val;
+        updateCartDisplay();
+      }
 
       // Product view toggle
       function changeProductView(button, view) {
@@ -4001,27 +4979,38 @@
       function openInvoiceModal(receipt) {
         const body = document.getElementById("invoice-body");
         const title = document.getElementById("invoice-title");
-        title.textContent = `Invoice ${receipt.replace("#", "")}`;
-        // Sample products
-        const products = [
-          { name: "Fat Guy (beef)", qty: 1, cost: 3.856, price: 10.0 },
-          { name: "Special Beef Burger", qty: 1, cost: 2.327, price: 7.0 },
-        ];
-        let rows = products
+        title.textContent = `invoice ${receipt.replace("#", "")}`;
+        let products;
+        let showDisc = false;
+        if (invoiceDetailsData[receipt]) {
+          products = invoiceDetailsData[receipt].items;
+          showDisc = products.some((p) => p.discount && p.discount > 0);
+        } else {
+          products = [{ name: "Item", qty: 1, cost: 1, price: 1, discount: 0 }];
+        }
+        const rows = products
           .map(
             (p) =>
               `<tr><td>${p.name}</td><td>${p.qty}</td><td>${p.cost}</td><td>${
                 p.price
-              }</td><td>${(p.price * p.qty).toFixed(2)}</td></tr>`
+              }</td>${
+                showDisc
+                  ? `<td class='invoice-discount'>${p.discount || 0}%</td>`
+                  : ""
+              }<td>${(p.price * (1 - (p.discount || 0) / 100) * p.qty).toFixed(
+                2
+              )}</td></tr>`
           )
           .join("");
         const totalUsd = products
-          .reduce((s, p) => s + p.price * p.qty, 0)
+          .reduce(
+            (s, p) => s + p.price * (1 - (p.discount || 0) / 100) * p.qty,
+            0
+          )
           .toFixed(2);
-        body.innerHTML = `<table class='invoice-table'>
-                <thead><tr><th>Product</th><th>Qty</th><th>Cost Price</th><th>Selling Price</th><th>Total</th></tr></thead>
-                <tbody>${rows}</tbody></table>
-                <div class='invoice-total'>TOTAL : ${totalUsd} USD</div>`;
+        body.innerHTML = `<table class='invoice-table'><thead><tr><th>Product</th><th>Qty</th><th>Cost Price</th><th>Selling Price</th>${
+          showDisc ? "<th>Discount %</th>" : ""
+        }<th>Total</th></tr></thead><tbody>${rows}</tbody></table><div class='invoice-total'>TOTAL : ${totalUsd} USD</div>`;
         openModal("invoice-modal");
       }
 
@@ -4034,7 +5023,8 @@
           const term = e.target.value.trim().toLowerCase();
           if (!term) return;
           const product = inventoryData.find(
-            (p) => p.name.toLowerCase().includes(term) || p.barcode.includes(term)
+            (p) =>
+              p.name.toLowerCase().includes(term) || p.barcode.includes(term)
           );
           if (product) {
             addPurchaseItem(product);
@@ -4081,24 +5071,35 @@
         }
 
         container.innerHTML = purchaseItems
-          .map((item, idx) => `
+          .map(
+            (item, idx) => `
             <div class="purchase-item">
-              <span class="purchase-name">${idx + 1}) ${item.name}<span class="old-details"> (old qty :0.0 - old cost :${item.cost.toFixed(3)} USD)</span>
+              <span class="purchase-name">${idx + 1}) ${
+              item.name
+            }<span class="old-details"> (old qty :0.0 - old cost :${item.cost.toFixed(
+              3
+            )} USD)</span>
                 <button class="icon-btn history" onclick="openItemHistory(${idx},'table')"><i class="fas fa-table"></i></button>
                 <button class="icon-btn chart" onclick="openItemHistory(${idx},'chart')"><i class="fas fa-chart-line"></i></button>
               </span>
               <div class="field-group" style="min-width:110px;">
                 <label class="field-label">Cost Price</label>
-                <input type="number" class="form-input" value="${item.cost}" oninput="updatePurchaseField(${idx}, 'cost', this.value)" />
+                <input type="number" class="form-input" value="${
+                  item.cost
+                }" oninput="updatePurchaseField(${idx}, 'cost', this.value)" />
               </div>
               <div class="field-group" style="max-width:80px;">
                 <label class="field-label">Profit %</label>
-                <input type="number" class="form-input" value="${item.profitRate}" oninput="updatePurchaseField(${idx}, 'profitRate', this.value)" />
+                <input type="number" class="form-input" value="${
+                  item.profitRate
+                }" oninput="updatePurchaseField(${idx}, 'profitRate', this.value)" />
               </div>
               <div class="field-group" style="min-width:200px;">
                 <label class="field-label">Selling Price</label>
                 <div style="display:flex;gap:4px;align-items:center;">
-                  <input type="number" class="form-input" value="${item.sellingPrice}" oninput="updatePurchaseField(${idx}, 'sellingPrice', this.value)" style="flex:1;" />
+                  <input type="number" class="form-input" value="${
+                    item.sellingPrice
+                  }" oninput="updatePurchaseField(${idx}, 'sellingPrice', this.value)" style="flex:1;" />
                   <div class="currency-toggle">
                     <button type="button" class="toggle-btn active" onclick="switchToggle(this)">USD</button>
                     <button type="button" class="toggle-btn" onclick="switchToggle(this)">LBP</button>
@@ -4107,12 +5108,19 @@
               </div>
               <div class="field-group" style="max-width:80px;">
                 <label class="field-label">Qty</label>
-                <input type="number" class="form-input" value="${item.qty}" oninput="updatePurchaseField(${idx}, 'qty', this.value)" />
+                <input type="number" class="form-input" value="${
+                  item.qty
+                }" oninput="updatePurchaseField(${idx}, 'qty', this.value)" />
               </div>
               <button class="btn btn-danger btn-icon" onclick="removePurchaseItem(${idx})"><i class="fas fa-trash"></i></button>
-              <div class="purchase-hints" style="grid-column:1 / -1; font-size:0.75rem; color:var(--danger);">new avg cost : ${item.cost.toFixed(3)} (Saved to Stock) &nbsp;|&nbsp; Selling Price => ${(item.sellingPrice * 90000).toLocaleString()} LBP</div>
+              <div class="purchase-hints" style="grid-column:1 / -1; font-size:0.75rem; color:var(--danger);">new avg cost : ${item.cost.toFixed(
+                3
+              )} (Saved to Stock) &nbsp;|&nbsp; Selling Price => ${(
+              item.sellingPrice * 90000
+            ).toLocaleString()} LBP</div>
             </div>
-          `)
+          `
+          )
           .join("");
 
         updatePurchaseTotals();
@@ -4121,9 +5129,12 @@
       function updatePurchaseTotals() {
         const totalQty = purchaseItems.reduce((s, i) => s + (i.qty || 0), 0);
         const totalUsd = purchaseItems.reduce((s, i) => s + i.cost * i.qty, 0);
-        document.getElementById("purchase-total-qty").textContent = totalQty.toFixed(1);
-        document.getElementById("purchase-total-usd").textContent = totalUsd.toFixed(2) + " USD";
-        document.getElementById("purchase-total-lbp").textContent = (totalUsd * 90000).toLocaleString() + " LBP";
+        document.getElementById("purchase-total-qty").textContent =
+          totalQty.toFixed(1);
+        document.getElementById("purchase-total-usd").textContent =
+          totalUsd.toFixed(2) + " USD";
+        document.getElementById("purchase-total-lbp").textContent =
+          (totalUsd * 90000).toLocaleString() + " LBP";
       }
 
       function savePurchase() {
@@ -4144,13 +5155,16 @@
       }
 
       function renderSupplierList() {
-        const term = (document.getElementById("supplier-search").value || "").toLowerCase();
+        const term = (
+          document.getElementById("supplier-search").value || ""
+        ).toLowerCase();
         const body = document.getElementById("supplier-table-body");
         if (!body) return;
-        const rows = suppliers
-          .filter((s) => s.name.toLowerCase().includes(term))
-          .map(
-            (s, i) => `
+        const rows =
+          suppliers
+            .filter((s) => s.name.toLowerCase().includes(term))
+            .map(
+              (s, i) => `
               <tr>
                 <td>${s.name}</td>
                 <td>
@@ -4158,8 +5172,8 @@
                   <button class="btn btn-danger btn-icon" onclick="deleteSupplier(${i})"><i class="fas fa-trash"></i></button>
                 </td>
               </tr>`
-          )
-          .join("") ||
+            )
+            .join("") ||
           `<tr><td colspan="2" style="text-align:center;padding:1rem;color:var(--gray-500);">No suppliers found</td></tr>`;
         body.innerHTML = rows;
       }
@@ -4190,25 +5204,34 @@
 
       /* ------------ Item History Modal ------------ */
       let currentHistoryIdx = null;
-      function openItemHistory(idx, defaultTab = 'table') {
+      function openItemHistory(idx, defaultTab = "table") {
         currentHistoryIdx = idx;
-        const prod = purchaseItems[idx] || inventoryData[idx] || { name: 'Product' };
-        document.getElementById('history-title').textContent = `History - ${prod.name}`;
+        const prod = purchaseItems[idx] ||
+          inventoryData[idx] || { name: "Product" };
+        document.getElementById(
+          "history-title"
+        ).textContent = `History - ${prod.name}`;
         // reset toggle states
-        document.querySelectorAll('#history-tab-toggle .toggle-btn').forEach(btn => btn.classList.remove('active'));
-        if (defaultTab === 'chart') {
-          document.querySelector('#history-tab-toggle .toggle-btn:nth-child(2)').classList.add('active');
+        document
+          .querySelectorAll("#history-tab-toggle .toggle-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        if (defaultTab === "chart") {
+          document
+            .querySelector("#history-tab-toggle .toggle-btn:nth-child(2)")
+            .classList.add("active");
         } else {
-          document.querySelector('#history-tab-toggle .toggle-btn:nth-child(1)').classList.add('active');
+          document
+            .querySelector("#history-tab-toggle .toggle-btn:nth-child(1)")
+            .classList.add("active");
         }
         switchHistoryTab(defaultTab);
-        openModal('item-history-modal');
+        openModal("item-history-modal");
       }
 
       function switchHistoryTab(type) {
-        const body = document.getElementById('history-body');
+        const body = document.getElementById("history-body");
         if (!body) return;
-        if (type === 'table') {
+        if (type === "table") {
           body.innerHTML = `<table class="table" style="margin-top:0.5rem;">
               <thead><tr><th>Date</th><th>Qty</th><th>Cost</th><th>Price</th></tr></thead>
               <tbody>
@@ -4224,14 +5247,1502 @@
             </div>`;
         }
         // update toggle active state
-        document.querySelectorAll('#history-tab-toggle .toggle-btn').forEach(btn => btn.classList.remove('active'));
-        if (type === 'chart') {
-          document.querySelector('#history-tab-toggle .toggle-btn:nth-child(2)').classList.add('active');
+        document
+          .querySelectorAll("#history-tab-toggle .toggle-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        if (type === "chart") {
+          document
+            .querySelector("#history-tab-toggle .toggle-btn:nth-child(2)")
+            .classList.add("active");
         } else {
-          document.querySelector('#history-tab-toggle .toggle-btn:nth-child(1)').classList.add('active');
+          document
+            .querySelector("#history-tab-toggle .toggle-btn:nth-child(1)")
+            .classList.add("active");
         }
       }
       /* -------------------------------------------- */
+
+      // Toggle product images
+      function toggleProductImages(checkbox) {
+        const grid = document.querySelector(".products-grid");
+        if (!grid) return;
+        if (checkbox.checked) {
+          grid.classList.remove("hide-images");
+        } else {
+          grid.classList.add("hide-images");
+        }
+      }
+
+      // Hold orders stack
+      const onHoldOrders = [];
+
+      function placeOnHold() {
+        if (cart.length === 0) {
+          alert("No items in cart to place on hold");
+          return;
+        }
+        onHoldOrders.push(JSON.parse(JSON.stringify(cart)));
+        cart = [];
+        updateCartDisplay();
+        alert("Order placed on hold");
+      }
+
+      function viewOnHold() {
+        if (onHoldOrders.length === 0) {
+          alert("No held orders");
+          return;
+        }
+        cart = onHoldOrders.pop();
+        updateCartDisplay();
+      }
+
+      // --- KEYPAD & SELECTION LOGIC ---
+      let selectedCartIndex = null;
+      let keypadBuffer = "";
+      function selectCartItem(idx) {
+        selectedCartIndex = idx;
+        keypadBuffer = "";
+        document
+          .querySelectorAll(".cart-item")
+          .forEach((el) => el.classList.remove("selected"));
+        const el = document.getElementById("cart-item-" + idx);
+        if (el) el.classList.add("selected");
+      }
+      function applyKeypadQty() {
+        if (selectedCartIndex === null) return;
+        const qty = keypadBuffer === "" ? 1 : parseInt(keypadBuffer, 10);
+        updateQuantity(selectedCartIndex, qty);
+      }
+      function keypadAppend(digit) {
+        if (selectedCartIndex === null) {
+          alert("Select an item");
+          return;
+        }
+        if (keypadBuffer === "0") keypadBuffer = "";
+        keypadBuffer += String(digit);
+        applyKeypadQty();
+      }
+      function keypadDelete() {
+        if (selectedCartIndex === null) return;
+        keypadBuffer = keypadBuffer.slice(0, -1);
+        applyKeypadQty();
+      }
+      function keypadClear() {
+        if (selectedCartIndex === null) return;
+        keypadBuffer = "";
+        applyKeypadQty();
+      }
+
+      // ---------- Invoice from cart ----------
+      function openInvoiceFromCart() {
+        if (cart.length === 0) {
+          alert("Cart is empty!");
+          return;
+        }
+        const body = document.getElementById("invoice-body");
+        const title = document.getElementById("invoice-title");
+        const receiptId = Math.floor(Date.now() / 1000);
+        title.textContent = `invoice ${receiptId}`;
+
+        const rows = cart
+          .map(
+            (item) =>
+              `<tr><td>${item.name}</td><td>${item.quantity.toFixed(
+                1
+              )}</td><td>${item.price.toFixed(3)}</td><td>${item.price.toFixed(
+                1
+              )}</td><td>${(item.price * item.quantity).toFixed(1)}</td></tr>`
+          )
+          .join("");
+
+        const totalUsd = cart
+          .reduce((s, it) => s + it.price * it.quantity, 0)
+          .toFixed(1);
+        const totalLbp = (totalUsd * 90000).toLocaleString();
+
+        body.innerHTML = `<table class='invoice-table'>
+                <thead><tr><th>Product</th><th>Qty</th><th>Cost Price</th><th>Selling Price</th><th>TOTAL</th></tr></thead>
+                <tbody>${rows}</tbody></table>
+                <div class='invoice-total'>TOTAL : ${totalUsd} USD<br>TOTAL : ${totalLbp} LBP</div>`;
+        openModal("invoice-modal");
+      }
+
+      // ---------------- End Inventory helpers ----------------
+      // Daily Sales: dummy dataset & helper functions
+      const dailySalesData = {
+        "2024-09-01": [
+          {
+            id: "#1-1",
+            time: "01-09-2024 9:38 PM",
+            usd: 749.33,
+            lbp: 67439700,
+            paymentType: "cash",
+            items: [
+              { name: "Chilly chicken", qty: 4.0, cost: 2.992, price: 4.5 },
+              { name: "soft drink", qty: 30.0, cost: 0.6, price: 0.8 },
+              { name: "Fries box", qty: 15.0, cost: 0.487, price: 2.23 },
+              { name: "Chicken sub Sand", qty: 12.0, cost: 2.995, price: 4.5 },
+            ],
+          },
+        ],
+      };
+      // Ensure today also has dummy data
+      if (!dailySalesData[getTodayDateKey()]) {
+        dailySalesData[getTodayDateKey()] = JSON.parse(
+          JSON.stringify(dailySalesData["2024-09-01"])
+        );
+      }
+      function getTodayDateKey() {
+        return new Date().toISOString().slice(0, 10);
+      }
+      let dailySalesSelectedDate = getTodayDateKey();
+      let dailySalesSearchTerm = "";
+
+      function renderDailySales(dateKey = getTodayDateKey(), search = "") {
+        dailySalesSelectedDate = dateKey;
+        const tbody = document.getElementById("daily-sales-tbody");
+        if (!tbody) return;
+        let receipts = dailySalesData[dateKey] || [];
+        if (search) {
+          const term = search.toLowerCase();
+          receipts = receipts.filter((r) => r.id.toLowerCase().includes(term));
+        }
+        if (receipts.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:3rem; color:var(--gray-500);">No transactions found</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = receipts
+          .map(
+            (r) => `
+            <tr>
+              <td>${r.id}</td>
+              <td>${r.time}</td>
+              <td>${r.usd.toFixed(2)}</td>
+              <td>${r.lbp.toLocaleString()}</td>
+              <td><span class="badge badge-success">${r.paymentType}</span></td>
+              <td>
+                <button class="btn btn-secondary btn-icon" title="Details" onclick="openInvoiceFromDailySale('${dateKey}','${
+              r.id
+            }')\"><i class="fas fa-eye"></i></button>
+                <button class="btn btn-danger btn-icon" title="Refund" onclick="openRefundModal('${dateKey}','${
+              r.id
+            }')\"><i class="fas fa-undo-alt"></i></button>
+                <button class="btn btn-danger btn-icon" title="Delete" onclick="deleteReceipt('${dateKey}','${
+              r.id
+            }')\"><i class="fas fa-trash"></i></button>
+              </td>
+            </tr>`
+          )
+          .join("");
+      }
+      function filterDailySalesByDate(dateStr) {
+        dailySalesSelectedDate = dateStr || getTodayDateKey();
+        renderDailySales(dailySalesSelectedDate, dailySalesSearchTerm);
+      }
+      function filterDailySalesBySearch(term) {
+        dailySalesSearchTerm = term || "";
+        renderDailySales(dailySalesSelectedDate, dailySalesSearchTerm);
+      }
+      function toggleDailyStats() {
+        const stats = document.querySelector(".stats-grid");
+        const summary = document.querySelector(".sales-summary");
+        const btn = document.getElementById("daily-stats-toggle");
+        if (!stats || !summary || !btn) return;
+        const hidden = stats.style.display === "none";
+        stats.style.display = summary.style.display = hidden ? "" : "none";
+        btn.textContent = hidden ? "Hide Stats" : "Show Stats";
+      }
+      function openInvoiceFromDailySale(dateKey, receiptId) {
+        const receipt = (dailySalesData[dateKey] || []).find(
+          (r) => r.id === receiptId
+        );
+        if (!receipt) return;
+        const body = document.getElementById("invoice-body");
+        const title = document.getElementById("invoice-title");
+        title.textContent = `invoice ${receiptId.replace("#", "")}`;
+        const showDisc = receipt.items.some(
+          (it) => it.discount && it.discount > 0
+        );
+        const rows = receipt.items
+          .map(
+            (i) =>
+              `<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.cost}</td><td>${
+                i.price
+              }</td>${
+                showDisc
+                  ? `<td class='invoice-discount'>${i.discount || 0}%</td>`
+                  : ""
+              }<td>${(i.price * (1 - (i.discount || 0) / 100) * i.qty).toFixed(
+                2
+              )}</td></tr>`
+          ) // corrected total
+          .join("");
+        body.innerHTML = `<table class='invoice-table'><thead><tr><th>Product</th><th>Qty</th><th>Cost Price</th><th>Selling Price</th>${
+          showDisc ? `<th>Discount %</th>` : ""
+        }<th>Total</th></tr></thead><tbody>${rows}</tbody></table><div class='invoice-total'>TOTAL : ${receipt.usd.toFixed(
+          2
+        )} USD</div>`;
+        openModal("invoice-modal");
+      }
+      function openRefundModal(dateKey, receiptId) {
+        const receipt = (dailySalesData[dateKey] || []).find(
+          (r) => r.id === receiptId
+        );
+        if (!receipt) return;
+        const body = document.getElementById("refund-body");
+        const title = document.getElementById("refund-title");
+        title.textContent = `Refund - ${receiptId}`;
+        body.innerHTML = `<table class='table'><thead><tr><th></th><th>Name</th><th>Qty</th><th>Price</th><th>Total Price</th></tr></thead><tbody>${receipt.items
+          .map(
+            (i) =>
+              `<tr><td><input type='checkbox'></td><td>${i.name}</td><td>${
+                i.qty
+              }</td><td>${i.price}</td><td>${(i.qty * i.price).toFixed(
+                2
+              )}</td></tr>`
+          )
+          .join(
+            ""
+          )}</tbody></table><div style='text-align:right;margin-top:1rem;font-weight:700;'>TOTAL REFUND: ${receipt.usd.toFixed(
+          2
+        )} USD</div>`;
+        openModal("refund-modal");
+      }
+      function processRefund() {
+        alert("Refund processed (demo)");
+        closeModal("refund-modal");
+      }
+      // ---------------- End Daily Sales helpers ----------------
+
+      function deleteReceipt(dateKey, id) {
+        if (!confirm("Delete receipt " + id + "?")) return;
+        if (!dailySalesData[dateKey]) return;
+        dailySalesData[dateKey] = dailySalesData[dateKey].filter(
+          (r) => r.id !== id
+        );
+        renderDailySales(dailySalesSelectedDate, dailySalesSearchTerm);
+      }
+
+      // ---------------- Shift helpers ----------------
+      const shiftData = [
+        {
+          id: 267,
+          start: "11-07-2025 06:23 PM",
+          end: null,
+          label: "shift : 267  -  11-07-2025 06:23 PM",
+          receipts: [
+            {
+              id: "#1-20001",
+              time: "11-07-2025 7:00 PM",
+              usd: 50.0,
+              lbp: 4500000,
+              paymentType: "cash",
+            },
+            {
+              id: "#1-20002",
+              time: "11-07-2025 7:05 PM",
+              usd: 30.0,
+              lbp: 2700000,
+              paymentType: "cash",
+            },
+            {
+              id: "#1-20003",
+              time: "11-07-2025 7:10 PM",
+              usd: 15.0,
+              lbp: 1350000,
+              paymentType: "cash",
+            },
+            {
+              id: "#1-20004",
+              time: "11-07-2025 7:15 PM",
+              usd: 12.0,
+              lbp: 1080000,
+              paymentType: "cash",
+            },
+            {
+              id: "#1-20005",
+              time: "11-07-2025 7:20 PM",
+              usd: 20.0,
+              lbp: 1800000,
+              paymentType: "cash",
+            },
+          ],
+        },
+        {
+          id: 266,
+          start: "14-05-2025 11:55 PM",
+          end: "11-07-2025 06:23 PM",
+          label: "shift : 266  -  14-05-2025 11:55 PM",
+          receipts: [
+            {
+              id: "#1-10710",
+              time: "10-06-2025 5:27 PM",
+              usd: 1.76,
+              lbp: 158_400,
+              paymentType: "cash",
+            },
+            {
+              id: "#1-10709",
+              time: "10-06-2025 5:27 PM",
+              usd: 0,
+              lbp: 0,
+              paymentType: "cash",
+            },
+          ],
+        },
+      ];
+      let selectedShiftIndex = 0;
+
+      function shiftSummary(shift) {
+        const salesUsd = shift.receipts.reduce((s, r) => s + r.usd, 0);
+        const salesLbp = shift.receipts.reduce((s, r) => s + r.lbp, 0);
+        return { salesUsd, salesLbp };
+      }
+
+      function generateShiftPage() {
+        const shift = shiftData[selectedShiftIndex];
+        const sum = shiftSummary(shift);
+        const rows = shift.receipts
+          .map(
+            (r) =>
+              `<tr><td>${r.id}</td><td>${r.time}</td><td>${r.usd.toFixed(
+                2
+              )}</td><td>${r.lbp.toLocaleString()}</td><td><span class='badge badge-success'>${
+                r.paymentType
+              }</span></td><td><button class='btn btn-secondary btn-icon' onclick=\"openInvoiceModal('${
+                r.id
+              }')\"><i class='fas fa-eye'></i></button></td></tr>`
+          )
+          .join("");
+        return `
+        <div class="table-container">
+          <div class="table-header">
+            <h2 class="table-title">Shift Management</h2>
+            <button class="btn btn-primary"><i class="fas fa-sign-out-alt"></i> End Shift</button>
+          </div>
+          <div style="padding:1.5rem;">
+            <div style="display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1rem;">
+              <div class="shift-info-card"><i class="fas fa-clock"></i> <span>Current Shift :</span> <span class="shift-number">#${
+                shiftData[0].id
+              }</span> <span class="shift-time">- ${
+          shiftData[0].start
+        } → now</span></div>
+              <div class="shift-info-card"><i class="fas fa-check-circle"></i> <span>Selected Shift :</span> <span class="shift-number">#${
+                shift.id
+              }</span> <span class="shift-time">- ${shift.start}${
+          shift.end ? ` → ${shift.end}` : " → now"
+        }</span> <button class="btn btn-secondary btn-sm" style="margin-left:0.5rem;" onclick="openShiftSelector()">Open latest Shifts</button></div>
+            </div>
+            <div class="shift-summary" style="border:1px solid var(--danger);padding:1rem 1.25rem;border-radius:12px;max-width:380px;color:var(--danger);margin-bottom:1rem;">
+              <div class="summary-row"><span class="summary-label">Sales :</span> <span>${sum.salesUsd.toFixed(
+                2
+              )} USD | ${sum.salesLbp.toLocaleString()} LBP</span></div>
+              <div class="cash-box" style="border:1px solid var(--gray-300);border-radius:8px;padding:0.5rem;margin-top:0.5rem;font-size:0.75rem;text-align:center;color:var(--gray-700);">from cash : ${sum.salesUsd.toFixed(
+                2
+              )} USD</div>
+            </div>
+            <div class="table-wrapper">
+              <table class="table"><thead><tr><th>Receipt No.</th><th>Time</th><th>Amount (USD)</th><th>Amount (LBP)</th><th>Payment Type</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table>
+            </div>
+          </div>
+        </div>`;
+      }
+
+      function openShiftSelector() {
+        const body = document.getElementById("shift-list-body");
+        if (!body) return;
+        body.innerHTML = shiftData
+          .map(
+            (s, i) =>
+              `<div style="padding:0.5rem 0.75rem;cursor:pointer;border-radius:6px;margin-bottom:4px;${
+                i === selectedShiftIndex
+                  ? "background:var(--primary-light);color:var(--primary);"
+                  : ""
+              }" onclick="selectShift(${i})">${s.label}</div>`
+          )
+          .join("");
+        openModal("shift-select-modal");
+      }
+
+      function selectShift(idx) {
+        selectedShiftIndex = idx;
+        closeModal("shift-select-modal");
+        showPage("shift");
+      }
+      // ---------------- End Shift helpers ----------------
+
+      function populateShiftPage() {
+        const current = shiftData[0];
+        const sel = shiftData[selectedShiftIndex];
+        // Update info cards
+        const curNum = document.getElementById("shift-current-number");
+        const curTime = document.getElementById("shift-current-time");
+        if (curNum) curNum.textContent = "#" + current.id;
+        if (curTime) curTime.textContent = `- ${current.start} → now`;
+        const selNum = document.getElementById("selected-shift-number");
+        const selTime = document.getElementById("selected-shift-time");
+        if (selNum) selNum.textContent = "#" + sel.id;
+        if (selTime)
+          selTime.textContent = `- ${sel.start}${
+            sel.end ? ` → ${sel.end}` : " → now"
+          }`;
+        // Summary
+        const sum = shiftSummary(sel);
+        const salesEl = document.getElementById("shift-sales-values");
+        if (salesEl)
+          salesEl.textContent = `${sum.salesUsd.toFixed(
+            2
+          )} USD | ${sum.salesLbp.toLocaleString()} LBP`;
+        // Receipts table
+        const tbody = document.getElementById("shift-receipts-body");
+        if (tbody) {
+          if (sel.receipts.length === 0) {
+            tbody.innerHTML =
+              '<tr><td colspan="6" style="text-align:center;padding:1rem;color:var(--gray-500);">No receipts</td></tr>';
+          } else {
+            tbody.innerHTML = sel.receipts
+              .map((r) => {
+                const hasDisc = invoiceDetailsData[r.id]?.items?.some(
+                  (it) => it.discount && it.discount > 0
+                );
+                return `<tr class='${hasDisc ? "discounted-row" : ""}'><td>${
+                  r.id
+                }</td><td>${r.time}</td><td>${r.usd.toFixed(
+                  2
+                )}</td><td>${r.lbp.toLocaleString()}</td><td><span class='badge badge-success'>${
+                  r.paymentType
+                }</span></td><td><button class='btn btn-secondary btn-icon' onclick=\"openInvoiceModal('${
+                  r.id
+                }')\"><i class='fas fa-eye'></i></button></td></tr>`;
+              })
+              .join("");
+          }
+        }
+      }
+
+      // -------- JS additions (after shift helpers end comment) --------
+      // Extra invoice details with discounts
+      const invoiceDetailsData = {
+        "#1-10709": {
+          items: [
+            {
+              name: "Special Beef Burger",
+              qty: 1,
+              cost: 2.5,
+              price: 7,
+              discount: 20,
+            },
+            { name: "Fries box", qty: 1, cost: 0.5, price: 2, discount: 0 },
+          ],
+        },
+        "#1-20002": {
+          items: [
+            { name: "Chilly chicken", qty: 2, cost: 3, price: 5, discount: 15 },
+            { name: "soft drink", qty: 1, cost: 0.5, price: 1, discount: 0 },
+          ],
+        },
+        "#1-20005": {
+          items: [
+            {
+              name: "Special Beef Burger",
+              qty: 1,
+              cost: 2.5,
+              price: 7,
+              discount: 25,
+            },
+            { name: "Fries box", qty: 2, cost: 0.5, price: 2, discount: 0 },
+          ],
+        },
+      };
+
+      function toggleShiftBalance() {
+        const s = document.querySelector(".shift-summary");
+        const btn = document.getElementById("balance-toggle-inside");
+        if (!s) return;
+        const hidden = s.style.display === "none";
+        s.style.display = hidden ? "" : "none";
+        if (btn) btn.textContent = hidden ? "Hide Balance" : "Show Balance";
+      }
+
+      // --------- EXTRA INVENTORY ACTIONS ---------
+      function downloadExcel(code) {
+        alert("Download Excel for product " + code + " (demo)");
+      }
+      function openInventoryHistory(barcode, defaultTab = "table") {
+        const prod = inventoryData.find((p) => p.barcode === barcode) || {
+          name: "Product",
+        };
+        document.getElementById(
+          "history-title"
+        ).textContent = `History - ${prod.name}`;
+        // reset toggle state
+        document
+          .querySelectorAll("#history-tab-toggle .toggle-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        if (defaultTab === "chart") {
+          document
+            .querySelector("#history-tab-toggle .toggle-btn:nth-child(2)")
+            .classList.add("active");
+        } else {
+          document
+            .querySelector("#history-tab-toggle .toggle-btn:nth-child(1)")
+            .classList.add("active");
+        }
+        switchHistoryTab(defaultTab);
+        openModal("item-history-modal");
+      }
+      // --------- END EXTRA INVENTORY ACTIONS ---------
+
+      // Update download button label based on selected category
+      function updateDownloadButtonLabel() {
+        const btn = document.getElementById("download-stock-btn");
+        const sel = document.getElementById("inventory-category-filter");
+        if (!btn || !sel) return;
+        const allSelected = !sel.value || sel.value === "All";
+        btn.innerHTML = `<i class="fas fa-download"></i> ${
+          allSelected ? "Download All Stock" : "Download Stock by Category"
+        }`;
+      }
+
+      // Placeholder for actual export functionality
+      function downloadInventoryStock() {
+        const sel = document.getElementById("inventory-category-filter");
+        const category = sel ? sel.value : "All";
+        alert(
+          `Downloading ${
+            category === "All" ? "all stock" : "stock for category: " + category
+          } (demo)`
+        );
+      }
+
+      // Import inventory data stub
+      function importInventoryData() {
+        const fileInput = document.getElementById("inventory-import-file");
+        if (!fileInput || !fileInput.files.length) {
+          alert("Please choose a file");
+          return;
+        }
+        const file = fileInput.files[0];
+        alert(`Importing data from ${file.name} (demo)`);
+        // TODO: parse & upload logic
+        closeModal("import-data-modal");
+      }
+
+      // ---------- CUSTOMER DETAILS ----------
+      function openCustomerDetails(name) {
+        // dummy invoices data
+        const invoices = [
+          { id: "#1234", time: "10-07-2025 4:12 PM", usd: 45.7, lbp: 4113000 },
+          { id: "#1235", time: "08-07-2025 1:55 PM", usd: 32.1, lbp: 2889000 },
+          { id: "#1236", time: "05-07-2025 9:30 PM", usd: 12.0, lbp: 1080000 },
+          { id: "#1237", time: "02-07-2025 8:02 PM", usd: 60.5, lbp: 5445000 },
+        ];
+        // dummy items data
+        const topItems = [
+          { name: "Burger", qty: 15 },
+          { name: "Fries", qty: 12 },
+          { name: "Soft Drink", qty: 30 },
+        ];
+        const tbody = document.getElementById("customer-invoices-body");
+        tbody.innerHTML = invoices
+          .map(
+            (r) =>
+              `<tr><td>${r.id}</td><td>${r.time}</td><td>${r.usd.toFixed(
+                2
+              )}</td><td>${r.lbp.toLocaleString()}</td></tr>`
+          )
+          .join("");
+        const itemsBody = document.getElementById("customer-top-items-body");
+        itemsBody.innerHTML = topItems
+          .map((it) => `<tr><td>${it.name}</td><td>${it.qty}</td></tr>`)
+          .join("");
+        document.getElementById("customer-details-title").textContent =
+          name.toLowerCase();
+        // draw pie chart
+        if (window.Chart) {
+          const pieCtx = document
+            .getElementById("customer-pie")
+            .getContext("2d");
+          if (window.customerPieChart) customerPieChart.destroy();
+          window.customerPieChart = new Chart(pieCtx, {
+            type: "pie",
+            data: {
+              labels: ["Total Revenue", "Total Profit"],
+              datasets: [
+                { data: [150, 45], backgroundColor: ["#f59e0b", "#3b82f6"] },
+              ],
+            },
+            options: { plugins: { legend: { position: "right" } } },
+          });
+        }
+        openModal("customer-details-modal");
+      }
+      // ---------- END CUSTOMER DETAILS ----------
+
+      // ---------- USERS MANAGEMENT ----------
+      function addUser() {
+        const name = document.getElementById("new-user-name").value.trim();
+        const email = document.getElementById("new-user-email").value.trim();
+        const role = document.getElementById("new-user-role").value;
+        const status = document.getElementById("new-user-status").value;
+        if (!name || !email) return alert("Please fill all fields");
+        const tbody = document.getElementById("users-table-body");
+        const row = `<tr>
+          <td><div style="display:flex; align-items:center; gap:0.75rem;"><div class="user-avatar" style="width:32px;height:32px;font-size:0.875rem;">${name
+            .slice(0, 2)
+            .toUpperCase()}</div><div><div style="font-weight:600;">${name}</div><div style="font-size:0.75rem; color:var(--gray-500);">${role}</div></div></div></td>
+          <td>${email}</td>
+          <td><span class="badge badge-primary">${role}</span></td>
+          <td><span class="badge ${
+            status === "Active" ? "badge-success" : "badge-danger"
+          }">${status}</span></td>
+          <td>Just now</td>
+          <td><button class="btn btn-secondary btn-icon"><i class="fas fa-edit"></i></button></td>
+        </tr>`;
+        tbody.insertAdjacentHTML("afterbegin", row);
+        closeModal("add-user-modal");
+        document.getElementById("add-user-form").reset();
+      }
+      // ---------- END USERS MANAGEMENT ----------
+
+      // ---------- CURRENCY SELECTOR ----------
+      const currencyOptions = ["LBP", "USD", "EGP", "ILS", "SAR", "SYP", "QAR"];
+      let currentCurrencyTarget = "primary";
+      function openCurrencySelector(target) {
+        currentCurrencyTarget = target;
+        const title = document.getElementById("currency-modal-title");
+        title.textContent =
+          target === "primary" ? "Primary Currency" : "Secondary Currency";
+        const body = document.getElementById("currency-list-body");
+        const currentBtn = document.getElementById(
+          target === "primary"
+            ? "primary-currency-btn"
+            : "secondary-currency-btn"
+        );
+        const currentVal = currentBtn.textContent.trim().split(" ")[0];
+        body.innerHTML = currencyOptions
+          .map(
+            (c) =>
+              `<div onclick="selectCurrency('${c}')" style="padding:0.75rem 1rem; cursor:pointer; display:flex; justify-content:space-between; align-items:center; ${
+                c === currentVal ? "background:var(--gray-200);" : ""
+              }">${c}${
+                c === currentVal
+                  ? "<i class='fas fa-check' style='color:var(--primary);'></i>"
+                  : ""
+              }</div>`
+          )
+          .join("");
+        openModal("currency-select-modal");
+      }
+      function selectCurrency(code) {
+        const btnId =
+          currentCurrencyTarget === "primary"
+            ? "primary-currency-btn"
+            : "secondary-currency-btn";
+        const btn = document.getElementById(btnId);
+        if (btn) {
+          btn.innerHTML = `${code} <i class='fas fa-chevron-right'></i>`;
+        }
+        closeModal("currency-select-modal");
+      }
+      // ---------- END CURRENCY SELECTOR ----------
+
+      // ---------- REPORT PAGE LOGIC ----------
+      function switchReportTab(idx) {
+        document
+          .querySelectorAll(".rep-tab-link")
+          .forEach((l, i) => l.classList.toggle("active", i === idx));
+        document.querySelectorAll(".rep-tab-content").forEach((c, i) => {
+          c.style.display = i === idx ? "" : "none";
+        });
+        if (idx === 3) renderReportCharts();
+      }
+      // dummy data generators
+      function renderReportPage() {
+        renderSalesTab();
+        renderSalesCatTab();
+        renderExpensesTab();
+        renderReportCharts();
+      }
+      function renderSalesTab() {
+        const target = document.getElementById("rep-tab-0");
+        const rows = [
+          { name: "delivery", qty: 2280, cost: 0, sell: 249.7, profit: 249.7 },
+          {
+            name: "soft drink",
+            qty: 239,
+            cost: 150.57,
+            sell: 257.4,
+            profit: 106.83,
+          },
+          {
+            name: "Fahita Sand",
+            qty: 145,
+            cost: 395.56,
+            sell: 800.64,
+            profit: 405.08,
+          },
+          {
+            name: "Fries box",
+            qty: 84,
+            cost: 53.676,
+            sell: 178.4,
+            profit: 124.724,
+          },
+          {
+            name: "Chicken & Fries",
+            qty: 77,
+            cost: 270.809,
+            sell: 539,
+            profit: 268.191,
+          },
+          {
+            name: "Chicken Honey Mustard",
+            qty: 72,
+            cost: 151.92,
+            sell: 432,
+            profit: 280.08,
+          },
+          {
+            name: "Chicken sub Sand",
+            qty: 68,
+            cost: 170.58,
+            sell: 378.08,
+            profit: 207.5,
+          },
+          {
+            name: "Special chicken burger",
+            qty: 67,
+            cost: 162.006,
+            sell: 416,
+            profit: 253.994,
+          },
+        ];
+        target.innerHTML = `<table class="table"><thead><tr><th>Product</th><th>Qty</th><th>Cost Price</th><th>Selling Price</th><th>Profit</th></tr></thead><tbody>${rows
+          .map(
+            (r) =>
+              `<tr><td>${r.name}</td><td>${r.qty}</td><td>${r.cost}</td><td>${r.sell}</td><td>${r.profit}</td></tr>`
+          )
+          .join("")}</tbody></table>`;
+        // append totals summary
+        const totalCost = rows.reduce((s, r) => s + r.cost, 0).toFixed(2);
+        const totalSell = rows.reduce((s, r) => s + r.sell, 0).toFixed(2);
+        const totalProfit = rows.reduce((s, r) => s + r.profit, 0).toFixed(2);
+        target.innerHTML +=
+          `<div style="margin-top:0.5rem; background:var(--success); color:#fff; padding:0.5rem 1rem; border-radius:8px; display:flex; gap:1.5rem; flex-wrap:wrap; font-weight:700;">` +
+          `<span>Total Cost : ${totalCost}</span>` +
+          `<span>Total Revenue : ${totalSell}</span>` +
+          `<span>Total Profit : ${totalProfit}</span>` +
+          `</div>`;
+      }
+      function renderSalesCatTab() {
+        const target = document.getElementById("rep-tab-1");
+        const rows = [
+          {
+            cat: "Sandwiches",
+            cost: 1070.117,
+            sell: 2472.95,
+            profit: 1402.833,
+            perc: "31.3",
+          },
+          {
+            cat: "Fried Chicken Burger",
+            cost: 782.938,
+            sell: 2127,
+            profit: 1344.062,
+            perc: "30.0",
+          },
+          {
+            cat: "Cheesy Fries",
+            cost: 345.441,
+            sell: 748,
+            profit: 402.559,
+            perc: "9.0",
+          },
+          {
+            cat: "Beef Burger",
+            cost: 240.732,
+            sell: 634.3,
+            profit: 393.568,
+            perc: "8.8",
+          },
+          {
+            cat: "Appetisers",
+            cost: 127.265,
+            sell: 386.78,
+            profit: 259.515,
+            perc: "5.8",
+          },
+          { cat: "Delivery", cost: 0, sell: 249.7, profit: 249.7, perc: "5.6" },
+          {
+            cat: "Meals",
+            cost: 91.603,
+            sell: 292,
+            profit: 200.397,
+            perc: "4.5",
+          },
+          {
+            cat: "Beverage",
+            cost: 156.52,
+            sell: 276.95,
+            profit: 120.43,
+            perc: "2.7",
+          },
+          {
+            cat: "Adds",
+            cost: 30.525,
+            sell: 91.55,
+            profit: 61.025,
+            perc: "1.4",
+          },
+        ];
+        target.innerHTML = `<table class="table"><thead><tr><th>Category</th><th>Cost Price</th><th>Selling Price</th><th>Profit</th><th style="width:160px;">Profit %</th></tr></thead><tbody>${rows
+          .map(
+            (r) =>
+              `<tr><td>${r.cat}</td><td>${r.cost}</td><td>${r.sell}</td><td>${r.profit}</td><td><div class='progress-container'><div class='progress-fill' style='width:${r.perc}%'></div></div><span style='font-size:0.7rem; margin-left:4px;'>${r.perc}%</span></td></tr>`
+          )
+          .join("")}</tbody></table>`;
+        // append totals summary
+        const totalCost = rows.reduce((s, r) => s + r.cost, 0).toFixed(2);
+        const totalSell = rows.reduce((s, r) => s + r.sell, 0).toFixed(2);
+        const totalProfit = rows.reduce((s, r) => s + r.profit, 0).toFixed(2);
+        target.innerHTML +=
+          `<div style="margin-top:0.5rem; background:var(--success); color:#fff; padding:0.5rem 1rem; border-radius:8px; display:flex; gap:1.5rem; flex-wrap:wrap; font-weight:700;">` +
+          `<span>Total Cost : ${totalCost}</span>` +
+          `<span>Total Revenue : ${totalSell}</span>` +
+          `<span>Total Profit : ${totalProfit}</span>` +
+          `</div>`;
+      }
+      function renderExpensesTab() {
+        const target = document.getElementById("rep-tab-2");
+        const rows = [
+          { name: "packaging", amount: 304, perc: "19.2" },
+          { name: "mazen", amount: 300, perc: "19.0" },
+          { name: "abd", amount: 215, perc: "13.6" },
+          { name: "zet", amount: 202, perc: "12.8" },
+          { name: "ghrad", amount: 180.72, perc: "11.4" },
+          { name: "mhmed jomae", amount: 150.5, perc: "9.5" },
+          { name: "jihad", amount: 90, perc: "5.7" },
+          { name: "fatima", amount: 62.5, perc: "4.0" },
+          { name: "hamza", amount: 45, perc: "2.8" },
+          { name: "bhar w asal", amount: 25, perc: "1.6" },
+        ];
+        target.innerHTML = `<table class="table"><thead><tr><th>Name</th><th>Amount</th><th style='width:140px;'>%</th></tr></thead><tbody>${rows
+          .map(
+            (r) =>
+              `<tr><td>${r.name}</td><td>${r.amount} USD</td><td><div class='progress-container'><div class='progress-fill' style='width:${r.perc}%'></div></div><span style='font-size:0.7rem; margin-left:4px;'>${r.perc}%</span></td></tr>`
+          )
+          .join("")}</tbody></table>`;
+        // append totals summary
+        const totalAmount = rows.reduce((s, r) => s + r.amount, 0).toFixed(2);
+        const totalPerc = rows
+          .reduce((s, r) => s + parseFloat(r.perc), 0)
+          .toFixed(1);
+        target.innerHTML +=
+          `<div style="margin-top:0.5rem; background:var(--warning); color:#fff; padding:0.5rem 1rem; border-radius:8px; display:flex; gap:1.5rem; flex-wrap:wrap; font-weight:700;">` +
+          `<span>Total Amount : ${totalAmount} USD</span>` +
+          `<span>Total % : ${totalPerc}%</span>` +
+          `</div>`;
+      }
+      function renderReportCharts() {
+        const target = document.getElementById("rep-tab-3");
+        target.innerHTML =
+          '<div style="flex:1; min-width:300px; max-width:400px; height:300px;"><canvas id="rep-pie"></canvas></div>' +
+          '<div style="flex:1; min-width:240px;">' +
+          '<div class="stat-row"><span class="stat-label"><span class="stat-dot dot-revenue"></span>Total Revenue:</span><span class="stat-value">7,351.23 USD</span></div>' +
+          '<div class="stat-row"><span class="stat-label"><span class="stat-dot dot-cost"></span>Total Cost:</span><span class="stat-value">2,870.05 USD</span></div>' +
+          '<div class="stat-row"><span class="stat-label"><span class="stat-dot dot-profit"></span>Total Profit:</span><span class="stat-value">2,835.35 USD</span></div>' +
+          '<div class="stat-row"><span class="stat-label"><span class="stat-dot dot-exp"></span>Total Expenses:</span><span class="stat-value">1,581.39 USD</span></div>' +
+          "</div>";
+        if (window.Chart) {
+          const ctx = document.getElementById("rep-pie").getContext("2d");
+          if (window.repPie) repPie.destroy();
+          window.repPie = new Chart(ctx, {
+            type: "pie",
+            data: {
+              labels: ["Total Cost", "Total Profit", "Total Expenses"],
+              datasets: [
+                {
+                  data: [2870.05, 2835.35, 1581.39],
+                  backgroundColor: ["#3b82f6", "#84cc16", "#ef4444"],
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: true,
+              plugins: {
+                legend: {
+                  position: "bottom",
+                  labels: {
+                    padding: 15,
+                    font: { size: 12 },
+                  },
+                },
+              },
+            },
+          });
+        }
+      }
+      // Period selector logic
+      function openReportPeriod(type) {
+        if (type === "daily") openModal("period-daily-modal");
+        else if (type === "monthly") openModal("period-monthly-modal");
+        else openModal("period-yearly-modal");
+        document
+          .getElementById("rep-daily-btn")
+          .classList.toggle("btn-primary", type === "daily");
+        document
+          .getElementById("rep-monthly-btn")
+          .classList.toggle("btn-primary", type === "monthly");
+        document
+          .getElementById("rep-yearly-btn")
+          .classList.toggle("btn-primary", type === "yearly");
+      }
+      function setReportDate(dateStr) {
+        const label = document.getElementById("report-period-label");
+        label.textContent = `daily - ${dateStr}`;
+        closeModal("period-daily-modal");
+      }
+      function setReportMonth(mIdx) {
+        const months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        document.getElementById(
+          "report-period-label"
+        ).textContent = `monthly - ${months[mIdx]} 2025`;
+        closeModal("period-monthly-modal");
+      }
+      function setReportYear(y) {
+        document.getElementById(
+          "report-period-label"
+        ).textContent = `yearly - ${y}`;
+        closeModal("period-yearly-modal");
+      }
+      // populate year list
+      (function () {
+        // populate years
+        const yearBody = document.getElementById("year-list");
+        if (yearBody) {
+          yearBody.innerHTML = Array.from({ length: 6 }, (_, i) => 2025 - i)
+            .map(function (y) {
+              return (
+                '<div onclick="setReportYear(' +
+                y +
+                ')" style="padding:0.6rem 1rem; cursor:pointer;">' +
+                y +
+                "</div>"
+              );
+            })
+            .join("");
+        }
+        // populate months
+        const monthGrid = document.getElementById("month-grid");
+        if (monthGrid) {
+          const months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+          ];
+          monthGrid.innerHTML = months
+            .map(function (m, i) {
+              return (
+                '<button class="btn btn-secondary" onclick="setReportMonth(' +
+                i +
+                ')">' +
+                m +
+                "</button>"
+              );
+            })
+            .join("");
+        }
+      })();
+      // when page shown
+      if (typeof showPage === "function") {
+        /* noop */
+      }
+      // ---------- END REPORT PAGE LOGIC ----------
+
+      // Initialize Dashboard Charts
+      function initializeDashboardCharts() {
+        console.log("initializeDashboardCharts called");
+        console.log("Chart.js loaded:", typeof Chart !== "undefined");
+
+        if (typeof Chart === "undefined") {
+          console.error("Chart.js is not loaded!");
+          // Show error message in chart containers
+          const chartContainers = document.querySelectorAll(
+            'canvas[id$="Chart"]'
+          );
+          chartContainers.forEach((canvas) => {
+            const parent = canvas.parentElement;
+            parent.innerHTML =
+              '<div style="text-align:center;padding:2rem;color:#ef4444;"><i class="fas fa-exclamation-triangle" style="font-size:2rem;margin-bottom:1rem;display:block;"></i>Failed to load Chart.js. Please check your internet connection.</div>';
+          });
+          return;
+        }
+
+        console.log("Looking for chart canvases...");
+
+        // Top 10 Selling Products Chart
+        const topProductsCtx = document.getElementById("topProductsChart");
+        console.log("topProductsChart canvas:", topProductsCtx);
+        if (topProductsCtx) {
+          console.log("Creating Top Products chart...");
+          try {
+            const chart = new Chart(topProductsCtx.getContext("2d"), {
+              type: "doughnut",
+              data: {
+                labels: [
+                  "Product 1",
+                  "Product 2",
+                  "Product 3",
+                  "Product 4",
+                  "Product 5",
+                  "Others",
+                ],
+                datasets: [
+                  {
+                    data: [25, 20, 15, 12, 10, 18],
+                    backgroundColor: [
+                      "#3b82f6",
+                      "#ef4444",
+                      "#10b981",
+                      "#f59e0b",
+                      "#8b5cf6",
+                      "#6b7280",
+                    ],
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    position: "right",
+                    labels: {
+                      padding: 10,
+                      font: { size: 11 },
+                    },
+                  },
+                },
+              },
+            });
+            console.log("Top Products chart created successfully!");
+          } catch (error) {
+            console.error("Error creating Top Products chart:", error);
+          }
+        } else {
+          console.warn("topProductsChart canvas not found in DOM");
+        }
+
+        // Expenses Chart
+        const expensesCtx = document.getElementById("expensesChart");
+        if (expensesCtx) {
+          new Chart(expensesCtx.getContext("2d"), {
+            type: "pie",
+            data: {
+              labels: [
+                "Rent",
+                "Salaries",
+                "Utilities",
+                "Supplies",
+                "Marketing",
+                "Other",
+              ],
+              datasets: [
+                {
+                  data: [500, 600, 150, 200, 100, 31.39],
+                  backgroundColor: [
+                    "#ef4444",
+                    "#f59e0b",
+                    "#10b981",
+                    "#3b82f6",
+                    "#8b5cf6",
+                    "#6b7280",
+                  ],
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: "right",
+                  labels: {
+                    padding: 10,
+                    font: { size: 11 },
+                  },
+                },
+              },
+            },
+          });
+        }
+
+        // Sales by Users Chart
+        const salesByUsersCtx = document.getElementById("salesByUsersChart");
+        if (salesByUsersCtx) {
+          new Chart(salesByUsersCtx.getContext("2d"), {
+            type: "bar",
+            data: {
+              labels: ["John", "Sarah", "Mike", "Lisa", "Tom"],
+              datasets: [
+                {
+                  label: "Sales (USD)",
+                  data: [2150, 1890, 1456, 1255, 600],
+                  backgroundColor: "#3b82f6",
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: function (value) {
+                      return "$" + value;
+                    },
+                  },
+                },
+              },
+            },
+          });
+        }
+
+        // Monthly Sales Chart
+        const monthlySalesCtx = document.getElementById("monthlySalesChart");
+        if (monthlySalesCtx) {
+          const days = Array.from({ length: 30 }, (_, i) => i + 1);
+          const salesData = days.map(
+            () => Math.floor(Math.random() * 500) + 100
+          );
+
+          new Chart(monthlySalesCtx.getContext("2d"), {
+            type: "line",
+            data: {
+              labels: days,
+              datasets: [
+                {
+                  label: "Daily Sales",
+                  data: salesData,
+                  borderColor: "#3b82f6",
+                  backgroundColor: "rgba(59, 130, 246, 0.1)",
+                  tension: 0.3,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: function (value) {
+                      return "$" + value;
+                    },
+                  },
+                },
+              },
+            },
+          });
+        }
+
+        // Hourly Customers Chart
+        const hourlyCustomersCtx = document.getElementById(
+          "hourlyCustomersChart"
+        );
+        if (hourlyCustomersCtx) {
+          const hours = Array.from({ length: 24 }, (_, i) => i + ":00");
+          const customerData = hours.map((_, i) => {
+            // Simulate peak hours
+            if (i >= 11 && i <= 14) return Math.floor(Math.random() * 30) + 20;
+            if (i >= 17 && i <= 20) return Math.floor(Math.random() * 25) + 15;
+            if (i < 9 || i > 21) return Math.floor(Math.random() * 5);
+            return Math.floor(Math.random() * 15) + 5;
+          });
+
+          new Chart(hourlyCustomersCtx.getContext("2d"), {
+            type: "area",
+            data: {
+              labels: hours,
+              datasets: [
+                {
+                  label: "Customers",
+                  data: customerData,
+                  borderColor: "#10b981",
+                  backgroundColor: "rgba(16, 185, 129, 0.2)",
+                  fill: true,
+                  tension: 0.3,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
+            },
+          });
+        }
+
+        // Top Customers Chart
+        const topCustomersCtx = document.getElementById("topCustomersChart");
+        if (topCustomersCtx) {
+          new Chart(topCustomersCtx.getContext("2d"), {
+            type: "bar",
+            data: {
+              labels: [
+                "Customer 1",
+                "Customer 2",
+                "Customer 3",
+                "Customer 4",
+                "Customer 5",
+                "Customer 6",
+                "Customer 7",
+                "Customer 8",
+                "Customer 9",
+                "Customer 10",
+              ],
+              datasets: [
+                {
+                  label: "Total Spent (USD)",
+                  data: [850, 720, 650, 580, 520, 480, 420, 380, 350, 320],
+                  backgroundColor: "#8b5cf6",
+                },
+              ],
+            },
+            options: {
+              indexAxis: "y",
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                x: {
+                  beginAtZero: true,
+                  ticks: {
+                    callback: function (value) {
+                      return "$" + value;
+                    },
+                  },
+                },
+              },
+            },
+          });
+        }
+      }
+
+      // Make initializeDashboardCharts globally available
+      window.initializeDashboardCharts = initializeDashboardCharts;
+
+      // Also make it available as a simple function
+      window.initDashboardCharts = function () {
+        console.log("Direct chart initialization called");
+        if (typeof Chart === "undefined") {
+          alert("Chart.js is not loaded!");
+          return;
+        }
+
+        // Create charts directly without checking
+        try {
+          // Top Products
+          const ctx1 = document.getElementById("topProductsChart");
+          if (ctx1) {
+            new Chart(ctx1.getContext("2d"), {
+              type: "doughnut",
+              data: {
+                labels: [
+                  "Coffee",
+                  "Sandwiches",
+                  "Pastries",
+                  "Beverages",
+                  "Snacks",
+                ],
+                datasets: [
+                  {
+                    data: [30, 25, 20, 15, 10],
+                    backgroundColor: [
+                      "#3b82f6",
+                      "#ef4444",
+                      "#10b981",
+                      "#f59e0b",
+                      "#8b5cf6",
+                    ],
+                  },
+                ],
+              },
+              options: { responsive: true, maintainAspectRatio: false },
+            });
+          }
+
+          // Expenses
+          const ctx2 = document.getElementById("expensesChart");
+          if (ctx2) {
+            new Chart(ctx2.getContext("2d"), {
+              type: "pie",
+              data: {
+                labels: ["Rent", "Salaries", "Utilities", "Supplies", "Other"],
+                datasets: [
+                  {
+                    data: [500, 600, 150, 200, 131.39],
+                    backgroundColor: [
+                      "#ef4444",
+                      "#f59e0b",
+                      "#10b981",
+                      "#3b82f6",
+                      "#6b7280",
+                    ],
+                  },
+                ],
+              },
+              options: { responsive: true, maintainAspectRatio: false },
+            });
+          }
+
+          // Sales by Users
+          const ctx3 = document.getElementById("salesByUsersChart");
+          if (ctx3) {
+            new Chart(ctx3.getContext("2d"), {
+              type: "bar",
+              data: {
+                labels: ["John", "Sarah", "Mike", "Lisa", "Tom"],
+                datasets: [
+                  {
+                    label: "Sales (USD)",
+                    data: [2150, 1890, 1456, 1255, 600],
+                    backgroundColor: "#3b82f6",
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true } },
+              },
+            });
+          }
+
+          // Monthly Sales
+          const ctx4 = document.getElementById("monthlySalesChart");
+          if (ctx4) {
+            const days = Array.from({ length: 30 }, (_, i) => i + 1);
+            const salesData = days.map(
+              () => Math.floor(Math.random() * 500) + 100
+            );
+            new Chart(ctx4.getContext("2d"), {
+              type: "line",
+              data: {
+                labels: days,
+                datasets: [
+                  {
+                    label: "Daily Sales",
+                    data: salesData,
+                    borderColor: "#3b82f6",
+                    backgroundColor: "rgba(59, 130, 246, 0.1)",
+                    tension: 0.3,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true } },
+              },
+            });
+          }
+
+          // Hourly Customers
+          const ctx5 = document.getElementById("hourlyCustomersChart");
+          if (ctx5) {
+            const hours = Array.from({ length: 12 }, (_, i) => i + 9 + ":00");
+            const customerData = hours.map(
+              () => Math.floor(Math.random() * 30) + 5
+            );
+            new Chart(ctx5.getContext("2d"), {
+              type: "line",
+              data: {
+                labels: hours,
+                datasets: [
+                  {
+                    label: "Customers",
+                    data: customerData,
+                    borderColor: "#10b981",
+                    backgroundColor: "rgba(16, 185, 129, 0.2)",
+                    fill: true,
+                    tension: 0.3,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true } },
+              },
+            });
+          }
+
+          // Top Customers
+          const ctx6 = document.getElementById("topCustomersChart");
+          if (ctx6) {
+            new Chart(ctx6.getContext("2d"), {
+              type: "bar",
+              data: {
+                labels: [
+                  "Customer 1",
+                  "Customer 2",
+                  "Customer 3",
+                  "Customer 4",
+                  "Customer 5",
+                ],
+                datasets: [
+                  {
+                    label: "Total Spent (USD)",
+                    data: [850, 720, 650, 580, 520],
+                    backgroundColor: "#8b5cf6",
+                  },
+                ],
+              },
+              options: {
+                indexAxis: "y",
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { x: { beginAtZero: true } },
+              },
+            });
+          }
+
+          console.log("All charts initialized!");
+        } catch (error) {
+          console.error("Error creating charts:", error);
+          alert("Error: " + error.message);
+        }
+      };
     </script>
   </body>
 </html>

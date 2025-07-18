@@ -92,15 +92,24 @@
         overflow: hidden;
       }
 
-      /* Sidebar */
+      /* Sidebar now acts like a slide-in drawer on all screen sizes */
       .sidebar {
+        position: fixed;
+        left: -280px;               /* hidden off-canvas */
+        top: 0;
+        height: 100vh;
         width: 280px;
         background: var(--white);
         border-right: 1px solid var(--gray-200);
         display: flex;
         flex-direction: column;
-        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 100;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: var(--shadow-xl);
+        z-index: 1000;
+      }
+
+      .sidebar.active {
+        left: 0;                    /* slide into view */
       }
 
       .sidebar-header {
@@ -368,22 +377,22 @@
       /* Page Content */
       .page-content {
         flex: 1;
-        padding: 1.5rem;
+        padding: 0;
         overflow-y: auto;
       }
 
       /* Sale Page */
       .sale-layout {
         display: grid;
-        grid-template-columns: 1fr 420px;
-        gap: 1.5rem;
+        grid-template-columns: 1fr 50px 420px;
+        gap: 0.25rem;
         height: calc(100vh - 64px - 3rem);
       }
 
       .products-section {
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 0;
         overflow: hidden;
       }
 
@@ -391,7 +400,7 @@
       .categories-container {
         background: var(--white);
         border-radius: 12px;
-        padding: 1.5rem;
+        padding: 0.35rem;
         box-shadow: var(--shadow-sm);
         border: 1px solid var(--gray-200);
         overflow-x: auto;
@@ -401,7 +410,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 1rem;
+        margin-bottom: 0.35rem;
       }
 
       .categories-title {
@@ -471,7 +480,7 @@
       .products-container {
         background: var(--white);
         border-radius: 12px;
-        padding: 1.5rem;
+        padding: 0.35rem;
         box-shadow: var(--shadow-sm);
         border: 1px solid var(--gray-200);
         flex: 1;
@@ -484,7 +493,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 1.5rem;
+        margin-bottom: 0.35rem;
       }
 
       .products-actions {
@@ -517,17 +526,24 @@
 
       .products-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 0.5rem;
         overflow-y: auto;
         flex: 1;
-        padding-right: 0.5rem;
       }
 
       .product-card {
-        padding: 0.5rem;
-        border: none;
-        color: #fff;
+        padding: 0.25rem;
+        border: 1px solid var(--gray-200);
+        border-radius: 6px;
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60px;
+        font-size: 0.75rem;
+        text-align: center;
+        color: var(--gray-900);
       }
       .product-card:nth-child(odd) {
         background: var(--palette-purple);
@@ -572,6 +588,7 @@
         color: var(--gray-900);
         margin-bottom: 0.5rem;
         display: -webkit-box;
+        text-align: center;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
@@ -612,13 +629,11 @@
       }
 
       .cart-title {
-        font-size: 1.125rem;
-        font-weight: 700;
-        color: var(--gray-900);
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+        font-size: 0; /* hide text */
+      }
+      .cart-title i,
+      .cart-title .cart-badge {
+        font-size: 1rem; /* restore icon & badge */
       }
 
       .cart-badge {
@@ -635,6 +650,9 @@
       }
 
       .customer-section {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
         background: var(--gray-50);
         padding: 1rem;
         border-radius: 8px;
@@ -643,7 +661,7 @@
 
       .select-wrapper {
         position: relative;
-        margin-bottom: 0.75rem;
+        
       }
 
       .select-input {
@@ -668,7 +686,7 @@
 
       .customer-actions {
         display: flex;
-        gap: 0.5rem;
+        gap: 0.25rem;
       }
 
       .customer-btn {
@@ -777,92 +795,24 @@
         font-weight: 500;
       }
 
-      .cart-item {
-        background: var(--gray-50);
-        border: 1px solid var(--gray-200);
-        border-radius: 8px;
-        padding: 1rem;
-        margin-bottom: 0.75rem;
-        transition: var(--transition);
-      }
-
-      .cart-item:hover {
-        border-color: var(--gray-300);
-        box-shadow: var(--shadow-sm);
-      }
-
-      .cart-item-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: start;
-        margin-bottom: 0.5rem;
-      }
-
-      .cart-item-name {
-        font-weight: 600;
-        color: var(--gray-900);
-        font-size: 0.875rem;
-      }
-
-      .cart-item-remove {
-        background: transparent;
-        border: none;
-        color: var(--gray-400);
-        cursor: pointer;
-        transition: var(--transition);
-        padding: 0.25rem;
-      }
-
-      .cart-item-remove:hover {
-        color: var(--danger);
-      }
-
-      .cart-item-details {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .cart-item-price {
-        font-size: 0.875rem;
-        color: var(--gray-600);
-      }
-
-      .quantity-controls {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        background: var(--white);
-        border: 1px solid var(--gray-300);
-        border-radius: 6px;
-        padding: 0.25rem;
-      }
-
-      .qty-btn {
-        width: 28px;
-        height: 28px;
-        border: none;
-        background: transparent;
-        color: var(--gray-600);
-        cursor: pointer;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: var(--transition);
-      }
-
-      .qty-btn:hover {
-        background: var(--gray-100);
-        color: var(--primary);
-      }
-
-      .qty-value {
-        min-width: 32px;
-        text-align: center;
-        font-weight: 600;
-        color: var(--gray-900);
-      }
+      .cart-item { 
+        display:grid; 
+        grid-template-columns:1fr 40px 60px 24px; 
+        gap:0.5rem; 
+        align-items:center; 
+        padding:0.5rem 0.5rem; 
+        border-bottom:1px solid var(--gray-200);
+        border-radius:8px;
+        background:var(--white);
+        box-shadow:var(--shadow-sm);
+        transition:var(--transition);
+      } 
+      .cart-item:not(.selected):hover{box-shadow:var(--shadow-md);} 
+      .cart-item.selected{ background:var(--primary-light); border-color:var(--primary);} 
+      .ci-name{ font-size:0.9rem; font-weight:600; color:var(--gray-900);} 
+      .ci-qty,.ci-price{ font-size:0.9rem; color:var(--gray-700);} 
+      .ci-disc{ font-size:0.85rem; color:var(--danger); } 
+      .cart-item-remove{ background:none; border:none; color:var(--danger); cursor:pointer; font-size:0.8rem;} 
 
       /* Cart Footer */
       .cart-footer {
@@ -1373,11 +1323,11 @@
       /* Responsive */
       @media (max-width: 1280px) {
         .sale-layout {
-          grid-template-columns: 1fr 380px;
+          grid-template-columns: 1fr 50px 380px;
         }
       }
 
-      @media (max-width: 1024px) {
+      @media (max-width: 700px) {
         .sidebar {
           position: fixed;
           left: -280px;
@@ -1441,7 +1391,7 @@
         }
       }
 
-      @media (max-width: 768px) {
+      @media (max-width: 700px) {
         .header {
           padding: 1rem;
         }
@@ -2049,32 +1999,33 @@
 
       /* Toolbar just below the Products header */
       .products-toolbar {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-        flex-wrap: wrap;
-        margin-bottom: 0.75rem;
+        display: none;
       }
 
       /* ---------- KEYPAD STYLES ---------- */
       .keypad-section {
-        width: 220px;
+        width: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
       }
       .keypad-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
         width: 100%;
       }
       .key-btn {
-        padding: 0.75rem 0;
+        padding: 0;
+        width: 100%;
+        aspect-ratio: 1/1; /* square */
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: var(--white);
         border: 1px solid var(--gray-300);
         border-radius: 8px;
-        font-size: 1rem;
+        font-size: 0.875rem; /* slightly smaller text */
         font-weight: 600;
         cursor: pointer;
         transition: var(--transition);
@@ -2086,7 +2037,7 @@
         border-color: var(--primary);
         box-shadow: var(--shadow-md);
       }
-      @media (max-width: 1024px) {
+      @media (max-width: 700px) {
         .keypad-section {
           display: none;
         }
@@ -2094,7 +2045,7 @@
       /* ---------- KEYPAD STYLES ---------- */
       .top-row {
         display: flex;
-        gap: 1rem;
+        gap: 0;
         align-items: flex-start;
       }
       .top-row .categories-container {
@@ -2246,6 +2197,157 @@
       .category-card:hover {
         transform: translateY(-2px) scale(1.02);
         box-shadow: var(--shadow-md);
+      }
+
+      /* --------- New Responsive Rule for Floating Cart Button --------- */
+      /* Hide by default */
+      .mobile-cart-toggle {
+        display: none;
+      }
+
+      /* Keep hidden from 701px up to 1024px (overrides the earlier 1024px rule) */
+      @media (min-width: 701px) {
+        .mobile-cart-toggle {
+          display: none !important;
+        }
+      }
+
+      /* Show when the viewport is 700px or below */
+      @media (max-width: 700px) {
+        .mobile-cart-toggle {
+          position: fixed;
+          bottom: 2rem;
+          right: 2rem;
+          width: 60px;
+          height: 60px;
+          background: var(--primary);
+          color: #ffffff;
+          border-radius: 50%;
+          display: flex !important;
+          align-items: center;
+          justify-content: center;
+          box-shadow: var(--shadow-lg);
+          cursor: pointer;
+          z-index: 100;
+        }
+      }
+
+      /* ---------- Override Product Card Details ---------- */
+      .product-card .product-image,
+      .product-card .product-meta,
+      .product-card .product-price,
+      .product-card .product-stock {
+        display: none !important;
+      }
+     
+      /* ------------------------------------ */
+      /* Category & Product Color Mapping */
+      /* ------------------------------------ */
+
+      /* Category cards */
+      .categories-grid .category-card:nth-child(1) { background: var(--palette-purple) !important; color:#fff !important; }
+      .categories-grid .category-card:nth-child(2) { background: var(--palette-green) !important; color:#fff !important; }
+      .categories-grid .category-card:nth-child(3) { background: var(--palette-orange) !important; color:#fff !important; }
+      .categories-grid .category-card:nth-child(4) { background: var(--palette-red) !important; color:#fff !important; }
+      .categories-grid .category-card:nth-child(5) { background: var(--palette-yellow) !important; color:#000 !important; }
+      .categories-grid .category-card:nth-child(6) { background: var(--palette-blue) !important; color:#fff !important; }
+      .categories-grid .category-card:nth-child(7) { background: var(--palette-orange) !important; color:#fff !important; }
+      .categories-grid .category-card:nth-child(8) { background: var(--palette-red) !important; color:#fff !important; }
+
+      /* Product cards repeating same palette order every 6 */
+      .products-grid .product-card:nth-child(6n+1) { background: var(--palette-purple) !important; color:#fff !important; }
+      .products-grid .product-card:nth-child(6n+2) { background: var(--palette-green) !important; color:#fff !important; }
+      .products-grid .product-card:nth-child(6n+3) { background: var(--palette-orange) !important; color:#fff !important; }
+      .products-grid .product-card:nth-child(6n+4) { background: var(--palette-red) !important; color:#fff !important; }
+      .products-grid .product-card:nth-child(6n+5) { background: var(--palette-yellow) !important; color:#000 !important; }
+      .products-grid .product-card:nth-child(6n+6) { background: var(--palette-blue) !important; color:#fff !important; }
+
+      /* Center product name */
+      .product-card {
+        text-align:center;
+      }
+
+      /* Cart header tweaks */
+      .cart-title {
+        font-size: 0; /* hide text */
+      }
+      .cart-title i,
+      .cart-title .cart-badge {
+        font-size: 1rem; /* restore icon & badge */
+      }
+
+      /* Customer section inline buttons */
+      .customer-section {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .customer-actions {
+        display: flex;
+        gap: 0.25rem;
+      }
+
+      /* Hide subtotal, discount, tax rows */
+      .cart-summary .summary-row:nth-child(-n+3) { /* first three rows */
+        display: none;
+      }
+
+      /* Simplify cart-item visuals */
+      .cart-item-header .cart-item-remove { display: none; }
+      .cart-item-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .cart-item-details .quantity-controls { display: none; }
+
+      /* extra cart/UI tweaks */
+      .customer-btn { height: 38px; padding:0 0.5rem; }
+      .cart-items { max-height: 300px; overflow-y:auto; }
+      /* -------- Cart minimalist style -------- */
+      .cart-items { max-height: 300px; overflow-y:auto; }
+      .cart-item { display:grid; grid-template-columns:1fr 40px 60px 24px; gap:0.5rem; align-items:center; padding:0.5rem 0.5rem; border-bottom:1px solid var(--gray-200);} 
+      .cart-item.selected { background: var(--primary-light); }
+      .ci-name{ font-size:0.9rem; }
+      .ci-qty{ text-align:center; font-size:0.9rem; }
+      .ci-price{ text-align:right; font-size:0.9rem; }
+      .ci-disc{ font-size:0.85rem; color:var(--danger); }
+      .cart-item-remove{ background:none; border:none; color:var(--danger); cursor:pointer; font-size:0.8rem;} 
+
+      /* Cart title layout */
+      .cart-title{display:flex;align-items:center;gap:0.5rem;font-size:0;}
+      .cart-title i,.cart-title .cart-badge{font-size:1rem;}
+      .order-type-toggle{margin-left:auto;font-size:0.75rem;}
+      /* New header row style */
+      .cart-header-row{ display:grid; grid-template-columns:1fr 40px 60px 24px; gap:0.5rem; align-items:center; padding:0.5rem 0.5rem; font-weight:600; font-size:0.85rem; border-bottom:1px solid var(--gray-300); background:var(--gray-50);} 
+
+      /* Hide Open Drawer button */
+      .cart-actions button[onclick*="openDrawer"]{display:none;}
+      .cart-actions{grid-template-columns:1fr;}
+      /* Payment Modal */
+      .pay-modal-content{max-width:420px;width:90%;}
+      .payment-info{margin:0.75rem 0;font-size:1rem;color:var(--gray-700);} 
+      .pay-total{font-weight:600;}
+      .pay-return{color:var(--danger);font-weight:700;font-size:1.125rem;margin-top:0.5rem;}
+      .pay-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:1rem 0;}
+      .pay-keypad button{padding:0.9rem 0;font-size:1rem;background:var(--gray-100);border:1px solid var(--gray-300);border-radius:6px;cursor:pointer;}
+      .pay-keypad button:active{background:var(--gray-200);}
+      /* New positioning: move dine-in / delivery toggle to far right of cart */
+      .cart-header{
+        position:relative; /* allow absolute positioning of toggle */
+      }
+      .cart-header .order-type-toggle{
+        position:absolute;
+        right:1.5rem; /* align with padding of cart-header */
+        top:1.5rem;  /* align vertically with header padding */
+        margin-left:0 !important; /* override previous auto margin */
+      }
+      /* Responsive tweak for small screens (stacked cart layout) */
+      @media (max-width:700px){
+        .cart-header .order-type-toggle{
+          right:1rem;
+          top:1rem;
+        }
       }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
@@ -2430,7 +2532,7 @@
     <div
       class="mobile-cart-toggle"
       id="mobile-cart-toggle"
-      style="display: none"
+      /* initially hidden; CSS handles visibility */
       onclick="toggleCart()"
     >
       <i class="fas fa-shopping-cart"></i>
@@ -3576,17 +3678,80 @@
       <div class="modal-content">
         <div class="modal-header">
           <h2 class="modal-title">Product Actions</h2>
-          <button class="modal-close" onclick="closeModal('product-action-modal')">
+          <button
+            class="modal-close"
+            onclick="closeModal('product-action-modal')"
+          >
             <i class="fas fa-times"></i>
           </button>
         </div>
-        <div style="padding:1rem 0; display:flex; flex-direction:column; gap:0.75rem;">
-          <button class="btn btn-primary quick-action-btn" onclick="editSelectedProduct()">Edit</button>
-          <button class="btn btn-danger quick-action-btn" onclick="deleteSelectedProduct()">Delete</button>
+        <div
+          style="
+            padding: 1rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+          "
+        >
+          <button
+            class="btn btn-primary quick-action-btn"
+            onclick="editSelectedProduct()"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-danger quick-action-btn"
+            onclick="deleteSelectedProduct()"
+          >
+            Delete
+          </button>
         </div>
       </div>
     </div>
     <!-- END Product Quick Action Modal -->
+
+    <!-- Payment Modal -->
+    <div class="modal" id="payment-modal">
+      <div class="modal-content pay-modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Payment</h2>
+          <button class="modal-close" onclick="closeModal('payment-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="payment-body">
+          <div class="toggle-group" id="pay-currency-toggle" style="margin-bottom:0.75rem;">
+            <button type="button" class="toggle-btn active" onclick="switchPayCurrency(this,'usd')">USD</button>
+            <button type="button" class="toggle-btn" onclick="switchPayCurrency(this,'lbp')">LBP</button>
+          </div>
+          <div class="payment-info">
+            <div class="pay-total" id="pay-total-label">Total: 0.00 USD / 0 LBP</div>
+            <div class="pay-received">Received: <span id="pay-received-label">0.00 USD</span></div>
+          </div>
+          <div class="pay-keypad" id="pay-keypad-container">
+            <button onclick="payKeypadAppend('1')">1</button>
+            <button onclick="payKeypadAppend('2')">2</button>
+            <button onclick="payKeypadAppend('3')">3</button>
+            <button onclick="payKeypadAppend('4')">4</button>
+            <button onclick="payKeypadAppend('5')">5</button>
+            <button onclick="payKeypadAppend('6')">6</button>
+            <button onclick="payKeypadAppend('7')">7</button>
+            <button onclick="payKeypadAppend('8')">8</button>
+            <button onclick="payKeypadAppend('9')">9</button>
+            <button onclick="payKeypadAppend('0')">0</button>
+            <button onclick="payKeypadAppend('00')">00</button>
+            <button onclick="payKeypadAppend('000')">000</button>
+          </div>
+          <div class="pay-return">Return: <span id="pay-return-label">0.00 USD</span></div>
+        </div>
+        <div class="modal-footer" style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+          <button class="btn btn-primary" onclick="finalizePayment()">Pay</button>
+          <button class="btn btn-secondary" onclick="resetPaymentInput()">Reset</button>
+          <div style="margin-left:auto;display:flex;gap:0.25rem;">
+            <button class="btn btn-secondary btn-icon"><i class="fas fa-print"></i></button>
+            <button class="btn btn-secondary btn-icon"><i class="fas fa-ban"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script>
       // Global variables
@@ -3794,9 +3959,9 @@
                             </div>
                           </div>
                           <!-- keypad inside top-row -->
-                          <div class="keypad-section">
+                          <div class="keypad-section" style="display:none;">
                             <div class="keypad-grid">
-                              ${[7, 8, 9, 4, 5, 6, 1, 2, 3]
+                              ${[9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
                                 .map(
                                   (n) =>
                                     `<button class="key-btn" onclick="keypadAppend(${n})">${n}</button>`
@@ -3813,21 +3978,21 @@
                             <div class="products-header">
                                 <h3 class="categories-title">Products</h3>
                                 <div class="products-actions">
-                                    <label style="display:flex;align-items:center;gap:4px;font-size:0.75rem;">
-                                      <input type="checkbox" id="toggle-product-images" onchange="toggleProductImages(this)">
-                                      Show Images
-                                    </label>
                                     <button class="btn btn-icon btn-secondary" onclick="openModal('product-settings-modal')">
                                         <i class="fas fa-cog"></i>
                                     </button>
-                                    <div class="view-toggle">
-                                        <button class="view-btn active" onclick="changeProductView(this,'grid')">
-                                            <i class="fas fa-th"></i>
-                                        </button>
-                                        <button class="view-btn" onclick="changeProductView(this,'list')">
-                                            <i class="fas fa-list"></i>
-                                        </button>
-                                    </div>
+                                    <button class="btn btn-icon btn-secondary" onclick="placeOnHold()">
+                                        <i class="fas fa-clock"></i>
+                                    </button>
+                                    <button class="btn btn-icon btn-secondary" onclick="viewOnHold()">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-icon btn-danger" onclick="clearCart()">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button class="btn btn-icon btn-secondary" onclick="openModal('add-product-modal')">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
                                 </div>
                             </div>
                             <!-- Quick-action toolbar below actions -->
@@ -3841,6 +4006,20 @@
                                 ${generateProductCards()}
                             </div>
                         </div>
+                    </div>
+                    
+                    <!-- standalone keypad column -->
+                    <div class="keypad-section">
+                      <div class="keypad-grid">
+                        ${[9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
+                          .map(
+                            (n) =>
+                              `<button class="key-btn" onclick="keypadAppend(${n})">${n}</button>`
+                          )
+                          .join("")}
+                        <button class="key-btn" onclick="keypadClear()">C</button>
+                        <button class="key-btn" onclick="keypadDelete()">Del</button>
+                      </div>
                     </div>
                     
                     <div class="cart-section" id="cart">
@@ -3936,6 +4115,54 @@
 
       function generateProductCards() {
         const products = [
+          { name: "Chicken Sub Sand", price: 5.99, icon: "🥪" },
+          { name: "Fahita Sand", price: 6.99, icon: "🌯" },
+          { name: "Chilly Chicken", price: 7.99, icon: "🍗", badge: "HOT" },
+          { name: "Special Crispy", price: 8.99, icon: "🍔" },
+          { name: "Escalope Sand", price: 6.49, icon: "🥖" },
+          { name: "Crispy Sand", price: 5.49, icon: "🥪" },
+          { name: "Mexicana Sand", price: 9.99, icon: "🌮", badge: "NEW" },
+          { name: "Cheesy Chicken", price: 7.49, icon: "🧀" },
+          { name: "Chicken Sub Sand", price: 5.99, icon: "🥪" },
+          { name: "Fahita Sand", price: 6.99, icon: "🌯" },
+          { name: "Chilly Chicken", price: 7.99, icon: "🍗", badge: "HOT" },
+          { name: "Special Crispy", price: 8.99, icon: "🍔" },
+          { name: "Escalope Sand", price: 6.49, icon: "🥖" },
+          { name: "Crispy Sand", price: 5.49, icon: "🥪" },
+          { name: "Mexicana Sand", price: 9.99, icon: "🌮", badge: "NEW" },
+          { name: "Cheesy Chicken", price: 7.49, icon: "🧀" },
+          { name: "Chicken Sub Sand", price: 5.99, icon: "🥪" },
+          { name: "Fahita Sand", price: 6.99, icon: "🌯" },
+          { name: "Chilly Chicken", price: 7.99, icon: "🍗", badge: "HOT" },
+          { name: "Special Crispy", price: 8.99, icon: "🍔" },
+          { name: "Escalope Sand", price: 6.49, icon: "🥖" },
+          { name: "Crispy Sand", price: 5.49, icon: "🥪" },
+          { name: "Mexicana Sand", price: 9.99, icon: "🌮", badge: "NEW" },
+          { name: "Cheesy Chicken", price: 7.49, icon: "🧀" },
+          { name: "Chicken Sub Sand", price: 5.99, icon: "🥪" },
+          { name: "Fahita Sand", price: 6.99, icon: "🌯" },
+          { name: "Chilly Chicken", price: 7.99, icon: "🍗", badge: "HOT" },
+          { name: "Special Crispy", price: 8.99, icon: "🍔" },
+          { name: "Escalope Sand", price: 6.49, icon: "🥖" },
+          { name: "Crispy Sand", price: 5.49, icon: "🥪" },
+          { name: "Mexicana Sand", price: 9.99, icon: "🌮", badge: "NEW" },
+          { name: "Cheesy Chicken", price: 7.49, icon: "🧀" },
+          { name: "Chicken Sub Sand", price: 5.99, icon: "🥪" },
+          { name: "Fahita Sand", price: 6.99, icon: "🌯" },
+          { name: "Chilly Chicken", price: 7.99, icon: "🍗", badge: "HOT" },
+          { name: "Special Crispy", price: 8.99, icon: "🍔" },
+          { name: "Escalope Sand", price: 6.49, icon: "🥖" },
+          { name: "Crispy Sand", price: 5.49, icon: "🥪" },
+          { name: "Mexicana Sand", price: 9.99, icon: "🌮", badge: "NEW" },
+          { name: "Cheesy Chicken", price: 7.49, icon: "🧀" },
+          { name: "Chicken Sub Sand", price: 5.99, icon: "🥪" },
+          { name: "Fahita Sand", price: 6.99, icon: "🌯" },
+          { name: "Chilly Chicken", price: 7.99, icon: "🍗", badge: "HOT" },
+          { name: "Special Crispy", price: 8.99, icon: "🍔" },
+          { name: "Escalope Sand", price: 6.49, icon: "🥖" },
+          { name: "Crispy Sand", price: 5.49, icon: "🥪" },
+          { name: "Mexicana Sand", price: 9.99, icon: "🌮", badge: "NEW" },
+          { name: "Cheesy Chicken", price: 7.49, icon: "🧀" },
           { name: "Chicken Sub Sand", price: 5.99, icon: "🥪" },
           { name: "Fahita Sand", price: 6.99, icon: "🌯" },
           { name: "Chilly Chicken", price: 7.99, icon: "🍗", badge: "HOT" },
@@ -4657,7 +4884,7 @@
         if (idx !== -1) {
           cart[idx].quantity++;
         } else {
-          cart.push({ name, price, quantity: 1 });
+          cart.push({ name, price, quantity: 1, discount: 0 });
           idx = cart.length - 1;
         }
         selectedCartIndex = idx;
@@ -4691,42 +4918,21 @@
         }
 
         let subtotalValue = 0;
-        cartItems.innerHTML = cart
-          .map((item, index) => {
-            const itemTotal = item.price * item.quantity;
-            subtotalValue += itemTotal;
-            return `
-                    <div class="cart-item fade-in" id="cart-item-${index}" onclick="selectCartItem(${index})">
-                        <div class="cart-item-header">
-                            <span class="cart-item-name">${item.name}</span>
-                            <button class="cart-item-remove" onclick="event.stopPropagation(); removeFromCart(${index})">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                        <div class="cart-item-details">
-                            <span class="cart-item-price">${item.price.toFixed(
-                              2
-                            )} × ${item.quantity} = ${(
-              item.price * item.quantity
-            ).toFixed(2)}</span>
-                            <div class="quantity-controls">
-                                <button class="qty-btn" onclick="event.stopPropagation(); updateQuantity(${index}, ${
-              item.quantity - 1
-            })">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <span class="qty-value">${item.quantity}</span>
-                                <button class="qty-btn" onclick="event.stopPropagation(); updateQuantity(${index}, ${
-              item.quantity + 1
-            })">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-          })
-          .join("");
+        const headerRow = `<div class="cart-header-row">
+                              <span>Item</span>
+                              <span>Qty</span>
+                              <span>Total</span>
+                              <span></span>
+                            </div>`;
+        cartItems.innerHTML = headerRow + cart.map((item,index)=>{
+            const total = item.price*item.quantity*(1-(item.discount||0)/100);
+            subtotalValue += total;
+            return `<div class="cart-item fade-in${selectedCartIndex===index?' selected':''}" id="cart-item-${index}" onclick="selectCartItem(${index})">
+                        <span class="ci-name">${item.name}${item.discount?`<br><span class='ci-disc'>-${item.discount}%</span>`:''}</span>
+                        <span class="ci-qty">${item.quantity}</span>
+                        <span class="ci-price">${total.toFixed(2)}</span>
+                        <button class="cart-item-remove" onclick="event.stopPropagation(); removeFromCart(${index})"><i class="fas fa-times"></i></button>
+                      </div>`;}).join("");
 
         const discountInput = document.querySelector(".discount-input");
         const discountPercent = discountInput
@@ -4789,11 +4995,8 @@
       }
 
       function processPayment() {
-        if (cart.length === 0) {
-          alert("Cart is empty!");
-          return;
-        }
-        alert("Payment processing would be implemented here");
+        if(cart.length===0){showToast('Cart is empty','error');return;}
+        openPaymentModal();
       }
 
       function openDrawer() {
@@ -4834,7 +5037,7 @@
 
         // Show/hide mobile cart toggle
         mobileCartToggle.style.display =
-          pageName === "sale" && window.innerWidth <= 1024 ? "flex" : "none";
+          pageName === "sale" && window.innerWidth <= 700 ? "flex" : "none";
 
         // Load page content
         let pageHTML = "";
@@ -4919,13 +5122,8 @@
 
       // Toggle functions
       function toggleSidebar() {
-        // Updated to allow sidebar toggle on all screen sizes
         const sidebar = document.getElementById("sidebar");
-        if (window.innerWidth <= 1024) {
-          sidebar.classList.toggle("active");
-        } else {
-          sidebar.classList.toggle("collapsed");
-        }
+        sidebar.classList.toggle("active");
       }
 
       function toggleCart() {
@@ -4955,7 +5153,7 @@
         const mobileCartToggle = document.getElementById("mobile-cart-toggle");
         if (currentPage === "sale") {
           mobileCartToggle.style.display =
-            window.innerWidth <= 1024 ? "flex" : "none";
+            window.innerWidth <= 700 ? "flex" : "none";
         }
       });
 
@@ -5351,6 +5549,12 @@
           .forEach((el) => el.classList.remove("selected"));
         const el = document.getElementById("cart-item-" + idx);
         if (el) el.classList.add("selected");
+        // Sync discount controls with selected item's discount
+        const disc = (cart[idx] && cart[idx].discount) || 0;
+        const discInput = document.querySelector(".discount-input");
+        if (discInput) discInput.value = disc;
+        const discSlider = document.querySelector(".discount-slider");
+        if (discSlider) discSlider.value = disc;
       }
       function applyKeypadQty() {
         if (selectedCartIndex === null) return;
@@ -6793,19 +6997,19 @@
       let selectedProductCard = null;
 
       function attachProductCardLongPress() {
-        const cards = document.querySelectorAll('.product-card');
-        cards.forEach(card => {
-          card.removeEventListener('mousedown', startProductLongPress);
-          card.removeEventListener('touchstart', startProductLongPress);
-          card.removeEventListener('mouseup', cancelProductLongPress);
-          card.removeEventListener('mouseleave', cancelProductLongPress);
-          card.removeEventListener('touchend', cancelProductLongPress);
+        const cards = document.querySelectorAll(".product-card");
+        cards.forEach((card) => {
+          card.removeEventListener("mousedown", startProductLongPress);
+          card.removeEventListener("touchstart", startProductLongPress);
+          card.removeEventListener("mouseup", cancelProductLongPress);
+          card.removeEventListener("mouseleave", cancelProductLongPress);
+          card.removeEventListener("touchend", cancelProductLongPress);
 
-          card.addEventListener('mousedown', startProductLongPress);
-          card.addEventListener('touchstart', startProductLongPress);
-          card.addEventListener('mouseup', cancelProductLongPress);
-          card.addEventListener('mouseleave', cancelProductLongPress);
-          card.addEventListener('touchend', cancelProductLongPress);
+          card.addEventListener("mousedown", startProductLongPress);
+          card.addEventListener("touchstart", startProductLongPress);
+          card.addEventListener("mouseup", cancelProductLongPress);
+          card.addEventListener("mouseleave", cancelProductLongPress);
+          card.addEventListener("touchend", cancelProductLongPress);
         });
       }
 
@@ -6813,7 +7017,7 @@
         e.preventDefault();
         selectedProductCard = this;
         longPressTimer = setTimeout(() => {
-          openModal('product-action-modal');
+          openModal("product-action-modal");
         }, 600);
       }
 
@@ -6823,19 +7027,95 @@
 
       function editSelectedProduct() {
         if (!selectedProductCard) return;
-        alert('Edit product: ' + (selectedProductCard.querySelector('.product-name')?.textContent || ''));
-        closeModal('product-action-modal');
+        alert(
+          "Edit product: " +
+            (selectedProductCard.querySelector(".product-name")?.textContent ||
+              "")
+        );
+        closeModal("product-action-modal");
       }
 
       function deleteSelectedProduct() {
         if (!selectedProductCard) return;
-        const productName = selectedProductCard.querySelector('.product-name')?.textContent || '';
-        if (confirm('Are you sure you want to delete ' + productName + '?')) {
+        const productName =
+          selectedProductCard.querySelector(".product-name")?.textContent || "";
+        if (confirm("Are you sure you want to delete " + productName + "?")) {
           selectedProductCard.remove();
         }
-        closeModal('product-action-modal');
+        closeModal("product-action-modal");
       }
       /* ---------- End Product Quick Action ---------- */
+
+      /* ----- Per-item Discount Helper ----- */
+      function setSelectedItemDiscount(pct){
+        if(selectedCartIndex!==null && cart[selectedCartIndex]){
+          cart[selectedCartIndex].discount = pct;
+          updateCartDisplay();
+        }
+      }
+
+      /* override slider/input handlers */
+      function updateDiscountFromSlider(val){
+        const input=document.querySelector('.discount-input');
+        if(input) input.value=val;
+        setSelectedItemDiscount(parseFloat(val)||0);
+      }
+      function changeDiscount(delta){
+        const input=document.querySelector('.discount-input');
+        if(!input) return;
+        let val=parseInt(input.value||0,10);
+        val=isNaN(val)?0:val+delta;
+        val=Math.max(0,Math.min(100,val));
+        input.value=val;
+        const slider=document.querySelector('.discount-slider');
+        if(slider) slider.value=val;
+        setSelectedItemDiscount(val);
+      }
+
+      // Payment modal helpers
+      let payCurrency='usd';
+      let payInput='';
+      function openPaymentModal(){
+        payCurrency='usd';
+        payInput='';
+        document.querySelectorAll('#pay-currency-toggle .toggle-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+        updatePaymentLabels();
+        openModal('payment-modal');
+      }
+      function switchPayCurrency(btn,curr){
+        payCurrency=curr;
+        btn.parentElement.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        updatePaymentLabels();
+      }
+      function payKeypadAppend(val){
+        if(val==='000') payInput+='000';
+        else if(val==='00') payInput+=payInput===''?'0':'00';
+        else payInput+=String(val);
+        updatePaymentLabels();
+      }
+      function resetPaymentInput(){payInput='';updatePaymentLabels();}
+      function calculateCartTotals(){
+        let subtotal=0;
+        cart.forEach(it=>{subtotal+=it.price*it.quantity*(1-(it.discount||0)/100);});
+        return {usd:subtotal,lbp:subtotal*90000};
+      }
+      function updatePaymentLabels(){
+        const totals=calculateCartTotals();
+        const received=parseFloat(payInput||0);
+        const receivedUsd=payCurrency==='usd'?received:received/90000;
+        const receivedLbp=payCurrency==='lbp'?received:received*90000;
+        const changeUsd=Math.max(0,receivedUsd-totals.usd);
+        const changeLbp=Math.max(0,receivedLbp-totals.lbp);
+        document.getElementById('pay-total-label').textContent=`Total: ${totals.usd.toFixed(2)} USD / ${totals.lbp.toLocaleString()} LBP`;
+        document.getElementById('pay-received-label').textContent=`${(payCurrency==='usd'?receivedUsd:receivedLbp).toFixed(2)} ${payCurrency.toUpperCase()}`;
+        document.getElementById('pay-return-label').textContent=`${changeUsd.toFixed(2)} USD / ${changeLbp.toLocaleString()} LBP`;
+      }
+      function finalizePayment(){
+        showToast('Receipt added successfully','success');
+        closeModal('payment-modal');
+        clearCart();
+      }
     </script>
   </body>
 </html>

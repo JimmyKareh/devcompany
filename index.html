@@ -4220,96 +4220,66 @@
 
       function getDailySalesPage() {
         return `
-                <div class="table-container">
-                    <div class="table-header">
-                        <h2 class="table-title">Daily Sales Report</h2>
-                        <div class="table-actions">
-                            <input type="date" id="daily-date-picker" class="form-input" style="width:auto;" onchange="filterDailySalesByDate(this.value)">
-                            <input type="text" class="form-input" placeholder="Search ID" style="width:120px;" oninput="filterDailySalesBySearch(this.value)">
-                            <button class="btn btn-secondary" id="daily-stats-toggle" onclick="toggleDailyStats()">Hide Stats</button>
-                            <button class="btn btn-secondary">
-                                <i class="fas fa-download"></i>
-                                Export
-                            </button>
-                            <button class="btn btn-primary" onclick="openModal('add-transaction-modal')">
-                                <i class="fas fa-plus"></i>
-                                Add Transaction
-                            </button>
-                        </div>
-                    </div>
-                    <div style="padding: 1.5rem;">
-                        <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; overflow-x: auto;">
-                            <button class="btn btn-secondary">Jul 5</button>
-                            <button class="btn btn-secondary">Jul 6</button>
-                            <button class="btn btn-secondary">Jul 7</button>
-                            <button class="btn btn-secondary">Jul 8</button>
-                            <button class="btn btn-secondary">Jul 9</button>
-                            <button class="btn btn-secondary">Jul 10</button>
-                            <button class="btn btn-primary">TODAY</button>
-                        </div>
-                        <div style="display:flex; gap:1.5rem; flex-wrap:wrap; align-items:flex-start;">
-                            <div class="stats-grid" style="flex:1 1 300px;">
-                                <div class="stat-card">
-                                    <div class="stat-icon-wrapper success">
-                                        <i class="fas fa-dollar-sign"></i>
-                                    </div>
-                                    <div class="stat-details">
-                                        <div class="stat-label">Total Sales</div>
-                                        <div class="stat-value">$0.00</div>
-                                    </div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-icon-wrapper primary">
-                                        <i class="fas fa-receipt"></i>
-                                    </div>
-                                    <div class="stat-details">
-                                        <div class="stat-label">Transactions</div>
-                                        <div class="stat-value">0</div>
-                                    </div>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-icon-wrapper warning">
-                                        <i class="fas fa-coins"></i>
-                                    </div>
-                                    <div class="stat-details">
-                                        <div class="stat-label">Cash Payments</div>
-                                        <div class="stat-value">$0.00</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sales-summary">
-                                <div class="summary-row"><span class="summary-label">Sales:</span> <span>0.0 USD&nbsp;|&nbsp;0.0 LBP</span></div>
-                                <div class="summary-row"><span class="summary-label">Deposit:</span> <span>0.0 USD&nbsp;|&nbsp;0.0 LBP</span></div>
-                                <div class="summary-row"><span class="summary-label">Expenses:</span> <span>0.0 USD&nbsp;|&nbsp;0.0 LBP</span></div>
-                                <div class="summary-box">
-                                    from cash: 0.0 USD<br>0.0 LBP
-                                </div>
-                            </div>
-                        </div>
-                        <div class="table-wrapper">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Receipt ID</th>
-                                        <th>Time</th>
-                                        <th>Amount (USD)</th>
-                                        <th>Amount (LBP)</th>
-                                        <th>Payment Type</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="daily-sales-tbody">
-                                    <tr>
-                                        <td colspan="6" style="text-align: center; padding: 3rem; color: var(--gray-500);">
-                                            Loading...
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            `;
+          <div class="table-container">
+            <div class="table-header" style="display:flex;justify-content:space-between;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+              <div class="day-buttons" style="display:flex;gap:0.5rem;overflow-x:auto;max-width:100%;">
+                <button class="btn btn-secondary">Jul 5</button>
+                <button class="btn btn-secondary">Jul 6</button>
+                <button class="btn btn-secondary">Jul 7</button>
+                <button class="btn btn-secondary">Jul 8</button>
+                <button class="btn btn-secondary">Jul 9</button>
+                <button class="btn btn-secondary">Jul 10</button>
+                <button class="btn btn-primary">TODAY</button>
+              </div>
+              <div class="table-actions" style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;">
+                <input type="date" id="daily-date-picker" style="display:none;" onchange="filterDailySalesByDate(this.value)">
+                <button class="btn btn-secondary btn-icon" onclick="(document.getElementById('daily-date-picker').showPicker?document.getElementById('daily-date-picker').showPicker():document.getElementById('daily-date-picker').click())"><i class="fas fa-calendar-alt"></i></button>
+                <button class="btn btn-secondary btn-icon" id="daily-stats-toggle" onclick="toggleDailyStats()"><i class="fas fa-chart-bar"></i></button>
+                <button class="btn btn-secondary"><i class="fas fa-download"></i> Download Report</button>
+                <button class="btn btn-primary" onclick="openModal('add-transaction-modal')"><i class="fas fa-plus"></i> Add Transaction</button>
+              </div>
+            </div>
+
+            <div id="daily-stats-section" class="stats-grid" style="margin:1rem 0;display:flex;gap:1rem;flex-wrap:wrap;">
+              <div class="stat-card">
+                <div class="stat-icon-wrapper success"><i class="fas fa-dollar-sign"></i></div>
+                <div class="stat-details"><div class="stat-label">Sales</div><div class="stat-value">$0.00</div></div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon-wrapper primary"><i class="fas fa-piggy-bank"></i></div>
+                <div class="stat-details"><div class="stat-label">Deposit</div><div class="stat-value">$0.00</div></div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon-wrapper danger"><i class="fas fa-receipt"></i></div>
+                <div class="stat-details"><div class="stat-label">Expenses</div><div class="stat-value">$0.00</div></div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-icon-wrapper warning"><i class="fas fa-wallet"></i></div>
+                <div class="stat-details"><div class="stat-label">From Cash</div><div class="stat-value">$0.00</div></div>
+              </div>
+            </div>
+
+            <div class="table-wrapper">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="min-width:140px;">Receipt ID<br><input type="text" class="form-input" placeholder="Search..." style="width:100%;margin-top:4px;" oninput="filterDailySalesBySearch(this.value)"></th>
+                    <th>Time</th>
+                    <th>Amount (USD)</th>
+                    <th>Amount (LBP)</th>
+                    <th>Payment Type</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="daily-sales-tbody">
+                  <tr>
+                    <td colspan="6" style="text-align:center;padding:3rem;color:var(--gray-500);">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        `;
       }
 
       function getShiftPage() {
@@ -5692,13 +5662,14 @@
         renderDailySales(dailySalesSelectedDate, dailySalesSearchTerm);
       }
       function toggleDailyStats() {
-        const stats = document.querySelector(".stats-grid");
-        const summary = document.querySelector(".sales-summary");
-        const btn = document.getElementById("daily-stats-toggle");
-        if (!stats || !summary || !btn) return;
-        const hidden = stats.style.display === "none";
-        stats.style.display = summary.style.display = hidden ? "" : "none";
-        btn.textContent = hidden ? "Hide Stats" : "Show Stats";
+        const section = document.getElementById("daily-stats-section") || document.querySelector(".stats-grid");
+        if (!section) return;
+        const hidden = section.style.display === "none";
+        section.style.display = hidden ? "" : "none";
+        const icon = document.querySelector("#daily-stats-toggle i");
+        if (icon) {
+          icon.className = hidden ? "fas fa-chart-bar" : "fas fa-chart-line";
+        }
       }
       function openInvoiceFromDailySale(dateKey, receiptId) {
         const receipt = (dailySalesData[dateKey] || []).find(
@@ -5740,18 +5711,19 @@
         const body = document.getElementById("refund-body");
         const title = document.getElementById("refund-title");
         title.textContent = `Refund - ${receiptId}`;
-        body.innerHTML = `<table class='table'><thead><tr><th></th><th>Name</th><th>Qty</th><th>Price</th><th>Total Price</th></tr></thead><tbody>${receipt.items
+        body.innerHTML = `<table class='table'><thead><tr><th></th><th>Name</th><th>Qty</th><th>Price</th><th>Total Price</th><th>Reason</th></tr></thead><tbody>${receipt.items
           .map(
-            (i) =>
-              `<tr><td><input type='checkbox'></td><td>${i.name}</td><td>${
-                i.qty
-              }</td><td>${i.price}</td><td>${(i.qty * i.price).toFixed(
-                2
-              )}</td></tr>`
+            (i, idx) =>
+              `<tr>
+                 <td><input type='checkbox' onchange="this.closest('tr').querySelector('.refund-reason').style.display = this.checked ? '' : 'none';"></td>
+                 <td>${i.name}</td>
+                 <td>${i.qty}</td>
+                 <td>${i.price}</td>
+                 <td>${(i.qty * i.price).toFixed(2)}</td>
+                 <td><input type='text' class='form-input refund-reason' placeholder='Reason...' style='display:none;max-width:140px;'></td>
+               </tr>`
           )
-          .join(
-            ""
-          )}</tbody></table><div style='text-align:right;margin-top:1rem;font-weight:700;'>TOTAL REFUND: ${receipt.usd.toFixed(
+          .join("")}</tbody></table><div style='text-align:right;margin-top:1rem;font-weight:700;'>TOTAL REFUND: ${receipt.usd.toFixed(
           2
         )} USD</div>`;
         openModal("refund-modal");

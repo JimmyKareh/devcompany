@@ -4357,6 +4357,1121 @@
             `;
       }
 
+      function getMarketPosPage() {
+        return `
+          <div class="market-pos-layout">
+            <!-- Left Section -->
+            <div class="market-left-section">
+              <!-- Customer and Product Search Section -->
+              <div class="customer-section">
+                <div class="top-search-section">
+                  <!-- Customer Search -->
+                  <div class="customer-search-section">
+                    <div class="customer-search-wrapper">
+                      <input type="text" class="customer-search-input" placeholder="Search customer..." oninput="showCustomerSuggestions(this.value)" />
+                      <div class="customer-suggestions" id="customer-suggestions" style="display:none;">
+                        <div class="suggestion-item" onclick="selectCustomer('John Smith')">John Smith</div>
+                        <div class="suggestion-item" onclick="selectCustomer('Sarah Johnson')">Sarah Johnson</div>
+                        <div class="suggestion-item" onclick="selectCustomer('Mike Wilson')">Mike Wilson</div>
+                      </div>
+                    </div>
+                    <button class="btn btn-icon btn-secondary" onclick="openModal('add-customer-modal')">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="btn btn-icon btn-secondary" onclick="openModal('edit-customer-modal')">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                  </div>
+
+                  <!-- Product Search -->
+                  <div class="product-search-section">
+                    <div class="product-search-wrapper">
+                      <i class="fas fa-search product-search-icon"></i>
+                      <input type="text" class="product-search-input" placeholder="Search product by name or barcode..." oninput="searchProduct(this.value)" onkeypress="handleProductSearchEnter(event)" />
+                      <button class="barcode-scan-btn" onclick="openBarcodeScanner()">
+                        <i class="fas fa-barcode"></i>
+                      </button>
+                      <div class="product-search-results" id="product-search-results" style="display:none;">
+                        <!-- Search results will appear here -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Discount and Action Buttons Section -->
+              <div class="discount-actions-section">
+                <div class="discount-section">
+                  <span class="discount-label">Discount</span>
+                  <div class="discount-input-group">
+                    <button class="disc-btn" onclick="adjustDiscount(-1)">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <input type="number" class="discount-input" value="0" id="market-discount-input" onchange="updateMarketSummary()" />
+                    <span class="discount-symbol">%</span>
+                    <button class="disc-btn" onclick="adjustDiscount(1)">
+                      <i class="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <input type="range" class="discount-slider" min="0" max="50" value="0" id="market-discount-slider" oninput="syncDiscountSlider(this.value)" />
+                </div>
+                <div class="action-buttons">
+                  <button class="btn btn-icon btn-secondary" onclick="placeOnHold()" title="On Hold">
+                    <i class="fas fa-clock"></i>
+                  </button>
+                  <button class="btn btn-icon btn-secondary" onclick="viewOnHold()" title="View On Hold">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="btn btn-icon btn-danger" onclick="clearCart()" title="Clean Basket">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Cart Items Table -->
+              <div class="cart-table-section">
+                <div class="cart-table-header">
+                  <span>Product</span>
+                  <span>Qty</span>
+                  <span>Price</span>
+                  <span>Total Price</span>
+                  <span>In Stock</span>
+                  <span>Discount</span>
+                </div>
+                <div class="cart-table-body" id="market-cart-table">
+                  <!-- Cart items will be populated here -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Section - Keypad -->
+            <div class="market-right-section">
+              <div class="keypad-section">
+                <div class="keypad-grid">
+                  <button class="key-btn" onclick="keypadAppend(7)">7</button>
+                  <button class="key-btn" onclick="keypadAppend(8)">8</button>
+                  <button class="key-btn" onclick="keypadAppend(9)">9</button>
+                  <button class="key-btn" onclick="keypadAppend(4)">4</button>
+                  <button class="key-btn" onclick="keypadAppend(5)">5</button>
+                  <button class="key-btn" onclick="keypadAppend(6)">6</button>
+                  <button class="key-btn" onclick="keypadAppend(1)">1</button>
+                  <button class="key-btn" onclick="keypadAppend(2)">2</button>
+                  <button class="key-btn" onclick="keypadAppend(3)">3</button>
+                  <button class="key-btn key-clear" onclick="keypadClear()">C</button>
+                  <button class="key-btn" onclick="keypadAppend(0)">0</button>
+                  <button class="key-btn key-delete" onclick="keypadDelete()">Del</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom Section -->
+            <div class="market-bottom-section">
+              <!-- Totals Left -->
+              <div class="totals-section">
+                <div class="total-line">
+                  <span class="total-before">Total Before Discount: <span id="total-before" style="text-decoration: line-through;">$0.00</span></span>
+                </div>
+                <div class="total-line">
+                  <span class="total-after">Total After Discount: <span id="total-after">$0.00</span></span>
+                </div>
+                <div class="total-line">
+                  <span class="total-usd">USD: <span id="total-usd">$0.00</span></span>
+                  <span class="total-lbp">LBP: <span id="total-lbp">0 LBP</span></span>
+                </div>
+              </div>
+
+              <!-- Action Buttons Right -->
+              <div class="bottom-actions">
+                <button class="btn btn-secondary" onclick="openInvoiceModal()">
+                  <i class="fas fa-file-invoice"></i>
+                  Invoice
+                </button>
+                <button class="btn btn-primary" onclick="openModal('payment-modal')">
+                  <i class="fas fa-credit-card"></i>
+                  Pay
+                </button>
+                <button class="btn btn-secondary" onclick="openQuotationModal()">
+                  <i class="fas fa-file-alt"></i>
+                  Quotation
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <style>
+            .market-pos-layout {
+              display: grid;
+              grid-template-rows: 1fr auto;
+              grid-template-columns: 1fr 300px;
+              height: calc(100vh - 64px);
+              background: var(--gray-50);
+              gap: 1rem;
+              padding: 1rem;
+            }
+
+            .market-left-section {
+              background: var(--white);
+              border-radius: 12px;
+              border: 1px solid var(--gray-200);
+              display: flex;
+              flex-direction: column;
+              overflow: hidden;
+            }
+
+            .customer-section {
+              padding: 1rem;
+              border-bottom: 1px solid var(--gray-200);
+            }
+
+            .top-search-section {
+              display: flex;
+              gap: 1rem;
+              align-items: flex-start;
+            }
+
+            .customer-search-section {
+              display: flex;
+              gap: 0.5rem;
+              align-items: center;
+              flex: 1;
+            }
+
+            .product-search-section {
+              display: flex;
+              gap: 0.5rem;
+              align-items: center;
+              flex: 1;
+            }
+
+            .product-search-wrapper {
+              position: relative;
+              flex: 1;
+            }
+
+            .product-search-input {
+              width: 100%;
+              padding: 0.75rem 3rem 0.75rem 2.5rem;
+              border: 1px solid var(--gray-300);
+              border-radius: 6px;
+              font-size: 0.875rem;
+              background: var(--white);
+            }
+
+            .product-search-input:focus {
+              outline: none;
+              border-color: var(--primary);
+              box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            }
+
+            .product-search-icon {
+              position: absolute;
+              left: 0.75rem;
+              top: 50%;
+              transform: translateY(-50%);
+              color: var(--gray-500);
+              font-size: 1rem;
+            }
+
+            .barcode-scan-btn {
+              position: absolute;
+              right: 0.5rem;
+              top: 50%;
+              transform: translateY(-50%);
+              background: var(--primary);
+              color: white;
+              border: none;
+              padding: 0.5rem;
+              border-radius: 4px;
+              cursor: pointer;
+              transition: var(--transition);
+              font-size: 0.8rem;
+            }
+
+            .barcode-scan-btn:hover {
+              background: var(--primary-dark);
+            }
+
+            .product-search-results {
+              position: absolute;
+              top: 100%;
+              left: 0;
+              right: 0;
+              background: var(--white);
+              border: 1px solid var(--gray-300);
+              border-radius: 6px;
+              box-shadow: var(--shadow-lg);
+              z-index: 20;
+              max-height: 300px;
+              overflow-y: auto;
+            }
+
+            .product-result-item {
+              padding: 0.75rem;
+              cursor: pointer;
+              border-bottom: 1px solid var(--gray-200);
+              transition: var(--transition);
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            }
+
+            .product-result-item:hover {
+              background: var(--gray-50);
+            }
+
+            .product-result-item:last-child {
+              border-bottom: none;
+            }
+
+            .product-result-info {
+              display: flex;
+              flex-direction: column;
+              flex: 1;
+            }
+
+            .product-result-name {
+              font-weight: 500;
+              color: var(--gray-900);
+              font-size: 0.9rem;
+            }
+
+            .product-result-barcode {
+              font-size: 0.8rem;
+              color: var(--gray-500);
+              margin-top: 0.25rem;
+            }
+
+            .product-result-price {
+              font-weight: 600;
+              color: var(--primary);
+              font-size: 0.9rem;
+            }
+
+            .customer-search-wrapper {
+              position: relative;
+              flex: 1;
+            }
+
+            .customer-search-input {
+              width: 100%;
+              padding: 0.75rem;
+              border: 1px solid var(--gray-300);
+              border-radius: 6px;
+              font-size: 0.875rem;
+              background: var(--white);
+            }
+
+            .customer-search-input:focus {
+              outline: none;
+              border-color: var(--primary);
+              box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            }
+
+            .customer-suggestions {
+              position: absolute;
+              top: 100%;
+              left: 0;
+              right: 0;
+              background: var(--white);
+              border: 1px solid var(--gray-300);
+              border-radius: 6px;
+              box-shadow: var(--shadow-lg);
+              z-index: 10;
+              max-height: 200px;
+              overflow-y: auto;
+            }
+
+            .suggestion-item {
+              padding: 0.75rem;
+              cursor: pointer;
+              border-bottom: 1px solid var(--gray-200);
+              transition: var(--transition);
+            }
+
+            .suggestion-item:hover {
+              background: var(--gray-50);
+            }
+
+            .suggestion-item:last-child {
+              border-bottom: none;
+            }
+
+            .discount-actions-section {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 1rem;
+              border-bottom: 1px solid var(--gray-200);
+              background: var(--gray-50);
+            }
+
+            .discount-section {
+              display: flex;
+              align-items: center;
+              gap: 0.75rem;
+            }
+
+            .discount-slider {
+              width: 100px;
+              height: 6px;
+              border-radius: 3px;
+              background: var(--gray-200);
+              outline: none;
+              -webkit-appearance: none;
+            }
+
+            .discount-slider::-webkit-slider-thumb {
+              -webkit-appearance: none;
+              appearance: none;
+              width: 16px;
+              height: 16px;
+              border-radius: 50%;
+              background: var(--primary);
+              cursor: pointer;
+              border: 2px solid var(--white);
+              box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+
+            .discount-slider::-moz-range-thumb {
+              width: 16px;
+              height: 16px;
+              border-radius: 50%;
+              background: var(--primary);
+              cursor: pointer;
+              border: 2px solid var(--white);
+              box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+
+            .discount-label {
+              font-size: 0.875rem;
+              font-weight: 500;
+              color: var(--gray-700);
+            }
+
+            .discount-input-group {
+              display: flex;
+              align-items: center;
+              background: var(--white);
+              border: 1px solid var(--gray-300);
+              border-radius: 6px;
+              overflow: hidden;
+            }
+
+            .disc-btn {
+              width: 32px;
+              height: 32px;
+              border: none;
+              background: var(--gray-100);
+              color: var(--gray-600);
+              font-size: 1rem;
+              cursor: pointer;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: var(--transition);
+            }
+
+            .disc-btn:hover {
+              background: var(--gray-200);
+              color: var(--primary);
+            }
+
+            .discount-input {
+              width: 60px;
+              padding: 0.5rem;
+              border: none;
+              text-align: center;
+              font-size: 0.875rem;
+            }
+
+            .discount-input:focus {
+              outline: none;
+            }
+
+            .discount-symbol {
+              padding: 0.5rem;
+              background: var(--gray-100);
+              color: var(--gray-600);
+              font-weight: 500;
+            }
+
+            .action-buttons {
+              display: flex;
+              gap: 0.5rem;
+            }
+
+            .cart-table-section {
+              flex: 1;
+              display: flex;
+              flex-direction: column;
+              overflow: hidden;
+            }
+
+            .cart-table-header {
+              display: grid;
+              grid-template-columns: 2fr 80px 100px 120px 100px 100px;
+              gap: 0.5rem;
+              padding: 0.75rem 1rem;
+              background: var(--gray-50);
+              border-bottom: 1px solid var(--gray-200);
+              font-size: 0.8rem;
+              font-weight: 600;
+              color: var(--gray-700);
+            }
+
+            .cart-table-body {
+              flex: 1;
+              overflow-y: auto;
+              padding: 1rem;
+            }
+
+            .market-cart-row:hover {
+              background: var(--gray-50) !important;
+              box-shadow: var(--shadow-sm);
+            }
+
+            .market-cart-row.selected {
+              background: var(--primary-light) !important;
+              border: 2px solid var(--primary) !important;
+              box-shadow: var(--shadow-md);
+            }
+
+            .market-right-section {
+              background: var(--white);
+              border-radius: 12px;
+              border: 1px solid var(--gray-200);
+              padding: 1rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+
+            .keypad-section {
+              width: 100%;
+            }
+
+            .keypad-grid {
+              display: grid;
+              grid-template-columns: repeat(3, 1fr);
+              gap: 0.75rem;
+              max-width: 250px;
+              margin: 0 auto;
+            }
+
+            .key-btn {
+              width: 60px;
+              height: 60px;
+              border: 1px solid var(--gray-300);
+              background: var(--white);
+              border-radius: 8px;
+              font-size: 1.125rem;
+              font-weight: 600;
+              color: var(--gray-700);
+              cursor: pointer;
+              transition: var(--transition);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+
+            .key-btn:hover {
+              background: var(--gray-50);
+              border-color: var(--primary);
+              color: var(--primary);
+            }
+
+            .key-btn:active {
+              transform: scale(0.95);
+            }
+
+            .key-clear {
+              background: var(--danger) !important;
+              color: white !important;
+              border-color: var(--danger) !important;
+            }
+
+            .key-clear:hover {
+              background: var(--danger-dark) !important;
+            }
+
+            .key-delete {
+              background: var(--warning) !important;
+              color: white !important;
+              border-color: var(--warning) !important;
+            }
+
+            .market-bottom-section {
+              grid-column: 1 / -1;
+              background: var(--white);
+              border-radius: 12px;
+              border: 1px solid var(--gray-200);
+              padding: 1rem;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            }
+
+            .totals-section {
+              display: flex;
+              flex-direction: column;
+              gap: 0.5rem;
+            }
+
+            .total-line {
+              display: flex;
+              gap: 2rem;
+              font-size: 0.9rem;
+            }
+
+            .total-before {
+              color: var(--gray-600);
+            }
+
+            .total-after {
+              font-weight: 600;
+              color: var(--gray-900);
+            }
+
+            .total-usd, .total-lbp {
+              font-weight: 700;
+              color: var(--primary);
+            }
+
+            .bottom-actions {
+              display: flex;
+              gap: 0.75rem;
+            }
+
+            .bottom-actions .btn {
+              padding: 0.75rem 1.5rem;
+              font-weight: 600;
+            }
+          </style>
+        `;
+      }
+
+      // Market POS functionality
+      let marketCart = [
+        {
+          name: "Coca Cola 500ml",
+          sku: "CC-500",
+          barcode: "0049000028911",
+          price: 1.99,
+          stock: 45,
+          category: "beverages",
+          icon: "🥤",
+          quantity: 2,
+          discount: 0
+        },
+        {
+          name: "iPhone 15 Pro",
+          sku: "IP-15P",
+          barcode: "0190199583658",
+          price: 1199.99,
+          stock: 8,
+          category: "electronics",
+          icon: "📱",
+          quantity: 1,
+          discount: 5
+        },
+        {
+          name: "Coffee Beans 1kg",
+          sku: "CF-1KG",
+          barcode: "0011110567892",
+          price: 15.99,
+          stock: 18,
+          category: "groceries",
+          icon: "☕",
+          quantity: 3,
+          discount: 0
+        }
+      ];
+
+      let selectedCartItem = -1;
+      let keypadValue = '';
+
+      function updateMarketCartDisplay() {
+        const cartContainer = document.getElementById('market-cart-table');
+        if (!cartContainer) return;
+
+        if (marketCart.length === 0) {
+          cartContainer.innerHTML = '<div style="text-align:center; color:var(--gray-500); padding:2rem; grid-column: 1 / -1;">No items in cart</div>';
+        } else {
+          cartContainer.innerHTML = marketCart.map((item, index) => `
+            <div class="market-cart-row ${selectedCartItem === index ? 'selected' : ''}" onclick="selectCartItem(${index})" style="display:grid; grid-template-columns:2fr 80px 100px 120px 100px 100px; gap:0.5rem; align-items:center; padding:0.75rem 1rem; border-bottom:1px solid var(--gray-200); background:var(--white); margin-bottom:0.5rem; border-radius:6px; cursor:pointer; transition:var(--transition);">
+              <div style="display:flex; flex-direction:column;">
+                <div style="font-size:0.9rem; font-weight:500; color:var(--gray-900);">${item.name}</div>
+                <div style="font-size:0.75rem; color:var(--gray-500); margin-top:0.25rem;">${item.barcode || item.sku}</div>
+              </div>
+              <div style="text-align:center;">
+                <input type="number" value="${item.quantity}" min="1" style="width:60px; padding:0.5rem; border:1px solid var(--gray-300); border-radius:4px; text-align:center; font-size:0.875rem;" onchange="updateMarketItemQuantity(${index}, this.value)" onclick="event.stopPropagation()">
+              </div>
+              <div style="text-align:center; font-size:0.9rem; color:var(--gray-700);">$${item.price}</div>
+              <div style="text-align:center; font-weight:600; color:var(--primary); font-size:1rem;">$${(item.price * item.quantity).toFixed(2)}</div>
+              <div style="text-align:center; font-size:0.85rem; color:var(--success);">${item.stock}</div>
+              <div style="text-align:center; display:flex; align-items:center; justify-content:center; gap:0.5rem;">
+                <input type="number" value="${item.discount || 0}" min="0" max="100" style="width:50px; padding:0.25rem; border:1px solid var(--gray-300); border-radius:4px; text-align:center; font-size:0.8rem;" onchange="updateItemDiscount(${index}, this.value)" onclick="event.stopPropagation()">
+                <span style="font-size:0.8rem; color:var(--gray-600);">%</span>
+                <button onclick="event.stopPropagation(); removeMarketItem(${index})" style="background:var(--danger); color:white; border:none; padding:0.25rem 0.5rem; border-radius:4px; cursor:pointer; margin-left:0.5rem;">
+                  <i class="fas fa-times" style="font-size:0.7rem;"></i>
+                </button>
+              </div>
+            </div>
+          `).join('');
+        }
+
+        updateMarketSummary();
+      }
+
+      function updateMarketSummary() {
+        const discountPercent = parseFloat(document.getElementById('market-discount-input')?.value || 0);
+        const subtotal = marketCart.reduce((sum, item) => {
+          const itemDiscount = item.discount || 0;
+          const itemTotal = item.price * item.quantity;
+          return sum + (itemTotal - (itemTotal * itemDiscount / 100));
+        }, 0);
+        
+        const totalBeforeDiscount = marketCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const globalDiscount = totalBeforeDiscount * discountPercent / 100;
+        const totalAfterDiscount = subtotal - globalDiscount;
+        const lbpTotal = totalAfterDiscount * 90000;
+
+        // Update totals in bottom section
+        const totalBeforeEl = document.getElementById('total-before');
+        const totalAfterEl = document.getElementById('total-after');
+        const totalUsdEl = document.getElementById('total-usd');
+        const totalLbpEl = document.getElementById('total-lbp');
+
+        if (totalBeforeEl) totalBeforeEl.textContent = `$${totalBeforeDiscount.toFixed(2)}`;
+        if (totalAfterEl) totalAfterEl.textContent = `$${totalAfterDiscount.toFixed(2)}`;
+        if (totalUsdEl) totalUsdEl.textContent = `$${totalAfterDiscount.toFixed(2)}`;
+        if (totalLbpEl) totalLbpEl.textContent = `${lbpTotal.toLocaleString()} LBP`;
+      }
+
+      function updateMarketItemQuantity(index, quantity) {
+        marketCart[index].quantity = parseInt(quantity) || 1;
+        updateMarketCartDisplay();
+      }
+
+      function removeMarketItem(index) {
+        marketCart.splice(index, 1);
+        updateMarketCartDisplay();
+      }
+
+      function clearTransaction() {
+        marketCart = [];
+        updateMarketCartDisplay();
+        showToast('Transaction cleared', 'success');
+      }
+
+      function processMarketCheckout() {
+        if (marketCart.length === 0) {
+          showToast('Cart is empty', 'warning');
+          return;
+        }
+        
+        showToast('Processing checkout...', 'success');
+        // In a real app, this would open payment modal
+        setTimeout(() => {
+          marketCart = [];
+          updateMarketCartDisplay();
+          showToast('Transaction completed successfully!', 'success');
+        }, 1500);
+      }
+
+      // Product addition functions for market POS
+      function openBarcodeScanner() {
+        const barcode = prompt('Enter barcode or product name:');
+        if (barcode) {
+          addProductToMarketCart(barcode);
+        }
+      }
+
+      function openProductQuickAdd() {
+        const productName = prompt('Enter product name:');
+        if (productName) {
+          const price = prompt('Enter price:');
+          if (price && !isNaN(price)) {
+            const customProduct = {
+              name: productName,
+              sku: 'CUSTOM-' + Date.now(),
+              price: parseFloat(price),
+              stock: 999,
+              category: 'custom',
+              icon: '📦'
+            };
+            
+            const existingItem = marketCart.find(item => item.name === customProduct.name);
+            if (existingItem) {
+              existingItem.quantity += 1;
+            } else {
+              marketCart.push({
+                ...customProduct,
+                quantity: 1
+              });
+            }
+            
+            updateMarketCartDisplay();
+            showToast(`${productName} added to cart`, 'success');
+          }
+        }
+      }
+
+      // Market product database with barcodes
+      const marketProductsDB = [
+        { name: "Coca Cola 500ml", sku: "CC-500", barcode: "0049000028911", price: 1.99, stock: 45, category: "beverages", icon: "🥤" },
+        { name: "Bread Loaf", sku: "BR-001", barcode: "0079893121215", price: 2.49, stock: 23, category: "groceries", icon: "🍞" },
+        { name: "iPhone 15 Pro", sku: "IP-15P", barcode: "0190199583658", price: 1199.99, stock: 8, category: "electronics", icon: "📱" },
+        { name: "Nike Air Max", sku: "NK-AM", barcode: "0884751126437", price: 149.99, stock: 12, category: "clothing", icon: "👟" },
+        { name: "Shampoo 300ml", sku: "SH-300", barcode: "3014260245115", price: 8.99, stock: 32, category: "health", icon: "🧴" },
+        { name: "Coffee Beans 1kg", sku: "CF-1KG", barcode: "0011110567892", price: 15.99, stock: 18, category: "groceries", icon: "☕" },
+        { name: "Samsung TV 55\"", sku: "TV-55", barcode: "8801643699123", price: 799.99, stock: 5, category: "electronics", icon: "📺" },
+        { name: "Garden Hose 15m", sku: "GH-15", barcode: "0062174567001", price: 29.99, stock: 11, category: "home", icon: "🌿" },
+        { name: "Protein Powder", sku: "PP-2KG", barcode: "0631312708263", price: 49.99, stock: 7, category: "sports", icon: "💪" },
+        { name: "Milk 1L", sku: "MK-1L", barcode: "0070560012344", price: 3.29, stock: 67, category: "groceries", icon: "🥛" },
+        { name: "Wireless Headphones", sku: "WH-BT", barcode: "0194252785805", price: 199.99, stock: 15, category: "electronics", icon: "🎧" },
+        { name: "Jeans Size 32", sku: "JN-32", barcode: "0685650012987", price: 79.99, stock: 20, category: "clothing", icon: "👖" },
+        { name: "Vitamin C Tablets", sku: "VC-100", barcode: "0031604028824", price: 12.99, stock: 25, category: "health", icon: "💊" },
+        { name: "Lawn Mower Electric", sku: "LM-E20", barcode: "0885911277655", price: 299.99, stock: 3, category: "home", icon: "🌱" },
+        { name: "Tennis Racket Pro", sku: "TR-PRO", barcode: "0097512345678", price: 89.99, stock: 9, category: "sports", icon: "🎾" },
+        { name: "Laptop Gaming", sku: "LP-GM", barcode: "0889842567133", price: 1299.99, stock: 4, category: "electronics", icon: "💻" },
+        { name: "Olive Oil 500ml", sku: "OO-500", barcode: "8002230128934", price: 12.49, stock: 28, category: "groceries", icon: "🫒" },
+        { name: "Face Cream 50ml", sku: "FC-50", barcode: "3346470016125", price: 24.99, stock: 18, category: "health", icon: "🧴" },
+        { name: "Basketball", sku: "BB-STD", barcode: "0029321567891", price: 34.99, stock: 14, category: "sports", icon: "🏀" },
+        { name: "Table Lamp LED", sku: "TL-LED", barcode: "6901909234567", price: 45.99, stock: 22, category: "home", icon: "💡" }
+      ];
+
+      function addProductToMarketCart(searchTerm) {
+        // Search by name, SKU, or barcode
+        const product = marketProductsDB.find(p => 
+          p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          p.sku.toLowerCase() === searchTerm.toLowerCase() ||
+          p.barcode === searchTerm
+        );
+
+        if (product) {
+          const existingItem = marketCart.find(item => item.sku === product.sku);
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            marketCart.push({
+              ...product,
+              quantity: 1
+            });
+          }
+          
+          updateMarketCartDisplay();
+          showToast(`${product.name} added to cart`, 'success');
+        } else {
+          showToast('Product not found', 'warning');
+        }
+      }
+
+      function viewProductCatalog() {
+        showToast('Use barcode scanner or quick add to add products', 'info');
+      }
+
+      // Product search functionality
+      function searchProduct(searchTerm) {
+        const resultsContainer = document.getElementById('product-search-results');
+        if (!resultsContainer) return;
+
+        if (searchTerm.length < 2) {
+          resultsContainer.style.display = 'none';
+          return;
+        }
+
+        // Search products by name, SKU, or barcode
+        const results = marketProductsDB.filter(product => 
+          product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          product.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          product.barcode.includes(searchTerm)
+        ).slice(0, 8); // Limit to 8 results
+
+        if (results.length > 0) {
+          resultsContainer.innerHTML = results.map(product => `
+            <div class="product-result-item" onclick="selectProductFromSearch('${product.sku}')">
+              <div class="product-result-info">
+                <div class="product-result-name">${product.name}</div>
+                <div class="product-result-barcode">Barcode: ${product.barcode}</div>
+              </div>
+              <div class="product-result-price">$${product.price}</div>
+            </div>
+          `).join('');
+          resultsContainer.style.display = 'block';
+        } else {
+          resultsContainer.innerHTML = '<div style="padding:1rem; text-align:center; color:var(--gray-500);">No products found</div>';
+          resultsContainer.style.display = 'block';
+        }
+      }
+
+      function selectProductFromSearch(sku) {
+        const product = marketProductsDB.find(p => p.sku === sku);
+        if (!product) return;
+
+        const existingItem = marketCart.find(item => item.sku === product.sku);
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          marketCart.push({
+            ...product,
+            quantity: 1
+          });
+        }
+
+        updateMarketCartDisplay();
+        showToast(`${product.name} added to cart`, 'success');
+
+        // Clear search
+        const searchInput = document.querySelector('.product-search-input');
+        const resultsContainer = document.getElementById('product-search-results');
+        if (searchInput) searchInput.value = '';
+        if (resultsContainer) resultsContainer.style.display = 'none';
+      }
+
+      function handleProductSearchEnter(event) {
+        if (event.key === 'Enter') {
+          const searchTerm = event.target.value.trim();
+          if (searchTerm) {
+            addProductToMarketCart(searchTerm);
+            event.target.value = '';
+            const resultsContainer = document.getElementById('product-search-results');
+            if (resultsContainer) resultsContainer.style.display = 'none';
+          }
+        }
+      }
+
+      // Hide product search results when clicking outside
+      document.addEventListener('click', function(event) {
+        const searchWrapper = document.querySelector('.product-search-wrapper');
+        const results = document.getElementById('product-search-results');
+        
+        if (searchWrapper && results && !searchWrapper.contains(event.target)) {
+          results.style.display = 'none';
+        }
+      });
+
+      function filterByCategory(category) {
+        // Update active category pill
+        document.querySelectorAll('.category-pill').forEach(pill => pill.classList.remove('active'));
+        event.target.classList.add('active');
+        showToast(`Filtering by: ${category}`, 'info');
+      }
+
+      function toggleProductView(view) {
+        document.querySelectorAll('.view-toggle-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        showToast(`Switched to ${view} view`, 'info');
+      }
+
+      function holdTransaction() {
+        if (marketCart.length === 0) {
+          showToast('Cart is empty', 'warning');
+          return;
+        }
+        showToast('Transaction held', 'success');
+      }
+
+      // Additional Market POS Functions
+      function updateItemDiscount(index, discount) {
+        marketCart[index].discount = parseFloat(discount) || 0;
+        updateMarketCartDisplay();
+      }
+
+      function showCustomerSuggestions(searchTerm) {
+        const suggestions = document.getElementById('customer-suggestions');
+        if (!suggestions) return;
+
+        if (searchTerm.length > 0) {
+          suggestions.style.display = 'block';
+          // Filter suggestions based on search term (basic implementation)
+          const allSuggestions = suggestions.querySelectorAll('.suggestion-item');
+          allSuggestions.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            if (text.includes(searchTerm.toLowerCase())) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        } else {
+          suggestions.style.display = 'none';
+        }
+      }
+
+      function selectCustomer(customerName) {
+        const input = document.querySelector('.customer-search-input');
+        const suggestions = document.getElementById('customer-suggestions');
+        
+        if (input) input.value = customerName;
+        if (suggestions) suggestions.style.display = 'none';
+        
+        showToast(`Customer selected: ${customerName}`, 'success');
+      }
+
+      function adjustDiscount(direction) {
+        const discountInput = document.getElementById('market-discount-input');
+        const discountSlider = document.getElementById('market-discount-slider');
+        if (!discountInput) return;
+
+        let currentValue = parseFloat(discountInput.value) || 0;
+        currentValue += direction;
+        
+        if (currentValue < 0) currentValue = 0;
+        if (currentValue > 50) currentValue = 50;
+        
+        discountInput.value = currentValue;
+        if (discountSlider) discountSlider.value = currentValue;
+        updateMarketSummary();
+      }
+
+      function syncDiscountSlider(value) {
+        const discountInput = document.getElementById('market-discount-input');
+        if (discountInput) {
+          discountInput.value = value;
+          updateMarketSummary();
+        }
+      }
+
+      // Cart selection and keypad functions
+      function selectCartItem(index) {
+        selectedCartItem = index;
+        keypadValue = '';
+        updateMarketCartDisplay();
+        showToast(`Selected: ${marketCart[index].name}`, 'info');
+      }
+
+      function keypadAppend(number) {
+        if (selectedCartItem === -1) {
+          showToast('Please select a cart item first', 'warning');
+          return;
+        }
+        
+        keypadValue += number;
+        updateKeypadDisplay();
+        
+        // Auto-apply value and reset when user stops typing
+        clearTimeout(window.keypadTimeout);
+        window.keypadTimeout = setTimeout(() => {
+          if (keypadValue !== '') {
+            applyKeypadValue();
+          }
+        }, 1500);
+      }
+
+      function keypadClear() {
+        keypadValue = '';
+        updateKeypadDisplay();
+      }
+
+      function keypadDelete() {
+        keypadValue = keypadValue.slice(0, -1);
+        updateKeypadDisplay();
+      }
+
+      function updateKeypadDisplay() {
+        // Simplified keypad - no display needed for basic quantity input
+      }
+
+      function applyKeypadValue() {
+        if (selectedCartItem === -1 || keypadValue === '') {
+          return;
+        }
+
+        const value = parseFloat(keypadValue);
+        if (isNaN(value) || value <= 0) return;
+
+        marketCart[selectedCartItem].quantity = value;
+        updateMarketCartDisplay();
+        showToast(`Quantity updated to ${value}`, 'success');
+        keypadValue = '';
+      }
+
+      // Add keyboard shortcuts for keypad
+      document.addEventListener('keydown', function(event) {
+        if (selectedCartItem === -1) return;
+
+        if (event.key === 'Enter') {
+          applyKeypadValue();
+        }
+      });
+
+      function openQuotationModal() {
+        if (marketCart.length === 0) {
+          showToast('Cart is empty', 'warning');
+          return;
+        }
+
+        // Create quotation modal
+        const modalHtml = `
+          <div id="quotation-modal" class="modal">
+            <div class="modal-content" style="max-width:400px;">
+              <div class="modal-header">
+                <h3>Generate Quotation</h3>
+                <span class="close" onclick="closeModal('quotation-modal')">&times;</span>
+              </div>
+              <div class="modal-body" style="padding:2rem;">
+                <p style="margin-bottom:1.5rem; color:var(--gray-600);">Choose how you want to generate the quotation:</p>
+                <div style="display:flex; flex-direction:column; gap:1rem;">
+                  <button class="btn btn-primary" onclick="downloadQuotationPDF()" style="padding:1rem; justify-content:flex-start; gap:0.75rem;">
+                    <i class="fas fa-file-pdf" style="font-size:1.25rem;"></i>
+                    <div style="text-align:left;">
+                      <div style="font-weight:600;">Download as PDF</div>
+                      <div style="font-size:0.85rem; opacity:0.8;">Generate and download quotation PDF</div>
+                    </div>
+                  </button>
+                  <button class="btn btn-secondary" onclick="printQuotation()" style="padding:1rem; justify-content:flex-start; gap:0.75rem;">
+                    <i class="fas fa-print" style="font-size:1.25rem;"></i>
+                    <div style="text-align:left;">
+                      <div style="font-weight:600;">Print Quotation</div>
+                      <div style="font-size:0.85rem; opacity:0.8;">Print quotation directly</div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+        openModal('quotation-modal');
+      }
+
+      function downloadQuotationPDF() {
+        showToast('Quotation PDF download started', 'success');
+        closeModal('quotation-modal');
+        // Remove the modal from DOM
+        const modal = document.getElementById('quotation-modal');
+        if (modal) modal.remove();
+      }
+
+      function printQuotation() {
+        showToast('Quotation sent to printer', 'success');
+        closeModal('quotation-modal');
+        // Remove the modal from DOM
+        const modal = document.getElementById('quotation-modal');
+        if (modal) modal.remove();
+      }
+
+      function openInvoiceModal() {
+        if (marketCart.length === 0) {
+          showToast('Cart is empty', 'warning');
+          return;
+        }
+        // Use existing invoice modal functionality
+        openModal('invoice-modal');
+      }
+
+      // Hide customer suggestions when clicking outside
+      document.addEventListener('click', function(event) {
+        const searchWrapper = document.querySelector('.customer-search-wrapper');
+        const suggestions = document.getElementById('customer-suggestions');
+        
+        if (searchWrapper && suggestions && !searchWrapper.contains(event.target)) {
+          suggestions.style.display = 'none';
+        }
+      });
+
       function generateProductCards() {
         const products = [
           { name: "Chicken Sub Sand", price: 5.99, icon: "🥪" },
@@ -5356,6 +6471,7 @@
         // Update page title
         const titles = {
           sale: "Point of Sale",
+          "market-pos": "Market POS",
           "daily-sales": "Daily Sales",
           shift: "Shift Management",
           inventory: "Inventory",
@@ -5379,6 +6495,9 @@
           switch (pageName) {
             case "sale":
               pageHTML = getSalePage();
+              break;
+            case "market-pos":
+              pageHTML = getMarketPosPage();
               break;
             case "daily-sales":
               pageHTML = getDailySalesPage();
@@ -5419,6 +6538,11 @@
             const imgToggle = document.getElementById("toggle-product-images");
             if (imgToggle) toggleProductImages(imgToggle);
             attachProductCardLongPress();
+          } else if (pageName === "market-pos") {
+            // Initialize market cart display
+            setTimeout(() => {
+              updateMarketCartDisplay();
+            }, 100);
           } else if (pageName === "inventory") {
             initInventoryPage();
           } else if (pageName === "dashboard") {
@@ -7729,12 +8853,22 @@
       }
 
       function selectModule(moduleType) {
-        // Update the user role or store module preference
+        if (moduleType === 'restaurant') {
+          // Switch to restaurant POS (current sale page)
+          showPage('sale');
+          showToast('Switched to Restaurant module', 'success');
+        } else {
+          // Switch to market/retail POS (new page)
+          showPage('market-pos');
+          showToast('Switched to Market module', 'success');
+        }
+        
+        // Update the user role display
         const userRole = document.querySelector('.user-role');
         if (userRole) {
           userRole.textContent = moduleType === 'restaurant' ? 'Restaurant Mode' : 'Market Mode';
         }
-        showToast(`Switched to ${moduleType} module`, 'success');
+        
         closeModal('module-selector-modal');
       }
 

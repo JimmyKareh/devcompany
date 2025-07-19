@@ -1142,6 +1142,164 @@
         color: var(--danger);
       }
 
+      /* Daily Stats Row */
+      .daily-stats-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+
+      /* Shift Stats Row */
+      .shift-stats-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+
+      .shift-stats-row .stat-card {
+        flex: 1;
+        min-width: 0;
+        padding: 1.5rem;
+      }
+
+      @media (max-width: 900px) {
+        .shift-stats-row {
+          justify-content: flex-start;
+        }
+        .shift-stats-row .stat-card {
+          flex: 0 0 auto;
+          min-width: 200px;
+        }
+      }
+
+      .daily-stats-row .stat-card {
+        flex: 1;
+        min-width: 0;
+        padding: 1.75rem;
+      }
+
+      .daily-stats-row .stat-icon-wrapper {
+        width: 64px;
+        height: 64px;
+        font-size: 1.75rem;
+      }
+
+      .daily-stats-row .stat-value {
+        font-size: 2.25rem;
+      }
+
+      @media (max-width: 1200px) {
+        .daily-stats-row .stat-card {
+          padding: 1.5rem;
+        }
+        .daily-stats-row .stat-icon-wrapper {
+          width: 56px;
+          height: 56px;
+          font-size: 1.5rem;
+        }
+        .daily-stats-row .stat-value {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .daily-stats-row {
+          justify-content: flex-start;
+          overflow-x: auto;
+        }
+        .daily-stats-row .stat-card {
+          flex: 0 0 auto;
+          min-width: 180px;
+          padding: 0.875rem;
+        }
+        .daily-stats-row .stat-icon-wrapper {
+          width: 48px;
+          height: 48px;
+          font-size: 1.25rem;
+        }
+        .daily-stats-row .stat-value {
+          font-size: 1.5rem;
+        }
+      }
+
+      @media (max-width: 700px) {
+        .daily-stats-row .stat-card {
+          min-width: 160px;
+          padding: 0.75rem;
+        }
+        .daily-stats-row .stat-icon-wrapper {
+          width: 42px;
+          height: 42px;
+          font-size: 1.125rem;
+        }
+        .daily-stats-row .stat-value {
+          font-size: 1.25rem;
+        }
+        .daily-stats-row .stat-label {
+          font-size: 0.75rem;
+        }
+      }
+
+      /* Animated Report Tabs */
+      .animated-tabs-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid var(--gray-200);
+      }
+      
+      .animated-tabs {
+        display: flex;
+        gap: 2rem;
+        position: relative;
+      }
+      
+      .animated-tab-link {
+        padding: 1rem 1.5rem;
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--gray-600);
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 8px 8px 0 0;
+        user-select: none;
+      }
+      
+      .animated-tab-link:hover {
+        color: var(--primary);
+        background: rgba(37, 99, 235, 0.05);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+      }
+      
+      .animated-tab-link.active {
+        color: var(--primary);
+        background: var(--primary-light);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.2);
+      }
+      
+      .tab-indicator {
+        position: absolute;
+        bottom: -2px;
+        height: 3px;
+        background: var(--primary);
+        border-radius: 2px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0;
+      }
+      
+      .animated-tabs-container .tab-indicator.show {
+        opacity: 1;
+      }
+
       /* Charts */
       .charts-grid {
         display: grid;
@@ -2476,6 +2634,25 @@
             <i class="fas fa-tachometer-alt"></i>
             <span>Dashboard</span>
           </a>
+          <div style="border-top:1px solid var(--gray-200); margin:1rem 0; padding-top:1rem;">
+            <a
+              href="#module"
+              class="nav-item"
+              onclick="event.preventDefault(); openModuleSelector()"
+            >
+              <i class="fas fa-th-large"></i>
+              <span>Module</span>
+            </a>
+            <a
+              href="#logout"
+              class="nav-item"
+              onclick="event.preventDefault(); logout()"
+              style="color:var(--danger);"
+            >
+              <i class="fas fa-sign-out-alt"></i>
+              <span>Logout</span>
+            </a>
+          </div>
         </nav>
 
         <div class="nav-footer">
@@ -3053,6 +3230,9 @@
           <button type="button" class="btn btn-secondary">
             <i class="fas fa-print"></i> Print Receipt
           </button>
+          <button type="button" class="btn" style="background:transparent;border:1px solid black;color:black;" onclick="downloadInvoicePDF()">
+            <i class="fas fa-file-pdf"></i> Download PDF
+          </button>
           <button
             type="button"
             id="invoice-download-btn"
@@ -3440,6 +3620,53 @@
       </div>
     </div>
 
+    <!-- Import Customers Modal -->
+    <div class="modal" id="import-customers-modal">
+      <div class="modal-content" style="max-width: 500px">
+        <div class="modal-header">
+          <h2 class="modal-title">Import Customers</h2>
+          <button class="modal-close" onclick="closeModal('import-customers-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div style="padding: 1rem 0;">
+          <div class="form-group">
+            <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--gray-900);">
+              Step 1: Download Template
+            </h3>
+            <p style="font-size: 0.875rem; color: var(--gray-600); margin-bottom: 1rem;">
+              Download the Excel template with the correct format for importing customers.
+            </p>
+            <button class="btn btn-secondary" onclick="downloadCustomerTemplate()" style="width: 100%;">
+              <i class="fas fa-download"></i>
+              Download Template
+            </button>
+          </div>
+          
+          <hr style="margin: 1.5rem 0; border: none; border-top: 1px solid var(--gray-200);">
+          
+          <div class="form-group">
+            <h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--gray-900);">
+              Step 2: Upload File
+            </h3>
+            <p style="font-size: 0.875rem; color: var(--gray-600); margin-bottom: 1rem;">
+              Select the completed Excel file to import customer data.
+            </p>
+            <input type="file" id="customer-import-file" class="form-input" accept=".xlsx,.xls,.csv" style="margin-bottom: 1rem;">
+            <button class="btn btn-primary" onclick="importCustomerFile()" style="width: 100%;">
+              <i class="fas fa-upload"></i>
+              Import Customers
+            </button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('import-customers-modal')">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Customer Details Modal -->
     <div class="modal" id="customer-details-modal">
       <div
@@ -3499,7 +3726,7 @@
                 border: 1px solid var(--gray-200);
               "
             >
-              <h3 style="font-size: 0.9rem; margin-bottom: 0.5rem">
+              <h3 style="font-size: 0.9rem; margin-bottom: 1.5rem; margin-top: 1.5rem;">
                 Total Revenue / Total Profit
               </h3>
               <canvas id="customer-pie" width="150" height="150"></canvas>
@@ -3884,10 +4111,27 @@
       function initInventoryPage() {
         const select = document.getElementById("inventory-category-filter");
         if (select && select.options.length === 0) {
-          getInventoryCategories().forEach((cat) => {
+          const categoryColors = [
+            '#7d3cff', // purple
+            '#28a745', // green  
+            '#ff9500', // orange
+            '#ff3b30', // red
+            '#f2c94c', // yellow
+            '#007aff'  // blue
+          ];
+          
+          getInventoryCategories().forEach((cat, index) => {
             const opt = document.createElement("option");
             opt.value = cat;
-            opt.textContent = cat;
+            if (cat === "All") {
+              opt.textContent = cat;
+            } else {
+              const colorIndex = (index - 1) % categoryColors.length; // -1 because "All" is first
+              const color = categoryColors[colorIndex >= 0 ? colorIndex : 0];
+              opt.textContent = `■ ${cat}`;
+              opt.style.color = color;
+              opt.style.fontWeight = 'bold';
+            }
             select.appendChild(opt);
           });
         }
@@ -4248,7 +4492,7 @@
               </div>
             </div>
 
-           <div id="daily-stats-section" class="stats-grid" style="display:flex;gap:1rem;overflow-x:auto;">
+           <div id="daily-stats-section" class="daily-stats-row">
   <div class="stat-card">
     <div class="stat-icon-wrapper success"><i class="fas fa-dollar-sign"></i></div>
     <div class="stat-details">
@@ -4312,51 +4556,75 @@
       function getShiftPage() {
         return `
                 <div class="table-container">
-                    <div class="table-header">
-                        <h2 class="table-title">Shift Management</h2>
-                        <button class="btn btn-primary">
-                            <i class="fas fa-sign-out-alt"></i>
-                            End Shift
-                        </button>
-                    </div>
-                    <div style="padding: 1.5rem;">
-                        <div style="width:100%;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;">
-                            <!-- Shift Info Lines -->
-                            <div style="display:flex;flex-direction:column;gap:0.5rem;">
-                                <div class="shift-info-card">
-                                    <i class="fas fa-clock"></i>
-                                    <span>Current Shift :</span>
-                                    <span class="shift-number">#266</span>
-                                    <span class="shift-time">- 14-05-2025 11:55 PM → now</span>
-                                </div>
-                                <div class="shift-info-card">
-                                    <i class="fas fa-check-circle"></i>
-                                    <span>Selected Shift :</span>
-                                    <span class="shift-number">#266</span>
-                                    <span class="shift-time">- 14-05-2025 11:55 PM → now</span>
-                                    <button class="btn btn-secondary btn-sm" style="margin-left:0.5rem;" onclick="openShiftSelector()">Open latest Shifts</button>
-                                </div>
+                    <div class="table-header" style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;">
+                        <!-- Shift Info Lines moved to header -->
+                        <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                            <div class="shift-info-card">
+                                <i class="fas fa-clock"></i>
+                                <span>Current Shift :</span>
+                                <span class="shift-number">#266</span>
+                                <span class="shift-time">- 14-05-2025 11:55 PM → now</span>
                             </div>
-
-                            <!-- Summary + Net -->
-                            <div style="display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin-bottom:1.5rem;">
-                                <div class="shift-summary">
-                                    <div class="summary-row"><span class="summary-label">Sales :</span> <span>16289.265 USD&nbsp;|&nbsp;1,466,033,868 LBP</span></div>
-                                    <div class="summary-row"><span class="summary-label">Deposit :</span> <span>0.0 USD&nbsp;|&nbsp;0.0 LBP</span></div>
-                                    <div class="summary-row"><span class="summary-label">Expenses :</span> <span>4315.26 USD&nbsp;|&nbsp;11.0 LBP</span></div>
-                                    <div class="cash-box">from cash : 3,246.9 USD<br>11.0 LBP</div>
-                                </div>
-                                <div class="shift-net">&nbsp;&nbsp;--&gt; 13,042.405 USD</div>
+                            <div class="shift-info-card">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Selected Shift :</span>
+                                <span class="shift-number">#266</span>
+                                <span class="shift-time">- 14-05-2025 11:55 PM → now</span>
+                                <button class="btn btn-secondary btn-sm" style="margin-left:0.5rem;" onclick="openShiftSelector()">Open latest Shifts</button>
                             </div>
                         </div>
+                        
+                        <div style="display:flex;gap:0.5rem;align-items:center;">
+                            <button class="btn btn-secondary btn-icon" id="shift-stats-toggle" onclick="toggleShiftStats()" title="Toggle Stats"><i class="fas fa-chart-bar"></i></button>
+                            <button class="btn" style="background:transparent;border:1px solid black;color:black;">
+                                <i class="fas fa-sign-out-alt"></i>
+                                End Shift
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats Cards Section -->
+                    <div id="shift-stats-section" class="shift-stats-row">
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper success"><i class="fas fa-dollar-sign"></i></div>
+                            <div class="stat-details">
+                                <div class="stat-label">Sales</div>
+                                <div class="stat-value">$16,289.27</div>
+                                <div class="stat-value" style="font-size:1rem;color:var(--gray-600);">1,466,033,868 LBP</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper primary"><i class="fas fa-piggy-bank"></i></div>
+                            <div class="stat-details">
+                                <div class="stat-label">Deposit</div>
+                                <div class="stat-value">$0.00</div>
+                                <div class="stat-value" style="font-size:1rem;color:var(--gray-600);">0 LBP</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper danger"><i class="fas fa-receipt"></i></div>
+                            <div class="stat-details">
+                                <div class="stat-label">Expenses</div>
+                                <div class="stat-value">$4,315.26</div>
+                                <div class="stat-value" style="font-size:1rem;color:var(--gray-600);">11 LBP</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon-wrapper warning"><i class="fas fa-wallet"></i></div>
+                            <div class="stat-details">
+                                <div class="stat-label">From Cash</div>
+                                <div class="stat-value">$3,246.90</div>
+                                <div class="stat-value" style="font-size:1rem;color:var(--gray-600);">11 LBP</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="padding: 1.5rem;">
                         <!-- Action Buttons Row -->
                         <div style="display:flex; gap:0.75rem; align-items:center;justify-content:flex-end; margin-bottom:1rem; flex-wrap:wrap;">
                             <button class="btn btn-secondary">All <i class="fas fa-chevron-down"></i></button>
-                            <button class="btn btn-secondary" id="balance-toggle-inside" style="margin-left:0.25rem;" onclick="toggleShiftBalance()">Hide Balance</button>
                             <button class="btn btn-download"><i class="fas fa-download"></i> download</button>
-                            <!-- End Shift button removed as per spec -->
                         </div>
-
                         
                         <div class="table-wrapper">
                             <table class="table">
@@ -4392,8 +4660,9 @@
                 </div>
                 <button id="download-stock-btn" class="btn btn-secondary" onclick="downloadInventoryStock()"><i class="fas fa-download"></i> Download All Stock</button>
                 <button class="btn btn-secondary" onclick="openModal('import-data-modal')"><i class="fas fa-file-import"></i> Import Data</button>
+                <button class="btn btn-secondary btn-icon" id="inventory-stats-toggle" onclick="toggleInventoryStats()" title="Toggle Stats"><i class="fas fa-chart-bar"></i></button>
                 <button class="btn btn-secondary btn-icon" onclick="openModal('product-settings-modal')"><i class="fas fa-cog"></i></button>
-                <button class="btn btn-primary" onclick="openModal('add-product-modal')"><i class="fas fa-plus"></i> Add</button>
+                <button class="btn btn-secondary btn-icon" onclick="openModal('add-product-modal')"><i class="fas fa-plus"></i></button>
               </div>
             </div>
             <div style="padding:1.5rem;">
@@ -4453,26 +4722,108 @@
 
       function getPurchasesPage() {
         return `
-          <div style="padding:1rem;">
-            <!-- Totals Row -->
-            <div class="purchase-totals">
-              <span class="purchase-total-label">
-                TOTAL: <span id="purchase-total-usd">0.0 USD</span> / <span id="purchase-total-lbp">0.0 LBP</span> , Qty: <span id="purchase-total-qty">0.0</span>
-              </span>
-              <input id="purchase-reference" class="form-input" placeholder="reference id" style="max-width:160px;" />
-              <input id="purchase-date" class="form-input" type="date" style="max-width:160px;" />
-              <button class="btn btn-secondary" onclick="openSupplierModal()"><i class="fas fa-search"></i> Supplier</button>
+          <div class="table-container">
+            <div class="table-header">
+              <h2 class="table-title">Purchases Management</h2>
+              <div class="table-actions">
+                <div class="toggle-group">
+                  <button type="button" class="toggle-btn active" onclick="switchPurchaseTab(this, 'new-purchases')">New Purchases</button>
+                  <button type="button" class="toggle-btn" onclick="switchPurchaseTab(this, 'purchases')">Purchases</button>
+                </div>
+              </div>
             </div>
+            
+            <!-- New Purchases Tab Content -->
+            <div id="new-purchases-tab" class="purchase-tab-content" style="display:block;">
+              <div style="padding:1rem;">
+                <!-- Totals Row -->
+                <div class="purchase-totals">
+                  <span class="purchase-total-label">
+                    TOTAL: <span id="purchase-total-usd">0.0 USD</span> / <span id="purchase-total-lbp">0.0 LBP</span> , Qty: <span id="purchase-total-qty">0.0</span>
+                  </span>
+                  <input id="purchase-reference" class="form-input" placeholder="reference id" style="max-width:160px;" />
+                  <input id="purchase-date" class="form-input" type="date" style="max-width:160px;" />
+                  <button class="btn btn-secondary" onclick="openSupplierModal()"><i class="fas fa-search"></i> Supplier</button>
+                </div>
 
-            <!-- Search / Actions Row -->
-            <div class="purchase-actions">
-              <input id="purchase-search" class="form-input" style="flex:1;min-width:240px;" placeholder="search by name or barcode" onkeydown="handlePurchaseSearch(event)" />
-              <button class="btn btn-secondary" onclick="openModal('add-product-modal')"><i class="fas fa-plus"></i> Add Product</button>
-              <button class="btn btn-success" onclick="savePurchase()"><i class="fas fa-save"></i> save</button>
+                <!-- Search / Actions Row -->
+                <div class="purchase-actions">
+                  <input id="purchase-search" class="form-input" style="flex:1;min-width:240px;" placeholder="search by name or barcode" onkeydown="handlePurchaseSearch(event)" />
+                  <button class="btn btn-secondary btn-icon" onclick="openModal('add-product-modal')" title="Add Product"><i class="fas fa-plus"></i></button>
+                  <button class="btn btn-success btn-icon" onclick="savePurchase()" title="Save Purchase"><i class="fas fa-save"></i></button>
+                </div>
+
+                <!-- Items Container -->
+                <div id="purchase-items-container"></div>
+              </div>
             </div>
-
-            <!-- Items Container -->
-            <div id="purchase-items-container"></div>
+            
+            <!-- Purchases Tab Content -->
+            <div id="purchases-tab" class="purchase-tab-content" style="display:none;padding:1.5rem;">
+              <!-- Filter Row -->
+              <div style="display:flex;justify-content:flex-end;gap:0.75rem;margin-bottom:1.5rem;align-items:center;flex-wrap:wrap;">
+                <input id="purchases-date-filter" class="form-input" type="date" style="max-width:160px;" onchange="filterPurchases()" />
+                <button class="btn btn-secondary" onclick="openSupplierModal()"><i class="fas fa-search"></i> Supplier</button>
+              </div>
+              
+              <!-- Purchases Table -->
+              <div class="table-wrapper">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Purchase ID</th>
+                      <th>Date</th>
+                      <th>Supplier</th>
+                      <th>Total (USD)</th>
+                      <th>Total (LBP)</th>
+                      <th>Items Count</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="purchases-tbody">
+                    <tr>
+                      <td>#PUR-001</td>
+                      <td>2025-07-18</td>
+                      <td>Default Supplier</td>
+                      <td>$245.50</td>
+                      <td>22,095,000 LBP</td>
+                      <td>15</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-secondary btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-icon" title="Delete"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>#PUR-002</td>
+                      <td>2025-07-17</td>
+                      <td>Default Supplier</td>
+                      <td>$89.75</td>
+                      <td>8,077,500 LBP</td>
+                      <td>8</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-secondary btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-icon" title="Delete"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>#PUR-003</td>
+                      <td>2025-07-16</td>
+                      <td>Default Supplier</td>
+                      <td>$156.20</td>
+                      <td>14,058,000 LBP</td>
+                      <td>12</td>
+                      <td>
+                        <button class="btn btn-secondary btn-icon" title="View Details"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-secondary btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-icon" title="Delete"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         `;
       }
@@ -4482,48 +4833,32 @@
                 <div class="table-container">
                     <div class="table-header">
                         <h2 class="table-title">Customer Management</h2>
-                        <div class="table-actions">
-                            <button class="btn btn-secondary">
-                                <i class="fas fa-file-import"></i>
-                                Import
-                            </button>
-                            <button class="btn btn-primary" onclick="openModal('add-customer-modal')">
-                                <i class="fas fa-plus"></i>
-                                New Customer
-                            </button>
+                        <div class="table-actions" style="display:flex;gap:0.5rem;align-items:center;justify-content:space-between;flex-wrap:wrap;">
+                            <input id="customer-search" class="form-input" style="flex:1;min-width:200px;max-width:300px;" placeholder="Search customers..." oninput="filterCustomers()" />
+                            <div style="display:flex;gap:0.5rem;">
+                                <button class="btn btn-secondary" onclick="openModal('import-customers-modal')">
+                                    <i class="fas fa-file-import"></i>
+                                    Import
+                                </button>
+                                <button class="btn btn-secondary" onclick="downloadCustomersExcel()">
+                                    <i class="fas fa-file-excel"></i>
+                                    Download Excel
+                                </button>
+                                <button class="btn" style="background:transparent;border:1px solid black;color:black;width:40px;height:40px;min-width:40px;min-height:40px;" onclick="openModal('add-customer-modal')" title="Add Customer">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div style="padding: 1.5rem;">
-                        <div class="stats-grid">
-                            <div class="stat-card">
-                                <div class="stat-icon-wrapper purple">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                                <div class="stat-details">
-                                    <div class="stat-label">Total Customers</div>
-                                    <div class="stat-value">1</div>
-                                </div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon-wrapper success">
-                                    <i class="fas fa-user-check"></i>
-                                </div>
-                                <div class="stat-details">
-                                    <div class="stat-label">Active Customers</div>
-                                    <div class="stat-value">1</div>
-                                </div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-icon-wrapper primary">
-                                    <i class="fas fa-percentage"></i>
-                                </div>
-                                <div class="stat-details">
-                                    <div class="stat-label">Avg. Discount</div>
-                                    <div class="stat-value">0%</div>
-                                </div>
-                            </div>
+                        <!-- Customer Count -->
+                        <div style="margin-bottom: 1.5rem;">
+                            <h3 style="font-size: 1.25rem; font-weight: 600; color: var(--gray-900);">
+                                <span id="customer-count">1</span> Customer(s)
+                            </h3>
                         </div>
-                        <div class="table-wrapper" style="margin-top: 1.5rem;">
+                        
+                        <div class="table-wrapper">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -4536,7 +4871,7 @@
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="customers-tbody">
                                     <tr>
                                         <td>Samih Damaj</td>
                                         <td>71940445</td>
@@ -4567,9 +4902,8 @@
                 <div class="table-container">
                     <div class="table-header">
                         <h2 class="table-title">User Management</h2>
-                        <button class="btn btn-primary" onclick="openModal('add-user-modal')">
+                        <button class="btn" style="background:transparent;border:1px solid black;color:black;width:40px;height:40px;min-width:40px;min-height:40px;" onclick="openModal('add-user-modal')" title="Add User">
                             <i class="fas fa-user-plus"></i>
-                            New User
                         </button>
                     </div>
                     <div style="padding: 1.5rem;">
@@ -4755,18 +5089,21 @@
             </h2>
 
             <!-- REPORT TABS NAV -->
-            <div style="display:flex; gap:1.5rem; margin-bottom:0.5rem; font-weight:600; border-bottom:2px solid var(--gray-200);">
-              <div style="padding-bottom:0.25rem; cursor:pointer;" class="rep-tab-link active" onclick="switchReportTab(0)">Sales</div>
-              <div style="padding-bottom:0.25rem; cursor:pointer;" class="rep-tab-link" onclick="switchReportTab(1)">Sales by categories</div>
-              <div style="padding-bottom:0.25rem; cursor:pointer;" class="rep-tab-link" onclick="switchReportTab(2)">Expenses / <span id="exp-total">1581.39</span> USD</div>
-              <div style="padding-bottom:0.25rem; cursor:pointer;" class="rep-tab-link" onclick="switchReportTab(3)">Report charts</div>
+            <div class="animated-tabs-container">
+              <div class="animated-tabs">
+                <div class="animated-tab-link active" onclick="switchReportTab(0)">Sales</div>
+                <div class="animated-tab-link" onclick="switchReportTab(1)">Sales by categories</div>
+                <div class="animated-tab-link" onclick="switchReportTab(2)">Expenses / <span id="exp-total">1581.39</span> USD</div>
+                <div class="animated-tab-link" onclick="switchReportTab(3)">Report charts</div>
+              </div>
+              <div class="tab-indicator"></div>
             </div>
 
             <!-- TAB CONTENTS -->
             <div id="rep-tab-0" class="rep-tab-content active" style="padding-top:1rem;"></div>
             <div id="rep-tab-1" class="rep-tab-content" style="display:none; padding-top:1rem;"></div>
             <div id="rep-tab-2" class="rep-tab-content" style="display:none; padding-top:1rem;"></div>
-            <div id="rep-tab-3" class="rep-tab-content" style="display:none; padding-top:1rem; display:flex; gap:2rem; flex-wrap:wrap;"></div>
+            <div id="rep-tab-3" class="rep-tab-content" style="display:none; padding-top:1rem; display:flex; flex-direction:column; align-items:center; gap:2rem;"></div>
           </div>`;
       }
 
@@ -5219,38 +5556,111 @@
         const body = document.getElementById("invoice-body");
         const title = document.getElementById("invoice-title");
         title.textContent = `invoice ${receipt.replace("#", "")}`;
+        
+        // Check if this is a refunded receipt from shiftData
+        let refundedReceipt = null;
+        for (let shift of shiftData) {
+          const foundReceipt = shift.receipts.find(r => r.id === receipt && r.isRefunded);
+          if (foundReceipt) {
+            refundedReceipt = foundReceipt;
+            break;
+          }
+        }
+        
         let products;
         let showDisc = false;
-        if (invoiceDetailsData[receipt]) {
+        if (refundedReceipt && refundedReceipt.items) {
+          products = refundedReceipt.items;
+        } else if (invoiceDetailsData[receipt]) {
           products = invoiceDetailsData[receipt].items;
           showDisc = products.some((p) => p.discount && p.discount > 0);
         } else {
           products = [{ name: "Item", qty: 1, cost: 1, price: 1, discount: 0 }];
         }
+        
         const rows = products
           .map(
             (p) =>
-              `<tr><td>${p.name}</td><td>${p.qty}</td><td>${p.cost}</td><td>${
+              `<tr><td style="${p.isRefunded ? 'text-decoration: line-through; position: relative;' : ''}">${p.name}${p.isRefunded ? '<div style="position: absolute; top: 0; left: 0; color: var(--danger); font-weight: bold; font-size: 0.75rem;">REFUND</div>' : ''}</td><td>${p.qty}</td><td>${p.cost}</td><td>${
                 p.price
               }</td>${
                 showDisc
                   ? `<td class='invoice-discount'>${p.discount || 0}%</td>`
                   : ""
-              }<td>${(p.price * (1 - (p.discount || 0) / 100) * p.qty).toFixed(
-                2
-              )}</td></tr>`
+              }<td>${p.isRefunded ? '0.00' : (p.price * (1 - (p.discount || 0) / 100) * p.qty).toFixed(2)}</td></tr>`
           )
           .join("");
-        const totalUsd = products
+          
+        let refundInfo = '';
+        if (refundedReceipt) {
+          refundInfo = `<div style='margin-top: 1rem; padding: 1rem; border: 1px solid var(--danger); border-radius: 8px; background: rgba(239, 68, 68, 0.1);'>
+            <div style='color: var(--danger); font-weight: bold; margin-bottom: 0.5rem;'>REFUND INFORMATION</div>
+            <div style='font-size: 0.875rem; color: var(--gray-700);'>
+              <div><strong>Refund Date:</strong> ${refundedReceipt.refundDate}</div>
+              <div><strong>Refund Reason:</strong> ${refundedReceipt.refundReason}</div>
+            </div>
+          </div>`;
+        }
+        
+        const totalUsd = refundedReceipt ? 0 : products
           .reduce(
-            (s, p) => s + p.price * (1 - (p.discount || 0) / 100) * p.qty,
+            (s, p) => s + (p.isRefunded ? 0 : p.price * (1 - (p.discount || 0) / 100) * p.qty),
             0
           )
           .toFixed(2);
+        
         body.innerHTML = `<table class='invoice-table'><thead><tr><th>Product</th><th>Qty</th><th>Cost Price</th><th>Selling Price</th>${
           showDisc ? "<th>Discount %</th>" : ""
-        }<th>Total</th></tr></thead><tbody>${rows}</tbody></table><div class='invoice-total'>TOTAL : ${totalUsd} USD</div>`;
+        }<th>Total</th></tr></thead><tbody>${rows}</tbody></table><div class='invoice-total'>TOTAL : ${totalUsd} USD</div>${refundInfo}`;
         openModal("invoice-modal");
+      }
+
+      function downloadInvoicePDF() {
+        const title = document.getElementById("invoice-title").textContent;
+        const invoiceBody = document.getElementById("invoice-body").innerHTML;
+        
+        // Create a new window for the PDF content
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>${title}</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 20px; }
+              .invoice-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+              .invoice-table th, .invoice-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+              .invoice-table th { background-color: #f5f5f5; font-weight: bold; }
+              .invoice-total { text-align: right; font-weight: bold; margin: 20px 0; font-size: 18px; color: #dc2626; }
+              .invoice-discount { color: #f59e0b; }
+              h1 { color: #2563eb; text-align: center; margin-bottom: 30px; }
+              div[style*="border: 1px solid var(--danger)"] { 
+                border: 1px solid #dc2626 !important; 
+                border-radius: 8px; 
+                padding: 15px; 
+                background: rgba(239, 68, 68, 0.1); 
+                margin-top: 20px;
+              }
+              div[style*="color: var(--danger)"] { color: #dc2626 !important; }
+              div[style*="color: var(--gray-700)"] { color: #374151 !important; }
+            </style>
+          </head>
+          <body>
+            <h1>${title}</h1>
+            ${invoiceBody}
+            <br>
+            <p style="text-align: center; color: #666; font-size: 12px; margin-top: 40px;">
+              Generated on ${new Date().toLocaleString()}
+            </p>
+          </body>
+          </html>
+        `);
+        printWindow.document.close();
+        
+        // Wait for content to load, then trigger print dialog (which can save as PDF)
+        setTimeout(() => {
+          printWindow.print();
+        }, 250);
       }
 
       /* ---------------- Purchases & Suppliers Logic ---------------- */
@@ -5385,6 +5795,104 @@
         // reset
         purchaseItems.length = 0;
         renderPurchaseItems();
+      }
+
+      function switchPurchaseTab(btn, tabName) {
+        // Update button states
+        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Show/hide tab content
+        const newPurchasesTab = document.getElementById('new-purchases-tab');
+        const purchasesTab = document.getElementById('purchases-tab');
+        
+        if (tabName === 'new-purchases') {
+          newPurchasesTab.style.display = 'block';
+          purchasesTab.style.display = 'none';
+        } else {
+          newPurchasesTab.style.display = 'none';
+          purchasesTab.style.display = 'block';
+        }
+      }
+
+      function filterPurchases() {
+        const dateFilter = document.getElementById('purchases-date-filter');
+        const tbody = document.getElementById('purchases-tbody');
+        
+        if (!tbody) return;
+        
+        const selectedDate = dateFilter ? dateFilter.value : '';
+        
+        // For demo purposes, we'll just show filtering by date
+        // In a real app, this would filter the table rows
+        console.log('Filtering by date:', selectedDate);
+        
+        // You could implement actual filtering logic here
+        // For now, all rows remain visible as demo data
+        // Supplier filtering would be handled through the supplier modal selection
+      }
+
+      /* ------------- Customer helpers ------------- */
+      function filterCustomers() {
+        const searchInput = document.getElementById('customer-search');
+        const tbody = document.getElementById('customers-tbody');
+        const customerCount = document.getElementById('customer-count');
+        
+        if (!searchInput || !tbody || !customerCount) return;
+        
+        const searchTerm = searchInput.value.toLowerCase();
+        const rows = tbody.querySelectorAll('tr');
+        let visibleCount = 0;
+        
+        rows.forEach(row => {
+          const text = row.textContent.toLowerCase();
+          if (text.includes(searchTerm)) {
+            row.style.display = '';
+            visibleCount++;
+          } else {
+            row.style.display = 'none';
+          }
+        });
+        
+        customerCount.textContent = visibleCount;
+      }
+      
+      function downloadCustomersExcel() {
+        alert('Downloading customers Excel file (demo)');
+        // In a real application, this would generate and download an Excel file
+      }
+      
+      function openCustomerDetails(customerName) {
+        alert(`Opening details for: ${customerName} (demo)`);
+        // In a real application, this would open a customer details modal
+      }
+      
+      function downloadCustomerTemplate() {
+        alert('Downloading customer import template (demo)');
+        // In a real application, this would download an Excel template file
+        // with columns: Name, Phone, Email, Address, Discount, Status
+      }
+      
+      function importCustomerFile() {
+        const fileInput = document.getElementById('customer-import-file');
+        if (!fileInput || !fileInput.files.length) {
+          alert('Please select a file to import');
+          return;
+        }
+        
+        const fileName = fileInput.files[0].name;
+        alert(`Importing customers from: ${fileName} (demo)`);
+        
+        // In a real application, this would:
+        // 1. Read the Excel/CSV file
+        // 2. Validate the data format
+        // 3. Import customers to the database
+        // 4. Refresh the customer table
+        // 5. Show success/error messages
+        
+        closeModal('import-customers-modal');
+        // Reset file input
+        fileInput.value = '';
       }
 
       /* ------------- Supplier helpers ------------- */
@@ -5689,11 +6197,31 @@
         renderDailySales(dailySalesSelectedDate, dailySalesSearchTerm);
       }
       function toggleDailyStats() {
-        const section = document.getElementById("daily-stats-section") || document.querySelector(".stats-grid");
+        const section = document.getElementById("daily-stats-section") || document.querySelector(".daily-stats-row");
         if (!section) return;
         const hidden = section.style.display === "none";
         section.style.display = hidden ? "" : "none";
         const icon = document.querySelector("#daily-stats-toggle i");
+        if (icon) {
+          icon.className = hidden ? "fas fa-chart-bar" : "fas fa-chart-line";
+        }
+      }
+      function toggleShiftStats() {
+        const section = document.getElementById("shift-stats-section") || document.querySelector(".shift-stats-row");
+        if (!section) return;
+        const hidden = section.style.display === "none";
+        section.style.display = hidden ? "" : "none";
+        const icon = document.querySelector("#shift-stats-toggle i");
+        if (icon) {
+          icon.className = hidden ? "fas fa-chart-bar" : "fas fa-chart-line";
+        }
+      }
+      function toggleInventoryStats() {
+        const section = document.getElementById("inventory-stats");
+        if (!section) return;
+        const hidden = section.style.display === "none";
+        section.style.display = hidden ? "" : "none";
+        const icon = document.querySelector("#inventory-stats-toggle i");
         if (icon) {
           icon.className = hidden ? "fas fa-chart-bar" : "fas fa-chart-line";
         }
@@ -5727,7 +6255,7 @@
           showDisc ? `<th>Discount %</th>` : ""
         }<th>Total</th></tr></thead><tbody>${rows}</tbody></table><div class='invoice-total'>TOTAL : ${receipt.usd.toFixed(
           2
-        )} USD</div>`;
+        )} USD<br>TOTAL : ${(receipt.usd * 90000).toLocaleString()} LBP</div>`;
         openModal("invoice-modal");
       }
       function openRefundModal(dateKey, receiptId) {
@@ -5752,7 +6280,7 @@
           )
           .join("")}</tbody></table><div style='text-align:right;margin-top:1rem;font-weight:700;'>TOTAL REFUND: ${receipt.usd.toFixed(
           2
-        )} USD</div>`;
+        )} USD<br>TOTAL REFUND: ${(receipt.usd * 90000).toLocaleString()} LBP</div>`;
         openModal("refund-modal");
       }
       function processRefund() {
@@ -5812,6 +6340,22 @@
               usd: 20.0,
               lbp: 1800000,
               paymentType: "cash",
+            },
+            {
+              id: "#1-20006",
+              time: "11-07-2025 7:25 PM",
+              usd: 0.0,
+              lbp: 0,
+              paymentType: "cash",
+              isRefunded: true,
+              refundReason: "Customer not satisfied with quality",
+              refundDate: "11-07-2025 7:30 PM",
+              originalAmount: 35.50,
+              items: [
+                { name: "Chicken Burger", qty: 2, cost: 3.50, price: 8.00, isRefunded: true },
+                { name: "French Fries", qty: 1, cost: 1.20, price: 4.50, isRefunded: true },
+                { name: "Soft Drink", qty: 3, cost: 0.60, price: 2.00, isRefunded: true }
+              ]
             },
           ],
         },
@@ -6196,13 +6740,53 @@
 
       // ---------- REPORT PAGE LOGIC ----------
       function switchReportTab(idx) {
-        document
-          .querySelectorAll(".rep-tab-link")
-          .forEach((l, i) => l.classList.toggle("active", i === idx));
+        // Update tab active states
+        const tabs = document.querySelectorAll(".animated-tab-link");
+        tabs.forEach((l, i) => l.classList.toggle("active", i === idx));
+        
+        // Update tab content visibility
         document.querySelectorAll(".rep-tab-content").forEach((c, i) => {
           c.style.display = i === idx ? "" : "none";
         });
+        
+        // Animate the tab indicator
+        updateTabIndicator(idx);
+        
         if (idx === 3) renderReportCharts();
+      }
+      
+      function updateTabIndicator(activeIndex) {
+        const tabs = document.querySelectorAll(".animated-tab-link");
+        const indicator = document.querySelector(".tab-indicator");
+        const tabsContainer = document.querySelector(".animated-tabs");
+        const mainContainer = document.querySelector(".animated-tabs-container");
+        
+        if (!tabs[activeIndex] || !indicator || !tabsContainer || !mainContainer) return;
+        
+        const activeTab = tabs[activeIndex];
+        
+        // Get the position of the tabs container relative to the main container
+        const tabsRect = tabsContainer.getBoundingClientRect();
+        const mainRect = mainContainer.getBoundingClientRect();
+        const tabsOffsetLeft = tabsRect.left - mainRect.left;
+        
+        // Calculate position relative to the active tab
+        let leftOffset = tabsOffsetLeft;
+        for (let i = 0; i < activeIndex; i++) {
+          leftOffset += tabs[i].offsetWidth;
+          leftOffset += 32; // 2rem gap = 32px
+        }
+        
+        indicator.style.width = `${activeTab.offsetWidth}px`;
+        indicator.style.left = `${leftOffset}px`;
+        indicator.classList.add('show');
+      }
+      
+      // Initialize tab indicator on page load
+      function initReportTabs() {
+        setTimeout(() => {
+          updateTabIndicator(0); // Initialize with first tab active
+        }, 100);
       }
       // dummy data generators
       function renderReportPage() {
@@ -6210,6 +6794,7 @@
         renderSalesCatTab();
         renderExpensesTab();
         renderReportCharts();
+        initReportTabs();
       }
       function renderSalesTab() {
         const target = document.getElementById("rep-tab-0");
@@ -6394,42 +6979,64 @@
       function renderReportCharts() {
         const target = document.getElementById("rep-tab-3");
         target.innerHTML =
-          '<div style="flex:1; min-width:300px; max-width:400px; height:300px;"><canvas id="rep-pie"></canvas></div>' +
-          '<div style="flex:1; min-width:240px;">' +
-          '<div class="stat-row"><span class="stat-label"><span class="stat-dot dot-revenue"></span>Total Revenue:</span><span class="stat-value"><span class="usd">$0.00</span> | <span class="lbp">0 LBP</span></span></div>' +
-          '<div class="stat-row"><span class="stat-label"><span class="stat-dot dot-cost"></span>Total Cost:</span><span class="stat-value"><span class="usd">$0.00</span> | <span class="lbp">0 LBP</span></span></div>' +
-          '<div class="stat-row"><span class="stat-label"><span class="stat-dot dot-profit"></span>Total Profit:</span><span class="stat-value"><span class="usd">$0.00</span> | <span class="lbp">0 LBP</span></span></div>' +
-          '<div class="stat-row"><span class="stat-label"><span class="stat-dot dot-exp"></span>Total Expenses:</span><span class="stat-value"><span class="usd">$0.00</span> | <span class="lbp">0 LBP</span></span></div>' +
+          '<div style="display:flex; gap:3rem; align-items:flex-start; justify-content:center; flex-wrap:wrap;">' +
+          '<div style="width:350px; height:350px;"><canvas id="rep-pie"></canvas></div>' +
+          '<div style="display:flex; flex-direction:column; gap:1rem; min-width:300px;">' +
+          '<div class="stat-card" style="background:var(--white); padding:1rem; border-radius:8px; border:1px solid var(--gray-200);">' +
+          '<div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;"><span class="stat-dot dot-revenue"></span><span style="font-weight:600; color:var(--gray-700);">Total Revenue</span></div>' +
+          '<div style="font-size:1.25rem; font-weight:700; color:var(--gray-900);">$4,481.17 <span style="font-size:0.9rem; color:var(--gray-600);">| 403,305,300 LBP</span></div>' +
+          '</div>' +
+          '<div class="stat-card" style="background:var(--white); padding:1rem; border-radius:8px; border:1px solid var(--gray-200);">' +
+          '<div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;"><span class="stat-dot dot-cost"></span><span style="font-weight:600; color:var(--gray-700);">Total Cost</span></div>' +
+          '<div style="font-size:1.25rem; font-weight:700; color:var(--gray-900);">$1,546.13 <span style="font-size:0.9rem; color:var(--gray-600);">| 139,151,700 LBP</span></div>' +
+          '</div>' +
+          '<div class="stat-card" style="background:var(--white); padding:1rem; border-radius:8px; border:1px solid var(--gray-200);">' +
+          '<div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;"><span class="stat-dot dot-profit"></span><span style="font-weight:600; color:var(--gray-700);">Total Profit</span></div>' +
+          '<div style="font-size:1.25rem; font-weight:700; color:var(--gray-900);">$2,899.79 <span style="font-size:0.9rem; color:var(--gray-600);">| 260,981,100 LBP</span></div>' +
+          '</div>' +
+          '<div class="stat-card" style="background:var(--white); padding:1rem; border-radius:8px; border:1px solid var(--gray-200);">' +
+          '<div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem;"><span class="stat-dot dot-exp"></span><span style="font-weight:600; color:var(--gray-700);">Total Expenses</span></div>' +
+          '<div style="font-size:1.25rem; font-weight:700; color:var(--gray-900);">$1,581.39 <span style="font-size:0.9rem; color:var(--gray-600);">| 142,325,100 LBP</span></div>' +
+          '</div>' +
+          '</div>' +
           "</div>";
-        if (window.Chart) {
-          const ctx = document.getElementById("rep-pie").getContext("2d");
-          if (window.repPie) repPie.destroy();
-          window.repPie = new Chart(ctx, {
-            type: "pie",
-            data: {
-              labels: ["Total Cost", "Total Profit", "Total Expenses"],
-              datasets: [
-                {
-                  data: [0, 0, 0],
-                  backgroundColor: ["#3b82f6", "#84cc16", "#ef4444"],
+          
+        // Create chart with delay to ensure DOM is ready
+        setTimeout(() => {
+          if (window.Chart) {
+            const ctx = document.getElementById("rep-pie");
+            if (ctx) {
+              if (window.repPie) window.repPie.destroy();
+              window.repPie = new Chart(ctx.getContext("2d"), {
+                type: "pie",
+                data: {
+                  labels: ["Total Cost", "Total Profit", "Total Expenses"],
+                  datasets: [
+                    {
+                      data: [1546.13, 2899.79, 1581.39],
+                      backgroundColor: ["#3b82f6", "#84cc16", "#ef4444"],
+                      borderWidth: 2,
+                      borderColor: "#ffffff"
+                    },
+                  ],
                 },
-              ],
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: true,
-              plugins: {
-                legend: {
-                  position: "bottom",
-                  labels: {
-                    padding: 15,
-                    font: { size: 12 },
+                options: {
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  plugins: {
+                    legend: {
+                      position: "bottom",
+                      labels: {
+                        padding: 15,
+                        font: { size: 12 },
+                      },
+                    },
                   },
                 },
-              },
-            },
-          });
-        }
+              });
+            }
+          }
+        }, 100);
       }
       // Period selector logic
       function openReportPeriod(type) {
@@ -7115,6 +7722,67 @@
         closeModal('payment-modal');
         clearCart();
       }
+
+      // Module selector functions
+      function openModuleSelector() {
+        openModal('module-selector-modal');
+      }
+
+      function selectModule(moduleType) {
+        // Update the user role or store module preference
+        const userRole = document.querySelector('.user-role');
+        if (userRole) {
+          userRole.textContent = moduleType === 'restaurant' ? 'Restaurant Mode' : 'Market Mode';
+        }
+        showToast(`Switched to ${moduleType} module`, 'success');
+        closeModal('module-selector-modal');
+      }
+
+      function logout() {
+        if (confirm('Are you sure you want to logout?')) {
+          showToast('Logged out successfully', 'success');
+          // In a real app, this would redirect to login page
+          window.location.reload();
+        }
+      }
     </script>
+
+    <!-- Module Selector Modal -->
+    <div id="module-selector-modal" class="modal">
+      <div class="modal-content" style="max-width:400px;">
+        <div class="modal-header">
+          <h3>Select Module</h3>
+          <span class="close" onclick="closeModal('module-selector-modal')">&times;</span>
+        </div>
+        <div class="modal-body" style="padding:2rem;">
+          <p style="margin-bottom:1.5rem; color:var(--gray-600);">Choose the module you want to use:</p>
+          <div style="display:flex; flex-direction:column; gap:1rem;">
+            <button 
+              class="btn btn-primary" 
+              onclick="selectModule('restaurant')"
+              style="padding:1rem; display:flex; align-items:center; gap:0.75rem; justify-content:flex-start;"
+            >
+              <i class="fas fa-utensils" style="font-size:1.25rem;"></i>
+              <div style="text-align:left;">
+                <div style="font-weight:600;">Restaurant</div>
+                <div style="font-size:0.85rem; opacity:0.8;">Point of sale for restaurants and cafes</div>
+              </div>
+            </button>
+            <button 
+              class="btn btn-secondary" 
+              onclick="selectModule('market')"
+              style="padding:1rem; display:flex; align-items:center; gap:0.75rem; justify-content:flex-start;"
+            >
+              <i class="fas fa-shopping-cart" style="font-size:1.25rem;"></i>
+              <div style="text-align:left;">
+                <div style="font-weight:600;">Market</div>
+                <div style="font-size:0.85rem; opacity:0.8;">Point of sale for retail and markets</div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </body>
 </html>

@@ -1057,6 +1057,541 @@
         margin-bottom: 2rem;
       }
 
+      /* Restaurant Inventory Sidebar */
+      .sidebar-card {
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        position: sticky;
+        top: 1rem;
+      }
+
+      /* Badge Styles for Restaurant Categories */
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        border-radius: 6px;
+        text-transform: capitalize;
+      }
+      .badge-primary { background: #dbeafe; color: #1e40af; }
+      .badge-warning { background: #fef3c7; color: #92400e; }
+      .badge-info { background: #ddd6fe; color: #7c3aed; }
+      .badge-success { background: #d1fae5; color: #065f46; }
+      .badge-danger { background: #fecaca; color: #991b1b; }
+
+      /* Restaurant Inventory Styles */
+      .restaurant-inventory-container {
+        height: 100%;
+        overflow: hidden;
+        background: var(--gray-50);
+      }
+
+      .inventory-sections {
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        height: 100%;
+        gap: 0.5rem;
+        padding: 0.5rem;
+      }
+
+      .inventory-left-section {
+        display: flex;
+        flex-direction: column;
+        background: var(--white);
+        border-radius: 12px;
+        padding: 0.75rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-200);
+      }
+
+      .inventory-right-section {
+        background: var(--white);
+        border-radius: 12px;
+        padding: 0.75rem;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-200);
+      }
+
+      .inventory-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .inventory-title {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--gray-900);
+        margin: 0;
+      }
+
+      .inventory-actions {
+        display: flex;
+        gap: 0.35rem;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 0.75rem;
+      }
+
+      .inventory-items-container {
+        flex: 1;
+        overflow: hidden;
+        margin-bottom: 0.75rem;
+        background: var(--gray-50);
+        border-radius: 8px;
+        padding: 0.35rem;
+      }
+
+      .inventory-items-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(100px, 1fr));
+        grid-template-rows: repeat(3, 72px);
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(100px, 1fr);
+        gap: 0.35rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 0.35rem;
+      }
+
+      .inventory-item-card {
+        padding: 0.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+      }
+
+      .inventory-item-card:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .item-name {
+        font-weight: 600;
+        font-size: 0.75rem;
+        line-height: 1.1;
+        margin-bottom: 0.2rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+      }
+
+      .item-price {
+        font-size: 0.875rem;
+        font-weight: 700;
+        margin-bottom: 0.1rem;
+      }
+
+      .item-po-price {
+        font-size: 0.625rem;
+        opacity: 0.85;
+        margin-bottom: 0.1rem;
+      }
+
+      .item-stock {
+        font-size: 0.7rem;
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.1rem 0.3rem;
+        border-radius: 4px;
+        display: inline-block;
+      }
+
+      /* Ingredients Section */
+      .ingredients-section {
+        background: var(--gray-50);
+        border-radius: 6px;
+        padding: 0.5rem;
+        min-height: 180px;
+      }
+
+      .ingredients-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .ingredients-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--gray-900);
+        margin: 0;
+      }
+
+      .ingredients-actions {
+        display: flex;
+        gap: 0.35rem;
+      }
+
+      .ingredients-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 0.35rem;
+      }
+
+      .ingredient-card {
+        border-radius: 6px;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .ingredient-card:hover {
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(-1px) scale(1.02);
+      }
+
+      .ingredient-name {
+        font-weight: 600;
+        font-size: 0.75rem;
+        margin-bottom: 0.35rem;
+      }
+
+      .ingredient-details {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+        font-size: 0.625rem;
+      }
+
+      .ingredient-details span {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 0.1rem 0.25rem;
+        border-radius: 3px;
+      }
+
+      .ingredient-cost {
+        font-weight: 600;
+        background: rgba(255, 255, 255, 0.3) !important;
+      }
+
+      /* Button styles */
+      .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+      }
+
+      /* Compact button icons for inventory */
+      .inventory-actions .btn-icon,
+      .ingredients-actions .btn-icon {
+        min-width: 32px;
+        height: 32px;
+        padding: 0;
+      }
+
+      /* Right Section Styles */
+      .inventory-subtitle {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--gray-900);
+        margin: 0;
+      }
+
+      /* Download Dropdown */
+      .download-dropdown {
+        position: relative;
+      }
+
+      .download-menu {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        margin-top: 0.25rem;
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        min-width: 180px;
+        z-index: 100;
+        display: none;
+      }
+
+      .download-menu.active {
+        display: block;
+      }
+
+      .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: none;
+        background: none;
+        text-align: left;
+        font-size: 0.875rem;
+        color: var(--gray-700);
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .dropdown-item:hover {
+        background: var(--gray-50);
+        color: var(--primary);
+      }
+
+      .dropdown-item i {
+        width: 16px;
+        text-align: center;
+      }
+
+      /* Cost Display Row */
+      .cost-display-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .cost-price-display {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        background: var(--gray-50);
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.875rem;
+      }
+
+      .cost-label {
+        font-weight: 600;
+        color: var(--gray-700);
+        margin-right: 0.5rem;
+      }
+
+      .cost-value {
+        font-weight: 700;
+        color: var(--primary);
+      }
+      .ingredients-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .ingredient-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 0.75rem;
+        background: var(--gray-50);
+        border: 1px solid var(--gray-200);
+        border-radius: 6px;
+        font-size: 0.875rem;
+      }
+      .ingredient-info {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .ingredient-name {
+        font-weight: 500;
+        color: var(--gray-900);
+      }
+      .ingredient-portion {
+        color: var(--gray-600);
+        font-size: 0.75rem;
+      }
+      .ingredient-price {
+        color: var(--gray-700);
+        font-weight: 500;
+      }
+      .ingredient-remove {
+        color: var(--danger);
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .ingredient-remove:hover {
+        color: var(--danger-dark);
+        transform: scale(1.1);
+      }
+      
+      /* Ingredient Selection Modal Styles */
+      .ingredient-select-container {
+        display: flex;
+        height: 100%;
+      }
+      .ingredient-select-left {
+        flex: 2;
+        padding: 1rem;
+        border-right: 1px solid var(--gray-200);
+        overflow-y: auto;
+      }
+      .ingredient-select-right {
+        flex: 1;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+      }
+      .selected-ingredients-list {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 1rem;
+      }
+      .selected-ingredient-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem;
+        background: var(--gray-50);
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+      }
+      .selected-ingredient-item .name {
+        font-weight: 500;
+        color: var(--gray-900);
+      }
+      .selected-ingredient-item .remove-btn {
+        color: var(--danger);
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .selected-ingredient-item .remove-btn:hover {
+        color: var(--danger-dark);
+        transform: scale(1.1);
+      }
+      .ingredient-select-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: space-between;
+        padding-top: 1rem;
+        border-top: 1px solid var(--gray-200);
+      }
+
+      /* Filter Modal Styles */
+      .filter-options {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .filter-option {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem;
+        background: var(--gray-50);
+        border: 2px solid transparent;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .filter-option:hover {
+        background: var(--gray-100);
+        border-color: var(--gray-300);
+      }
+
+      .filter-option input[type="radio"] {
+        display: none;
+      }
+
+      .filter-option input[type="radio"]:checked + .filter-label {
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .filter-option input[type="radio"]:checked ~ .filter-label::before {
+        content: '';
+        position: absolute;
+        left: -12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 2px;
+      }
+
+      .filter-label {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.875rem;
+        color: var(--gray-700);
+        position: relative;
+        padding-left: 12px;
+      }
+
+      .filter-label i {
+        width: 20px;
+        text-align: center;
+      }
+
+      /* Switch/Toggle Styles */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 48px;
+        height: 24px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--gray-300);
+        transition: 0.3s;
+        border-radius: 24px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.3s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: var(--primary);
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(24px);
+      }
+
+      /* Responsive styles for restaurant inventory */
+      @media (max-width: 1200px) {
+        .inventory-sections {
+          grid-template-columns: 1fr 350px;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .inventory-sections {
+          grid-template-columns: 1fr;
+        }
+        .inventory-right-section {
+          display: none;
+        }
+      }
+
       .stat-card {
         background: var(--white);
         border: 1px solid var(--gray-200);
@@ -2585,6 +3120,14 @@
           >
             <i class="fas fa-warehouse"></i>
             <span>Inventory</span>
+          </a>
+          <a
+            href="#restaurant-inventory"
+            class="nav-item"
+            onclick="event.preventDefault(); showPage('restaurant-inventory')"
+          >
+            <i class="fas fa-utensils"></i>
+            <span>Restaurant Inventory</span>
           </a>
           <a
             href="#purchases"
@@ -5644,6 +6187,7 @@
     </div>
   </div>
 </div>
+<div id="daily-red-line" style="text-align: center; color: #dc2626; font-weight: 600; font-size: 1.1rem; margin: 1rem 0;">0.00 USD</div>
 
             <div class="table-wrapper">
               <table class="table">
@@ -5733,6 +6277,7 @@
                             </div>
                         </div>
                     </div>
+                    <div id="shift-red-line" style="text-align: center; color: #dc2626; font-weight: 600; font-size: 1.1rem; margin: 1rem 0;">0.00 USD</div>
 
                     <div style="padding: 1.5rem;">
                         <!-- Action Buttons Row -->
@@ -5833,6 +6378,236 @@
               </div>
             </div>
           </div>`;
+      }
+
+      function getRestaurantInventoryPage() {
+        return `
+          <div class="restaurant-inventory-container">
+            <div class="inventory-sections">
+              <!-- Left Section -->
+              <div class="inventory-left-section">
+                <!-- Header -->
+                <div class="inventory-header">
+                  <h2 class="inventory-title">Inventory (24)</h2>
+                  <button class="btn-icon btn-icon-sm" onclick="toggleInventoryFilter()">
+                    <i class="fas fa-filter"></i>
+                  </button>
+                </div>
+
+                <!-- Action Buttons Row -->
+                <div class="inventory-actions">
+                  <input class="form-input" placeholder="Manage Stock" style="margin-right: auto; max-width: 150px; height: 32px; padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                  <button class="btn btn-secondary btn-icon" title="Stock In/Waste" onclick="openStockWasteModal()">
+                    <i class="fas fa-exchange-alt"></i>
+                  </button>
+                  <button class="btn btn-secondary btn-icon" title="Excel Download">
+                    <i class="fas fa-file-excel"></i>
+                  </button>
+                  <button class="btn btn-secondary btn-icon" title="Print">
+                    <i class="fas fa-print"></i>
+                  </button>
+                  <button class="btn btn-secondary btn-icon" title="Add Item" onclick="openModal('add-inventory-item-modal')">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                  <button class="btn btn-secondary btn-icon" title="Manage Stock" onclick="openModal('manage-stock-modal')">
+                    <i class="fas fa-tasks"></i>
+                  </button>
+                </div>
+
+                <!-- Items Grid -->
+                <div class="inventory-items-container">
+                  <div class="inventory-items-grid">
+                    <!-- Item Cards -->
+                    <div class="inventory-item-card" style="background: var(--palette-purple); color: #fff;" onclick="selectInventoryItem('Tomatoes')">
+                      <div class="item-name">Tomatoes</div>
+                      <div class="item-price">$2.50</div>
+                      <div class="item-po-price">1PO => $0.25</div>
+                      <div class="item-stock">36 PO</div>
+                    </div>
+                    <div class="inventory-item-card" style="background: var(--palette-green); color: #fff;" onclick="selectInventoryItem('Chicken Breast')">
+                      <div class="item-name">Chicken Breast</div>
+                      <div class="item-price">$8.00</div>
+                      <div class="item-po-price">1PO => $2.00</div>
+                      <div class="item-stock">15 PO</div>
+                    </div>
+                    <div class="inventory-item-card" style="background: var(--palette-orange); color: #fff;" onclick="selectInventoryItem('Onions')">
+                      <div class="item-name">Onions</div>
+                      <div class="item-price">$1.20</div>
+                      <div class="item-po-price">1PO => $0.30</div>
+                      <div class="item-stock">50 PO</div>
+                    </div>
+                    <div class="inventory-item-card" style="background: var(--palette-red); color: #fff;" onclick="selectInventoryItem('Bell Peppers')">
+                      <div class="item-name">Bell Peppers</div>
+                      <div class="item-price">$3.00</div>
+                      <div class="item-po-price">1PO => $0.75</div>
+                      <div class="item-stock">20 PO</div>
+                    </div>
+                    <div class="inventory-item-card" style="background: var(--palette-yellow); color: #000;">
+                      <div class="item-name">Flour</div>
+                      <div class="item-price">$3.20</div>
+                      <div class="item-po-price">1PO => $0.08</div>
+                      <div class="item-stock">120 PO</div>
+                    </div>
+                    <div class="inventory-item-card" style="background: var(--palette-blue); color: #fff;">
+                      <div class="item-name">Basil</div>
+                      <div class="item-price">$4.00</div>
+                      <div class="item-po-price">1PO => $0.10</div>
+                      <div class="item-stock">80 PO</div>
+                    </div>
+                    <div class="inventory-item-card" style="background: var(--palette-purple); color: #fff;">
+                      <div class="item-name">Bell Peppers</div>
+                      <div class="item-price">$3.50</div>
+                      <div class="item-po-price">1PO => $0.35</div>
+                      <div class="item-stock">28 PO</div>
+                    </div>
+                    <div class="inventory-item-card" style="background: var(--palette-green); color: #fff;">
+                      <div class="item-name">Ground Beef</div>
+                      <div class="item-price">$7.50</div>
+                      <div class="item-po-price">1PO => $1.50</div>
+                      <div class="item-stock">20 PO</div>
+                    </div>
+                    <div class="inventory-item-card" style="background: var(--palette-orange); color: #fff;">
+                      <div class="item-name">Pasta</div>
+                      <div class="item-price">$2.80</div>
+                      <div class="item-po-price">1PO => $0.70</div>
+                      <div class="item-stock">50 PO</div>
+                    </div>
+                    <div class="inventory-item-card" style="background: var(--palette-red); color: #fff;">
+                      <div class="item-name">Garlic</div>
+                      <div class="item-price">$1.50</div>
+                      <div class="item-po-price">1PO => $0.05</div>
+                      <div class="item-stock">100 PO</div>
+                    </div>
+                    <div class="inventory-item-card" style="background: var(--palette-yellow); color: #000;">
+                      <div class="item-name">Onions</div>
+                      <div class="item-price">$1.80</div>
+                      <div class="item-po-price">1PO => $0.18</div>
+                      <div class="item-stock">45 PO</div>
+                    </div>
+                    <div class="inventory-item-card" style="background: var(--palette-blue); color: #fff;">
+                      <div class="item-name">Salt</div>
+                      <div class="item-price">$0.80</div>
+                      <div class="item-po-price">1PO => $0.02</div>
+                      <div class="item-stock">200 PO</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Ingredients Section -->
+                <div class="ingredients-section">
+                  <div class="ingredients-header">
+                    <h3 class="ingredients-title">Ingredients</h3>
+                    <div class="ingredients-actions">
+                      <button class="btn btn-secondary btn-icon" title="Select from Menu" onclick="openModal('select-ingredients-modal')">
+                        <i class="fas fa-bars"></i>
+                      </button>
+                      <button class="btn btn-secondary btn-icon" title="Add Ingredient" onclick="openModal('add-ingredient-modal')">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="ingredients-grid">
+                    <!-- Ingredient Cards -->
+                    <div class="ingredient-card" style="background: var(--palette-purple); color: #fff;">
+                      <div class="ingredient-name">Tomato Sauce</div>
+                      <div class="ingredient-details">
+                        <span>1.0PO / 25.0g</span>
+                        <span>25g</span>
+                        <span>1.0PO</span>
+                        <span class="ingredient-cost">$0.092 USD</span>
+                      </div>
+                    </div>
+                    <div class="ingredient-card" style="background: var(--palette-green); color: #fff;">
+                      <div class="ingredient-name">Cheese Blend</div>
+                      <div class="ingredient-details">
+                        <span>1.0PO / 30.0g</span>
+                        <span>30g</span>
+                        <span>1.0PO</span>
+                        <span class="ingredient-cost">$0.156 USD</span>
+                      </div>
+                    </div>
+                    <div class="ingredient-card" style="background: var(--palette-orange); color: #fff;">
+                      <div class="ingredient-name">Pizza Dough</div>
+                      <div class="ingredient-details">
+                        <span>1.0PO / 150.0g</span>
+                        <span>150g</span>
+                        <span>1.0PO</span>
+                        <span class="ingredient-cost">$0.450 USD</span>
+                      </div>
+                    </div>
+                    <div class="ingredient-card" style="background: var(--palette-red); color: #fff;">
+                      <div class="ingredient-name">Oregano</div>
+                      <div class="ingredient-details">
+                        <span>1.0PO / 2.0g</span>
+                        <span>2g</span>
+                        <span>1.0PO</span>
+                        <span class="ingredient-cost">$0.015 USD</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Section -->
+              <div class="inventory-right-section">
+                <!-- Header -->
+                <div class="inventory-header">
+                  <h3 class="inventory-subtitle">Items</h3>
+                  <div class="download-dropdown">
+                    <button class="btn btn-secondary btn-icon" onclick="toggleDownloadMenu()" title="Download Options">
+                      <i class="fas fa-file-excel"></i>
+                    </button>
+                    <div class="download-menu" id="download-menu">
+                      <button class="dropdown-item" onclick="downloadItems()">
+                        <i class="fas fa-box"></i> Download Items
+                      </button>
+                      <button class="dropdown-item" onclick="downloadIngredients()">
+                        <i class="fas fa-utensils"></i> Download Ingredients
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Select Item -->
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                  <select class="form-select" id="item-select" style="width: 100%; height: 38px; font-size: 0.875rem; padding: 0.375rem 0.75rem;" onchange="selectInventoryItem(this.value)">
+                    <option value="">Select Item...</option>
+                    <option value="Tomatoes">Tomatoes</option>
+                    <option value="Chicken Breast">Chicken Breast</option>
+                    <option value="Onions">Onions</option>
+                    <option value="Bell Peppers">Bell Peppers</option>
+                  </select>
+                </div>
+
+                <!-- Selected Item Info -->
+                <div id="selected-item-info" style="display: none;">
+                  <h4 class="inventory-subtitle" style="margin-bottom: 0.5rem;">Ingredients</h4>
+                  <!-- Ingredients List -->
+                  <div id="ingredients-list" class="ingredients-list" style="margin-bottom: 0.75rem;">
+                    <!-- Ingredients will be populated here -->
+                  </div>
+                  <!-- Cost Price Display -->
+                  <div class="cost-display-row">
+                    <div class="cost-price-display">
+                      <span class="cost-label">Cost Price:</span>
+                      <span class="cost-value" id="cost-price-value">2.29 USD</span>
+                    </div>
+                    <button class="btn btn-primary btn-sm" style="height: 32px;">
+                      <i class="fas fa-save"></i> Save
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Save Ingredients Button -->
+                <div style="margin-top: 1rem;">
+                  <button class="btn btn-success" style="width: 100%; height: 36px; font-size: 0.875rem;">
+                    <i class="fas fa-save"></i> Save Ingredients
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
       }
 
       function getPurchasesPage() {
@@ -6475,6 +7250,7 @@
           "daily-sales": "Daily Sales",
           shift: "Shift Management",
           inventory: "Inventory",
+          "restaurant-inventory": "Restaurant Inventory",
           purchases: "Purchases",
           customers: "Customers",
           users: "User Management",
@@ -6507,6 +7283,9 @@
               break;
             case "inventory":
               pageHTML = getInventoryPage();
+              break;
+            case "restaurant-inventory":
+              pageHTML = getRestaurantInventoryPage();
               break;
             case "purchases":
               pageHTML = getPurchasesPage();
@@ -7322,9 +8101,13 @@
       }
       function toggleDailyStats() {
         const section = document.getElementById("daily-stats-section") || document.querySelector(".daily-stats-row");
+        const redLine = document.getElementById("daily-red-line");
         if (!section) return;
         const hidden = section.style.display === "none";
         section.style.display = hidden ? "" : "none";
+        if (redLine) {
+          redLine.style.display = hidden ? "" : "none";
+        }
         const icon = document.querySelector("#daily-stats-toggle i");
         if (icon) {
           icon.className = hidden ? "fas fa-chart-bar" : "fas fa-chart-line";
@@ -7332,9 +8115,13 @@
       }
       function toggleShiftStats() {
         const section = document.getElementById("shift-stats-section") || document.querySelector(".shift-stats-row");
+        const redLine = document.getElementById("shift-red-line");
         if (!section) return;
         const hidden = section.style.display === "none";
         section.style.display = hidden ? "" : "none";
+        if (redLine) {
+          redLine.style.display = hidden ? "" : "none";
+        }
         const icon = document.querySelector("#shift-stats-toggle i");
         if (icon) {
           icon.className = hidden ? "fas fa-chart-bar" : "fas fa-chart-line";
@@ -7349,6 +8136,398 @@
         if (icon) {
           icon.className = hidden ? "fas fa-chart-bar" : "fas fa-chart-line";
         }
+      }
+
+      // Restaurant Inventory Functions
+      function toggleInventoryFilter() {
+        openModal('inventory-filter-modal');
+      }
+
+      function applyInventoryFilter(filterType) {
+        console.log("Applying filter:", filterType);
+        // TODO: Implement actual filtering logic
+        
+        // Update filter button icon based on selection
+        const filterButton = document.querySelector('.inventory-header .btn-icon i');
+        if (filterButton) {
+          if (filterType === 'low-stock') {
+            filterButton.className = 'fas fa-exclamation-triangle';
+            filterButton.style.color = 'var(--warning)';
+          } else {
+            filterButton.className = 'fas fa-filter';
+            filterButton.style.color = '';
+          }
+        }
+        
+        // Close modal after selection
+        setTimeout(() => closeModal('inventory-filter-modal'), 150);
+      }
+
+      function selectInventoryItem(itemName) {
+        console.log("Selected inventory item:", itemName);
+        
+        const selectedInfo = document.getElementById('selected-item-info');
+        const ingredientsList = document.getElementById('ingredients-list');
+        const costPriceValue = document.getElementById('cost-price-value');
+        
+        if (!itemName) {
+          selectedInfo.style.display = 'none';
+          return;
+        }
+        
+        // Mock ingredients data for different items
+        const itemIngredients = {
+          'Tomatoes': [
+            { name: 'Fresh Tomatoes', portion: '1.6po/40.0g', price: '0.25' },
+            { name: 'Salt', portion: '0.1po/2.5g', price: '0.02' },
+            { name: 'Preservatives', portion: '0.05po/1.0g', price: '0.10' }
+          ],
+          'Chicken Breast': [
+            { name: 'Raw Chicken', portion: '2.0po/200.0g', price: '1.50' },
+            { name: 'Marinade', portion: '0.5po/50.0g', price: '0.35' },
+            { name: 'Spices', portion: '0.2po/10.0g', price: '0.15' }
+          ],
+          'Onions': [
+            { name: 'White Onions', portion: '1.0po/100.0g', price: '0.30' },
+            { name: 'Storage Solution', portion: '0.1po/5.0g', price: '0.05' }
+          ],
+          'Bell Peppers': [
+            { name: 'Red Bell Peppers', portion: '1.5po/150.0g', price: '0.45' },
+            { name: 'Green Bell Peppers', portion: '1.5po/150.0g', price: '0.40' },
+            { name: 'Packaging', portion: '0.1po/10.0g', price: '0.08' }
+          ]
+        };
+        
+        // Get ingredients for selected item
+        const ingredients = itemIngredients[itemName] || [];
+        
+        // Clear and populate ingredients list
+        ingredientsList.innerHTML = '';
+        let totalCost = 0;
+        
+        ingredients.forEach(ingredient => {
+          const ingredientCard = document.createElement('div');
+          ingredientCard.className = 'ingredient-card';
+          ingredientCard.innerHTML = `
+            <div class="ingredient-info">
+              <span class="ingredient-name">${ingredient.name}</span>
+              <span class="ingredient-portion">(${ingredient.portion})</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <span class="ingredient-price">$${ingredient.price}</span>
+              <i class="fas fa-times ingredient-remove" onclick="removeIngredient(this)"></i>
+            </div>
+          `;
+          ingredientsList.appendChild(ingredientCard);
+          totalCost += parseFloat(ingredient.price);
+        });
+        
+        // Update cost price
+        costPriceValue.textContent = totalCost.toFixed(2) + ' USD';
+        
+        // Show selected item info
+        selectedInfo.style.display = 'block';
+      }
+      
+      function removeIngredient(element) {
+        const card = element.closest('.ingredient-card');
+        card.remove();
+        
+        // Recalculate total cost
+        const ingredientsList = document.getElementById('ingredients-list');
+        const costPriceValue = document.getElementById('cost-price-value');
+        let totalCost = 0;
+        
+        ingredientsList.querySelectorAll('.ingredient-price').forEach(priceEl => {
+          const price = parseFloat(priceEl.textContent.replace('$', ''));
+          totalCost += price;
+        });
+        
+        costPriceValue.textContent = totalCost.toFixed(2) + ' USD';
+      }
+      
+      function saveNewIngredient() {
+        const name = document.getElementById('new-ingredient-name').value;
+        const grams = document.getElementById('new-ingredient-grams').value;
+        const portions = document.getElementById('new-ingredient-portions').value;
+        
+        if (!name || !grams || !portions) {
+          alert('Please fill in all fields');
+          return;
+        }
+        
+        // Add the new ingredient to the ingredients grid
+        const ingredientsGrid = document.querySelector('.ingredients-grid');
+        const newCard = document.createElement('div');
+        newCard.className = 'ingredient-card';
+        
+        // Generate a random color from the palette
+        const colors = ['var(--palette-purple)', 'var(--palette-green)', 'var(--palette-orange)', 'var(--palette-red)', 'var(--palette-yellow)', 'var(--palette-blue)'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        newCard.style.background = randomColor;
+        newCard.style.color = '#fff';
+        newCard.innerHTML = `
+          <div class="ingredient-info">
+            <div class="ingredient-icon">
+              <i class="fas fa-leaf"></i>
+            </div>
+            <div class="ingredient-details">
+              <div class="ingredient-name">${name}</div>
+              <div class="ingredient-portion">
+                <span>${portions}PO</span>
+                <span class="ingredient-cost">$${(parseFloat(grams) * 0.01).toFixed(3)} USD</span>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        ingredientsGrid.appendChild(newCard);
+        
+        // Clear form and close modal
+        document.getElementById('new-ingredient-name').value = '';
+        document.getElementById('new-ingredient-grams').value = '';
+        document.getElementById('new-ingredient-portions').value = '';
+        closeModal('add-ingredient-modal');
+        
+        console.log('Added ingredient:', name, grams + 'g', portions + ' portions');
+      }
+      
+      // Ingredient Selection Modal Functions
+      let selectedIngredients = [];
+      
+      function filterIngredientCategory(category, element) {
+        // Update active category
+        document.querySelectorAll('#select-ingredients-modal .category-card').forEach(card => {
+          card.classList.remove('active');
+        });
+        element.classList.add('active');
+        
+        // Filter products
+        const products = document.querySelectorAll('#select-ingredients-modal .product-card');
+        products.forEach(product => {
+          if (category === 'all' || product.dataset.category === category) {
+            product.style.display = 'block';
+          } else {
+            product.style.display = 'none';
+          }
+        });
+      }
+      
+      function selectIngredientItem(name, price) {
+        // Check if already selected
+        if (selectedIngredients.find(item => item.name === name)) {
+          return;
+        }
+        
+        // Add to selected list
+        selectedIngredients.push({ name, price });
+        updateSelectedIngredientsList();
+      }
+      
+      function updateSelectedIngredientsList() {
+        const listEl = document.getElementById('selected-ingredients-list');
+        listEl.innerHTML = '';
+        
+        selectedIngredients.forEach(item => {
+          const itemEl = document.createElement('div');
+          itemEl.className = 'selected-ingredient-item';
+          itemEl.innerHTML = `
+            <span class="name">${item.name}</span>
+            <i class="fas fa-times remove-btn" onclick="removeSelectedIngredient('${item.name}')"></i>
+          `;
+          listEl.appendChild(itemEl);
+        });
+      }
+      
+      function removeSelectedIngredient(name) {
+        selectedIngredients = selectedIngredients.filter(item => item.name !== name);
+        updateSelectedIngredientsList();
+      }
+      
+      function clearSelectedIngredients() {
+        selectedIngredients = [];
+        updateSelectedIngredientsList();
+      }
+      
+      function addSelectedIngredients() {
+        if (selectedIngredients.length === 0) {
+          return;
+        }
+        
+        // Add selected ingredients to the ingredients grid
+        const ingredientsGrid = document.querySelector('.ingredients-grid');
+        const colors = ['var(--palette-purple)', 'var(--palette-green)', 'var(--palette-orange)', 'var(--palette-red)', 'var(--palette-yellow)', 'var(--palette-blue)'];
+        
+        selectedIngredients.forEach((ingredient, index) => {
+          const newCard = document.createElement('div');
+          newCard.className = 'ingredient-card';
+          newCard.style.background = colors[index % colors.length];
+          newCard.style.color = '#fff';
+          newCard.innerHTML = `
+            <div class="ingredient-info">
+              <div class="ingredient-icon">
+                <i class="fas fa-leaf"></i>
+              </div>
+              <div class="ingredient-details">
+                <div class="ingredient-name">${ingredient.name}</div>
+                <div class="ingredient-portion">
+                  <span>1.0PO</span>
+                  <span class="ingredient-cost">$${ingredient.price.toFixed(2)} USD</span>
+                </div>
+              </div>
+            </div>
+          `;
+          ingredientsGrid.appendChild(newCard);
+        });
+        
+        // Clear selection and close modal
+        clearSelectedIngredients();
+        closeModal('select-ingredients-modal');
+      }
+
+      function toggleDownloadMenu() {
+        const menu = document.getElementById("download-menu");
+        menu.classList.toggle("active");
+        
+        // Close menu when clicking outside
+        document.addEventListener("click", function closeMenu(e) {
+          if (!e.target.closest(".download-dropdown")) {
+            menu.classList.remove("active");
+            document.removeEventListener("click", closeMenu);
+          }
+        });
+      }
+
+      function downloadItems() {
+        console.log("Downloading items...");
+        document.getElementById("download-menu").classList.remove("active");
+        // TODO: Implement items download
+      }
+
+      function downloadIngredients() {
+        console.log("Downloading ingredients...");
+        document.getElementById("download-menu").classList.remove("active");
+        // TODO: Implement ingredients download
+      }
+
+      function switchInventoryUnit(btn, unit) {
+        // Update toggle buttons
+        const toggleGroup = btn.parentElement;
+        toggleGroup.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Show/hide fields based on unit
+        const kgFields = document.getElementById('kg-mode-fields');
+        const portionFields = document.getElementById('portion-mode-fields');
+        
+        if (unit === 'kg') {
+          kgFields.style.display = 'block';
+          portionFields.style.display = 'none';
+        } else {
+          kgFields.style.display = 'none';
+          portionFields.style.display = 'block';
+        }
+      }
+
+      function saveInventoryItem() {
+        console.log("Saving inventory item...");
+        // TODO: Implement save functionality
+        closeModal('add-inventory-item-modal');
+      }
+
+      function openStockWasteModal() {
+        // Set today's date as default
+        const dateInput = document.getElementById('stock-waste-date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.value = today;
+        
+        openModal('stock-waste-modal');
+      }
+
+      function switchStockWasteTab(btn, tab) {
+        // Update toggle buttons
+        const toggleGroup = btn.parentElement;
+        toggleGroup.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Show/hide tabs
+        const stockInTab = document.getElementById('stock-in-tab');
+        const wasteOutTab = document.getElementById('waste-out-tab');
+        
+        if (tab === 'stock-in') {
+          stockInTab.style.display = 'block';
+          wasteOutTab.style.display = 'none';
+        } else {
+          stockInTab.style.display = 'none';
+          wasteOutTab.style.display = 'block';
+        }
+      }
+
+      function saveStockWaste() {
+        console.log("Saving stock/waste data...");
+        // TODO: Implement save functionality
+        closeModal('stock-waste-modal');
+      }
+
+      // Manage Stock Functions
+      function selectStockItem(row, itemId) {
+        // Remove previous selection
+        document.querySelectorAll('#manage-stock-tbody tr').forEach(tr => {
+          tr.style.backgroundColor = '';
+        });
+        
+        // Highlight selected row
+        row.style.backgroundColor = 'var(--gray-100)';
+        
+        // Update title and show form for both tabs
+        const itemName = row.cells[0].textContent;
+        document.getElementById('selected-item-title').textContent = itemName;
+        document.getElementById('selected-item-title-waste').textContent = itemName;
+        document.getElementById('add-stock-form').style.display = 'block';
+        document.getElementById('waste-stock-form').style.display = 'block';
+      }
+
+      function searchManageStock(searchTerm) {
+        const rows = document.querySelectorAll('#manage-stock-tbody tr');
+        rows.forEach(row => {
+          const name = row.cells[0].textContent.toLowerCase();
+          if (name.includes(searchTerm.toLowerCase())) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      }
+
+      function switchManageStockTab(btn, tab) {
+        // Update toggle buttons
+        const toggleGroup = btn.parentElement;
+        toggleGroup.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Show/hide tabs
+        const addTab = document.getElementById('manage-stock-add-tab');
+        const wasteTab = document.getElementById('manage-stock-waste-tab');
+        
+        if (tab === 'add') {
+          addTab.style.display = 'block';
+          wasteTab.style.display = 'none';
+        } else {
+          addTab.style.display = 'none';
+          wasteTab.style.display = 'block';
+        }
+      }
+
+      function saveManageStock() {
+        console.log("Saving manage stock data...");
+        // TODO: Implement save functionality
+      }
+
+      function wasteManageStock() {
+        console.log("Processing waste...");
+        // TODO: Implement waste functionality
+        alert("Waste recorded successfully!");
       }
       function openInvoiceFromDailySale(dateKey, receiptId) {
         const receipt = (dailySalesData[dateKey] || []).find(
@@ -8913,6 +10092,621 @@
                 <div style="font-size:0.85rem; opacity:0.8;">Point of sale for retail and markets</div>
               </div>
             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inventory Filter Modal -->
+    <div class="modal" id="inventory-filter-modal">
+      <div class="modal-content" style="max-width: 320px">
+        <div class="modal-header">
+          <h2 class="modal-title">Filter Inventory</h2>
+          <button class="modal-close" onclick="closeModal('inventory-filter-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 1.5rem;">
+          <div class="filter-options">
+            <label class="filter-option">
+              <input type="radio" name="inventory-filter" value="all" checked onclick="applyInventoryFilter('all')">
+              <span class="filter-label">
+                <i class="fas fa-globe"></i>
+                All Items
+              </span>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="inventory-filter" value="food" onclick="applyInventoryFilter('food')">
+              <span class="filter-label">
+                <i class="fas fa-utensils"></i>
+                Food Items
+              </span>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="inventory-filter" value="packaging" onclick="applyInventoryFilter('packaging')">
+              <span class="filter-label">
+                <i class="fas fa-box"></i>
+                Packaging
+              </span>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="inventory-filter" value="low-stock" onclick="applyInventoryFilter('low-stock')">
+              <span class="filter-label">
+                <i class="fas fa-exclamation-triangle" style="color: var(--warning);"></i>
+                Low Stock
+              </span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Inventory Item Modal -->
+    <div class="modal" id="add-inventory-item-modal">
+      <div class="modal-content" style="max-width: 500px">
+        <div class="modal-header">
+          <h2 class="modal-title">Add Item</h2>
+          <button class="modal-close" onclick="closeModal('add-inventory-item-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 1rem;">
+          <!-- Unit Toggle -->
+          <div class="toggle-group" style="margin-bottom: 1rem;">
+            <button type="button" class="toggle-btn active" onclick="switchInventoryUnit(this, 'kg')">Kg</button>
+            <button type="button" class="toggle-btn" onclick="switchInventoryUnit(this, 'portion')">Portion</button>
+          </div>
+
+          <!-- Kg Mode Fields -->
+          <div id="kg-mode-fields">
+            <div class="form-group">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-input" placeholder="Item name">
+            </div>
+            
+            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+              <div class="form-group">
+                <label class="form-label">No. of Portions in Kg</label>
+                <input type="number" class="form-input" placeholder="0" min="0" step="0.1">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Qty in Kg</label>
+                <input type="number" class="form-input" placeholder="0.0" min="0" step="0.1">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Price per Kg (USD)</label>
+              <input type="number" class="form-input" placeholder="0.00" min="0" step="0.01">
+            </div>
+
+            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+              <div class="form-group">
+                <label class="form-label">Warning Alert</label>
+                <input type="number" class="form-input" placeholder="10" min="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Expiry Date</label>
+                <input type="date" class="form-input">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Color</label>
+              <input type="color" class="form-input" style="height: 40px; cursor: pointer;">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Total Weight (kg)</label>
+              <input type="number" class="form-input" placeholder="0.0" min="0" step="0.1">
+              <div style="color: var(--danger); font-size: 0.75rem; margin-top: 0.25rem;">
+                Waste per kg: 0.0kg
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Net Weight (kg)</label>
+              <input type="number" class="form-input" placeholder="0.0" min="0" step="0.1" readonly style="background: var(--gray-50);">
+            </div>
+
+            <!-- Packaging Toggle -->
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem;">
+              <label class="switch">
+                <input type="checkbox" id="packaging-toggle">
+                <span class="slider"></span>
+              </label>
+              <span style="font-size: 0.875rem; color: var(--gray-700);">With Packaging</span>
+            </div>
+          </div>
+
+          <!-- Portion Mode Fields -->
+          <div id="portion-mode-fields" style="display: none;">
+            <div class="form-group">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-input" placeholder="Item name">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Qty in Portions</label>
+              <input type="number" class="form-input" placeholder="0" min="0">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Price per Portion (USD)</label>
+              <input type="number" class="form-input" placeholder="0.00" min="0" step="0.01">
+            </div>
+
+            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+              <div class="form-group">
+                <label class="form-label">Warning Alert</label>
+                <input type="number" class="form-input" placeholder="10" min="0">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Expiry Date</label>
+                <input type="date" class="form-input">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Color</label>
+              <input type="color" class="form-input" style="height: 40px; cursor: pointer;">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="closeModal('add-inventory-item-modal')">Cancel</button>
+          <button class="btn btn-primary" onclick="saveInventoryItem()">Save Item</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stock In/Waste Modal -->
+    <div class="modal" id="stock-waste-modal">
+      <div class="modal-content" style="max-width: 900px; width: 90%;">
+        <div class="modal-header">
+          <h2 class="modal-title">Stock In / Waste Out</h2>
+          <button class="modal-close" onclick="closeModal('stock-waste-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <!-- Tabs and Date on same row -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; padding: 0 1.5rem; margin-bottom: 1rem;">
+          <!-- Tabs on the left -->
+          <div class="toggle-group" style="margin: 0;">
+            <button type="button" class="toggle-btn active" onclick="switchStockWasteTab(this, 'stock-in')">Stock In</button>
+            <button type="button" class="toggle-btn" onclick="switchStockWasteTab(this, 'waste-out')">Waste Out</button>
+          </div>
+          
+          <!-- Date input on the right -->
+          <div class="form-group" style="margin: 0; min-width: 200px;">
+            <label class="form-label" style="margin-bottom: 0.25rem;">Date</label>
+            <input type="date" class="form-input" id="stock-waste-date" value="" style="height: 36px;">
+          </div>
+        </div>
+
+        <div class="modal-body" style="padding: 0 1.5rem 1.5rem;">
+          <!-- Stock In Tab -->
+          <div id="stock-in-tab">
+            <div style="margin-bottom: 1rem;">
+              <div style="font-size: 1.125rem; font-weight: 600; color: var(--gray-900);">
+                Total Cost: <span style="color: var(--primary);">0.0 USD</span>
+              </div>
+            </div>
+            
+            <div class="table-wrapper">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Unit</th>
+                    <th>Old Qty</th>
+                    <th>Qty</th>
+                    <th>Price per Unit</th>
+                    <th>Date</th>
+                    <th>By User</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Tomatoes</td>
+                    <td>kg</td>
+                    <td>25</td>
+                    <td>10</td>
+                    <td>$2.50</td>
+                    <td>2025-07-22</td>
+                    <td>Admin</td>
+                  </tr>
+                  <tr>
+                    <td>Chicken Breast</td>
+                    <td>kg</td>
+                    <td>3</td>
+                    <td>5</td>
+                    <td>$8.00</td>
+                    <td>2025-07-22</td>
+                    <td>Admin</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Waste Out Tab -->
+          <div id="waste-out-tab" style="display: none;">
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+              <select class="form-select" style="width: 180px;">
+                <option value="normal">Normal Waste</option>
+                <option value="staff-meal">Staff Meal</option>
+              </select>
+            </div>
+            
+            <div class="table-wrapper">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Unit</th>
+                    <th>Old Qty</th>
+                    <th>Qty</th>
+                    <th>Price per Unit</th>
+                    <th>Date</th>
+                    <th>By User</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Olive Oil</td>
+                    <td>L</td>
+                    <td>2</td>
+                    <td>0.5</td>
+                    <td>$12.00</td>
+                    <td>2025-07-22</td>
+                    <td>Admin</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="closeModal('stock-waste-modal')">Close</button>
+          <button class="btn btn-primary" onclick="saveStockWaste()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Manage Stock Modal -->
+    <div class="modal" id="manage-stock-modal">
+      <div class="modal-content" style="max-width: 1000px; width: 90%;">
+        <div class="modal-header">
+          <h2 class="modal-title">Manage Stock</h2>
+          <button class="modal-close" onclick="closeModal('manage-stock-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <div class="modal-body" style="padding: 1rem;">
+          <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 1rem; height: 500px;">
+            <!-- Left Side - Search and Table -->
+            <div style="display: flex; flex-direction: column;">
+              <div class="form-group" style="margin-bottom: 0.75rem;">
+                <input type="text" class="form-input" placeholder="Search items..." onkeyup="searchManageStock(this.value)">
+              </div>
+              
+              <div class="table-wrapper" style="flex: 1; overflow-y: auto;">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Unit Type</th>
+                      <th>Quantity</th>
+                      <th>Price per Unit</th>
+                    </tr>
+                  </thead>
+                  <tbody id="manage-stock-tbody">
+                    <tr onclick="selectStockItem(this, 'tomatoes')" style="cursor: pointer;">
+                      <td>Tomatoes</td>
+                      <td>kg</td>
+                      <td>25</td>
+                      <td>$2.50</td>
+                    </tr>
+                    <tr onclick="selectStockItem(this, 'chicken')" style="cursor: pointer;">
+                      <td>Chicken Breast</td>
+                      <td>kg</td>
+                      <td>3</td>
+                      <td>$8.00</td>
+                    </tr>
+                    <tr onclick="selectStockItem(this, 'oil')" style="cursor: pointer;">
+                      <td>Olive Oil</td>
+                      <td>L</td>
+                      <td>2</td>
+                      <td>$12.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+            <!-- Right Side - Add/Waste Tabs -->
+            <div style="background: var(--gray-50); border-radius: 8px; padding: 1rem;">
+              <!-- Tabs -->
+              <div class="toggle-group" style="margin-bottom: 1rem;">
+                <button type="button" class="toggle-btn active" onclick="switchManageStockTab(this, 'add')">Add</button>
+                <button type="button" class="toggle-btn" onclick="switchManageStockTab(this, 'waste')">Waste</button>
+              </div>
+              
+              <!-- Add Tab Content -->
+              <div id="manage-stock-add-tab">
+                <h3 id="selected-item-title" style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; color: var(--gray-900);">
+                  Select an item
+                </h3>
+                
+                <div id="add-stock-form" style="display: none;">
+                  <div class="form-group">
+                    <label class="form-label">No. of Packets</label>
+                    <input type="number" class="form-input" placeholder="0" min="0">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label">Qty per Packet</label>
+                    <input type="number" class="form-input" placeholder="0" min="0" step="0.1">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label">Qty in Portions</label>
+                    <input type="number" class="form-input" placeholder="0" min="0">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label">Price per Portion (USD)</label>
+                    <input type="number" class="form-input" placeholder="0.00" min="0" step="0.01">
+                  </div>
+                  
+                  <!-- Calculations Display -->
+                  <div style="background: var(--white); border-radius: 6px; padding: 0.75rem; margin-top: 1rem; font-size: 0.875rem;">
+                    <div style="margin-bottom: 0.5rem; color: var(--gray-700);">
+                      Old Qty => <span style="font-weight: 600;">36.0 PO</span>
+                    </div>
+                    <div style="margin-bottom: 0.75rem; color: var(--gray-700);">
+                      Old Cost => <span style="font-weight: 600;">0.34 PO</span>
+                    </div>
+                    <div style="margin-bottom: 0.5rem; color: var(--warning); display: flex; align-items: center; gap: 0.5rem;">
+                      <i class="fas fa-exclamation-triangle"></i>
+                      New Qty => <span style="font-weight: 600;">0.36 PO</span>
+                    </div>
+                    <div style="color: var(--warning); display: flex; align-items: center; gap: 0.5rem;">
+                      <i class="fas fa-exclamation-triangle"></i>
+                      New Avg Cost => <span style="font-weight: 600;">0.34 PO</span>
+                    </div>
+                  </div>
+                  
+                  <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;" onclick="saveManageStock()">
+                    Save
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Waste Tab Content -->
+              <div id="manage-stock-waste-tab" style="display: none;">
+                <h3 id="selected-item-title-waste" style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; color: var(--gray-900);">
+                  Select an item
+                </h3>
+                
+                <div id="waste-stock-form" style="display: none;">
+                  <div class="form-group">
+                    <label class="form-label">Qty in Portions</label>
+                    <input type="number" class="form-input" placeholder="0" min="0">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label class="form-label">Waste Reason</label>
+                    <textarea class="form-input" placeholder="Enter reason for waste..." rows="3" style="resize: vertical;"></textarea>
+                  </div>
+                  
+                  <!-- Quantity Display -->
+                  <div style="background: var(--white); border-radius: 6px; padding: 0.75rem; margin-top: 1rem; font-size: 0.875rem;">
+                    <div style="margin-bottom: 0.5rem; color: var(--gray-700);">
+                      Old Qty => <span style="font-weight: 600;">36.0 PO</span>
+                    </div>
+                    <div style="color: var(--warning); display: flex; align-items: center; gap: 0.5rem;">
+                      <i class="fas fa-exclamation-triangle"></i>
+                      New Qty => <span style="font-weight: 600;">36.0 PO</span>
+                    </div>
+                  </div>
+                  
+                  <button class="btn btn-danger" style="width: 100%; margin-top: 1rem;" onclick="wasteManageStock()">
+                    <i class="fas fa-recycle"></i> Waste
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Ingredient Modal -->
+    <div id="add-ingredient-modal" class="modal">
+      <div class="modal-content" style="max-width: 400px;">
+        <div class="modal-header">
+          <h3 class="modal-title">Add Ingredient</h3>
+          <button class="btn-icon btn-icon-sm" style="background: var(--gray-100); border: 1px solid var(--gray-300); color: var(--gray-700);" onclick="closeModal('add-ingredient-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-input" id="new-ingredient-name" placeholder="Enter ingredient name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Quantity (grams)</label>
+            <input type="number" class="form-input" id="new-ingredient-grams" placeholder="Enter quantity in grams" step="0.1">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Quantity (portions)</label>
+            <input type="number" class="form-input" id="new-ingredient-portions" placeholder="Enter quantity in portions" step="0.1">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-icon" style="background: var(--white); border: 2px solid var(--dark); color: var(--dark);" onclick="saveNewIngredient()" title="Save">
+            <i class="fas fa-save"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Select Ingredients from Menu Modal -->
+    <div id="select-ingredients-modal" class="modal">
+      <div class="modal-content" style="max-width: 95vw; width: 95vw; height: 90vh;">
+        <div class="modal-header">
+          <h3 class="modal-title">Select Ingredients</h3>
+          <button class="btn-icon btn-icon-sm" style="background: var(--gray-100); border: 1px solid var(--gray-300); color: var(--gray-700);" onclick="closeModal('select-ingredients-modal')">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 0; height: calc(100% - 60px);">
+          <div class="ingredient-select-container">
+            <!-- Left Side - Categories and Products -->
+            <div class="ingredient-select-left">
+              <!-- Categories -->
+              <div class="categories-grid" style="padding: 1rem; margin-bottom: 0.5rem;">
+                <div class="category-card active" onclick="filterIngredientCategory('all', this)" style="background: var(--palette-purple); color: #fff;">
+                  <span class="category-name">All</span>
+                </div>
+                <div class="category-card" onclick="filterIngredientCategory('sandwiches', this)" style="background: var(--palette-green); color: #fff;">
+                  <span class="category-name">Sandwiches</span>
+                </div>
+                <div class="category-card" onclick="filterIngredientCategory('beef-burger', this)" style="background: var(--palette-orange); color: #fff;">
+                  <span class="category-name">Beef Burger</span>
+                </div>
+                <div class="category-card" onclick="filterIngredientCategory('expert-burger', this)" style="background: var(--palette-red); color: #fff;">
+                  <span class="category-name">Expert Burger</span>
+                </div>
+                <div class="category-card" onclick="filterIngredientCategory('hotdog', this)" style="background: var(--palette-yellow); color: #000;">
+                  <span class="category-name">HotDog</span>
+                </div>
+                <div class="category-card" onclick="filterIngredientCategory('appetisers', this)" style="background: var(--palette-blue); color: #fff;">
+                  <span class="category-name">Appetisers</span>
+                </div>
+                <div class="category-card" onclick="filterIngredientCategory('fried-chicken', this)" style="background: var(--palette-orange); color: #fff;">
+                  <span class="category-name">Fried Chicken</span>
+                </div>
+                <div class="category-card" onclick="filterIngredientCategory('meals', this)" style="background: var(--palette-red); color: #fff;">
+                  <span class="category-name">Meals</span>
+                </div>
+              </div>
+              <!-- Products Grid -->
+              <div class="products-grid" style="padding: 0 1rem; overflow-y: auto; height: calc(100% - 200px);">
+                <!-- Sandwiches -->
+                <div class="product-card" data-category="sandwiches" onclick="selectIngredientItem('Classic Sandwich', 4.50)" style="background: var(--palette-purple); color: #fff;">
+                  <span class="product-name">Classic Sandwich</span>
+                  <span class="product-price">$4.50</span>
+                </div>
+                <div class="product-card" data-category="sandwiches" onclick="selectIngredientItem('Club Sandwich', 5.50)" style="background: var(--palette-green); color: #fff;">
+                  <span class="product-name">Club Sandwich</span>
+                  <span class="product-price">$5.50</span>
+                </div>
+                <div class="product-card" data-category="sandwiches" onclick="selectIngredientItem('Chicken Sandwich', 6.00)" style="background: var(--palette-orange); color: #fff;">
+                  <span class="product-name">Chicken Sandwich</span>
+                  <span class="product-price">$6.00</span>
+                </div>
+                <div class="product-card" data-category="sandwiches" onclick="selectIngredientItem('Tuna Sandwich', 5.00)" style="background: var(--palette-red); color: #fff;">
+                  <span class="product-name">Tuna Sandwich</span>
+                  <span class="product-price">$5.00</span>
+                </div>
+                
+                <!-- Beef Burger -->
+                <div class="product-card" data-category="beef-burger" onclick="selectIngredientItem('Classic Burger', 7.50)" style="background: var(--palette-yellow); color: #000;">
+                  <span class="product-name">Classic Burger</span>
+                  <span class="product-price">$7.50</span>
+                </div>
+                <div class="product-card" data-category="beef-burger" onclick="selectIngredientItem('Cheese Burger', 8.50)" style="background: var(--palette-blue); color: #fff;">
+                  <span class="product-name">Cheese Burger</span>
+                  <span class="product-price">$8.50</span>
+                </div>
+                <div class="product-card" data-category="beef-burger" onclick="selectIngredientItem('Double Burger', 10.50)" style="background: var(--palette-purple); color: #fff;">
+                  <span class="product-name">Double Burger</span>
+                  <span class="product-price">$10.50</span>
+                </div>
+                
+                <!-- Expert Burger -->
+                <div class="product-card" data-category="expert-burger" onclick="selectIngredientItem('Expert Classic', 12.00)" style="background: var(--palette-green); color: #fff;">
+                  <span class="product-name">Expert Classic</span>
+                  <span class="product-price">$12.00</span>
+                </div>
+                <div class="product-card" data-category="expert-burger" onclick="selectIngredientItem('Expert Deluxe', 15.00)" style="background: var(--palette-orange); color: #fff;">
+                  <span class="product-name">Expert Deluxe</span>
+                  <span class="product-price">$15.00</span>
+                </div>
+                
+                <!-- HotDog -->
+                <div class="product-card" data-category="hotdog" onclick="selectIngredientItem('Classic HotDog', 4.00)" style="background: var(--palette-red); color: #fff;">
+                  <span class="product-name">Classic HotDog</span>
+                  <span class="product-price">$4.00</span>
+                </div>
+                <div class="product-card" data-category="hotdog" onclick="selectIngredientItem('Cheese HotDog', 5.00)" style="background: var(--palette-yellow); color: #000;">
+                  <span class="product-name">Cheese HotDog</span>
+                  <span class="product-price">$5.00</span>
+                </div>
+                
+                <!-- Appetisers -->
+                <div class="product-card" data-category="appetisers" onclick="selectIngredientItem('French Fries', 3.50)" style="background: var(--palette-blue); color: #fff;">
+                  <span class="product-name">French Fries</span>
+                  <span class="product-price">$3.50</span>
+                </div>
+                <div class="product-card" data-category="appetisers" onclick="selectIngredientItem('Onion Rings', 4.00)" style="background: var(--palette-purple); color: #fff;">
+                  <span class="product-name">Onion Rings</span>
+                  <span class="product-price">$4.00</span>
+                </div>
+                <div class="product-card" data-category="appetisers" onclick="selectIngredientItem('Mozzarella Sticks', 5.50)" style="background: var(--palette-green); color: #fff;">
+                  <span class="product-name">Mozzarella Sticks</span>
+                  <span class="product-price">$5.50</span>
+                </div>
+                
+                <!-- Fried Chicken -->
+                <div class="product-card" data-category="fried-chicken" onclick="selectIngredientItem('Crispy Chicken', 8.00)" style="background: var(--palette-orange); color: #fff;">
+                  <span class="product-name">Crispy Chicken</span>
+                  <span class="product-price">$8.00</span>
+                </div>
+                <div class="product-card" data-category="fried-chicken" onclick="selectIngredientItem('Spicy Wings', 7.50)" style="background: var(--palette-red); color: #fff;">
+                  <span class="product-name">Spicy Wings</span>
+                  <span class="product-price">$7.50</span>
+                </div>
+                <div class="product-card" data-category="fried-chicken" onclick="selectIngredientItem('Chicken Tenders', 6.50)" style="background: var(--palette-yellow); color: #000;">
+                  <span class="product-name">Chicken Tenders</span>
+                  <span class="product-price">$6.50</span>
+                </div>
+                
+                <!-- Meals -->
+                <div class="product-card" data-category="meals" onclick="selectIngredientItem('Grilled Chicken Meal', 12.00)" style="background: var(--palette-blue); color: #fff;">
+                  <span class="product-name">Grilled Chicken Meal</span>
+                  <span class="product-price">$12.00</span>
+                </div>
+                <div class="product-card" data-category="meals" onclick="selectIngredientItem('Steak Meal', 18.00)" style="background: var(--palette-purple); color: #fff;">
+                  <span class="product-name">Steak Meal</span>
+                  <span class="product-price">$18.00</span>
+                </div>
+                <div class="product-card" data-category="meals" onclick="selectIngredientItem('Fish Meal', 14.00)" style="background: var(--palette-green); color: #fff;">
+                  <span class="product-name">Fish Meal</span>
+                  <span class="product-price">$14.00</span>
+                </div>
+              </div>
+            </div>
+            <!-- Right Side - Selected Items -->
+            <div class="ingredient-select-right">
+              <h4 style="margin: 0 0 1rem 0; font-size: 1rem;">Selected Items</h4>
+              <div id="selected-ingredients-list" class="selected-ingredients-list">
+                <!-- Selected items will appear here -->
+              </div>
+              <div class="ingredient-select-actions">
+                <button class="btn btn-secondary" onclick="clearSelectedIngredients()">Clear All</button>
+                <button class="btn-icon" style="background: transparent; color: var(--dark); border: 2px solid var(--dark);" onclick="addSelectedIngredients()" title="Add">
+                  <i class="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

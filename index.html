@@ -849,6 +849,7 @@
         border: 1px solid var(--gray-200);
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
         height: 100%;
         position: relative;
       }
@@ -856,6 +857,27 @@
       .cart-header {
         padding: 1.5rem;
         border-bottom: 1px solid var(--gray-200);
+        position: relative;
+      }
+
+      .cart-close-btn {
+        display: none;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: transparent;
+        border: none;
+        color: var(--gray-600);
+        font-size: 1.25rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+
+      .cart-close-btn:hover {
+        background-color: var(--gray-100);
+        color: var(--gray-900);
       }
 
       .cart-title {
@@ -1370,7 +1392,6 @@
       }
 
       .inventory-items-container {
-        flex: 1;
         overflow: hidden;
         margin-bottom: 0.75rem;
         background: var(--gray-50);
@@ -1381,7 +1402,7 @@
       .inventory-items-grid {
         display: grid;
         grid-template-columns: repeat(4, minmax(100px, 1fr));
-        grid-template-rows: repeat(3, 72px);
+        grid-template-rows: repeat(3, 95px);
         grid-auto-flow: column;
         grid-auto-columns: minmax(100px, 1fr);
         gap: 0.35rem;
@@ -1419,16 +1440,31 @@
         width: 100%;
       }
 
-      .item-price {
-        font-size: 0.875rem;
+      .item-usd-price {
+        font-size: 1rem;
         font-weight: 700;
+        margin-bottom: 0.15rem;
+        color: inherit;
+      }
+
+      .item-price {
+        font-size: 0.75rem;
+        font-weight: 600;
         margin-bottom: 0.1rem;
+        opacity: 0.9;
       }
 
       .item-po-price {
         font-size: 0.625rem;
         opacity: 0.85;
         margin-bottom: 0.1rem;
+      }
+
+      .item-weight-points {
+        font-size: 0.65rem;
+        font-weight: 500;
+        opacity: 0.9;
+        margin-bottom: 0;
       }
 
       .item-stock {
@@ -2018,12 +2054,44 @@
         justify-content: center;
         margin-bottom: 2rem;
         border-bottom: 2px solid var(--gray-200);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      
+      .animated-tabs-container::-webkit-scrollbar {
+        display: none;
       }
       
       .animated-tabs {
         display: flex;
         gap: 2rem;
         position: relative;
+        min-width: max-content;
+      }
+      
+      /* Mobile scrollable tabs */
+      @media (max-width: 768px) {
+        .animated-tabs-container {
+          justify-content: flex-start;
+          padding: 0 1rem;
+        }
+        
+        .animated-tabs {
+          gap: 1rem;
+          white-space: nowrap;
+        }
+        
+        .animated-tab-link {
+          flex-shrink: 0;
+          padding: 0.75rem 1rem;
+          font-size: 0.9rem;
+        }
+        
+        .pdf-button-text {
+          display: none;
+        }
       }
       
       .animated-tab-link {
@@ -2305,6 +2373,10 @@
           z-index: 100;
         }
 
+        .cart-close-btn {
+          display: block !important;
+        }
+
         .stats-grid {
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         }
@@ -2335,7 +2407,7 @@
         }
 
         .products-grid {
-          grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
         }
 
         .cart-section {
@@ -3268,7 +3340,7 @@
       /* Responsive tweak for small screens (stacked cart layout) */
       @media (max-width:700px){
         .cart-header .order-type-toggle{
-          right:1rem;
+          right:3.5rem;
           top:1rem;
         }
       }
@@ -5107,6 +5179,9 @@
                                   <button type="button" class="toggle-btn" onclick="switchToggle(this); setOrderType('delivery')">Delivery</button>
                                 </div>
                             </div>
+                            <button class="cart-close-btn" onclick="toggleMobileCart()" title="Close cart">
+                                <i class="fas fa-times"></i>
+                            </button>
                             <div class="customer-section">
                                 <div class="select-wrapper">
                                     <select class="select-input">
@@ -6706,69 +6781,69 @@
                     <!-- Item Cards -->
                     <div class="inventory-item-card" style="background: var(--palette-purple); color: #fff;" onclick="selectInventoryItem('Tomatoes')">
                       <div class="item-name">Tomatoes</div>
-                      <div class="item-price">$2.50</div>
-                      <div class="item-po-price">1PO => $0.25</div>
-                      <div class="item-stock">36 PO</div>
+                      <div class="item-usd-price">$2.5</div>
+                      <div class="item-price">1kg=>2.5usd</div>
+                      <div class="item-weight-points">2.214kg and 36.00po</div>
                     </div>
                     <div class="inventory-item-card" style="background: var(--palette-green); color: #fff;" onclick="selectInventoryItem('Chicken Breast')">
                       <div class="item-name">Chicken Breast</div>
-                      <div class="item-price">$8.00</div>
-                      <div class="item-po-price">1PO => $2.00</div>
-                      <div class="item-stock">15 PO</div>
+                      <div class="item-usd-price">$8.0</div>
+                      <div class="item-price">1kg=>8.0usd</div>
+                      <div class="item-weight-points">1.5kg and 15po</div>
                     </div>
                     <div class="inventory-item-card" style="background: var(--palette-orange); color: #fff;" onclick="selectInventoryItem('Onions')">
                       <div class="item-name">Onions</div>
-                      <div class="item-price">$1.20</div>
-                      <div class="item-po-price">1PO => $0.30</div>
-                      <div class="item-stock">50 PO</div>
+                      <div class="item-usd-price">$1.2</div>
+                      <div class="item-price">1kg=>1.2usd</div>
+                      <div class="item-weight-points">4.167kg and 50po</div>
                     </div>
                     <div class="inventory-item-card" style="background: var(--palette-red); color: #fff;" onclick="selectInventoryItem('Bell Peppers')">
                       <div class="item-name">Bell Peppers</div>
-                      <div class="item-price">$3.00</div>
-                      <div class="item-po-price">1PO => $0.75</div>
-                      <div class="item-stock">20 PO</div>
+                      <div class="item-usd-price">$3.0</div>
+                      <div class="item-price">1kg=>3.0usd</div>
+                      <div class="item-weight-points">2.667kg and 20po</div>
                     </div>
                     <div class="inventory-item-card" style="background: var(--palette-yellow); color: #000;">
                       <div class="item-name">Flour</div>
-                      <div class="item-price">$3.20</div>
-                      <div class="item-po-price">1PO => $0.08</div>
-                      <div class="item-stock">120 PO</div>
+                      <div class="item-usd-price">$3.2</div>
+                      <div class="item-price">1kg=>3.2usd</div>
+                      <div class="item-weight-points">9.6kg and 120po</div>
                     </div>
                     <div class="inventory-item-card" style="background: var(--palette-blue); color: #fff;">
                       <div class="item-name">Basil</div>
-                      <div class="item-price">$4.00</div>
-                      <div class="item-po-price">1PO => $0.10</div>
-                      <div class="item-stock">80 PO</div>
+                      <div class="item-usd-price">$4.0</div>
+                      <div class="item-price">1kg=>4.0usd</div>
+                      <div class="item-weight-points">8.0kg and 80po</div>
                     </div>
                     <div class="inventory-item-card" style="background: var(--palette-purple); color: #fff;">
                       <div class="item-name">Bell Peppers</div>
-                      <div class="item-price">$3.50</div>
-                      <div class="item-po-price">1PO => $0.35</div>
-                      <div class="item-stock">28 PO</div>
+                      <div class="item-usd-price">$3.5</div>
+                      <div class="item-price">1kg=>3.5usd</div>
+                      <div class="item-weight-points">2.8kg and 28po</div>
                     </div>
                     <div class="inventory-item-card" style="background: var(--palette-green); color: #fff;">
                       <div class="item-name">Ground Beef</div>
-                      <div class="item-price">$7.50</div>
-                      <div class="item-po-price">1PO => $1.50</div>
-                      <div class="item-stock">20 PO</div>
+                      <div class="item-usd-price">$7.5</div>
+                      <div class="item-price">1kg=>7.5usd</div>
+                      <div class="item-weight-points">3.0kg and 20po</div>
                     </div>
                     <div class="inventory-item-card" style="background: var(--palette-orange); color: #fff;">
                       <div class="item-name">Pasta</div>
-                      <div class="item-price">$2.80</div>
-                      <div class="item-po-price">1PO => $0.70</div>
-                      <div class="item-stock">50 PO</div>
+                      <div class="item-usd-price">$2.8</div>
+                      <div class="item-price">1kg=>2.8usd</div>
+                      <div class="item-weight-points">4.0kg and 50po</div>
                     </div>
                     <div class="inventory-item-card" style="background: var(--palette-red); color: #fff;">
                       <div class="item-name">Garlic</div>
-                      <div class="item-price">$1.50</div>
-                      <div class="item-po-price">1PO => $0.05</div>
-                      <div class="item-stock">100 PO</div>
+                      <div class="item-usd-price">$1.5</div>
+                      <div class="item-price">1kg=>1.5usd</div>
+                      <div class="item-weight-points">5.0kg and 100po</div>
                     </div>
                     <div class="inventory-item-card" style="background: var(--palette-yellow); color: #000;">
                       <div class="item-name">Onions</div>
-                      <div class="item-price">$1.80</div>
-                      <div class="item-po-price">1PO => $0.18</div>
-                      <div class="item-stock">45 PO</div>
+                      <div class="item-usd-price">$1.8</div>
+                      <div class="item-price">1kg=>1.8usd</div>
+                      <div class="item-weight-points">8.1kg and 45po</div>
                     </div>
                     <div class="inventory-item-card" style="background: var(--palette-blue); color: #fff;">
                       <div class="item-name">Salt</div>
@@ -7252,11 +7327,19 @@
       function getReportsPage() {
         return `
           <div class="table-container" style="border:none;">
-            <!-- PERIOD TOGGLE -->
-            <div style="display:flex; gap:0.5rem; margin-bottom:1rem;">
-              <button id="rep-daily-btn" class="btn btn-secondary" onclick="openReportPeriod('daily')">DAILY</button>
-              <button id="rep-monthly-btn" class="btn btn-primary" onclick="openReportPeriod('monthly')">MONTHLY</button>
-              <button id="rep-yearly-btn" class="btn btn-secondary" onclick="openReportPeriod('yearly')">YEARLY</button>
+            <!-- TOP BAR WITH PERIOD TOGGLE AND DOWNLOAD BUTTON -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+              <!-- PERIOD TOGGLE -->
+              <div style="display:flex; gap:0.5rem;">
+                <button id="rep-daily-btn" class="btn btn-secondary" onclick="openReportPeriod('daily')">DAILY</button>
+                <button id="rep-monthly-btn" class="btn btn-primary" onclick="openReportPeriod('monthly')">MONTHLY</button>
+                <button id="rep-yearly-btn" class="btn btn-secondary" onclick="openReportPeriod('yearly')">YEARLY</button>
+              </div>
+              <!-- DOWNLOAD PDF BUTTON -->
+              <button class="btn btn-primary" onclick="downloadReportPDF()" style="display:flex; align-items:center; gap:0.5rem;">
+                <i class="fas fa-file-pdf"></i>
+                <span class="pdf-button-text">Download PDF</span>
+              </button>
             </div>
 
             <!-- HEADER LINE -->
@@ -7440,6 +7523,16 @@
                       </div>
                       <div style="padding: 1rem;">
                         <canvas id="topCustomersChart"></canvas>
+                      </div>
+                    </div>
+
+                    <div class="chart-container">
+                      <div class="chart-header">
+                        <h3 class="chart-title">Sales per Day (Last 7 Days)</h3>
+                        <button class="btn btn-secondary btn-icon"><i class="fas fa-expand"></i></button>
+                      </div>
+                      <div style="padding: 1rem;">
+                        <canvas id="salesPerDayChart"></canvas>
                       </div>
                     </div>
                 </div>
@@ -7715,6 +7808,11 @@
           cart.classList.toggle("active");
           cartOpen = !cartOpen;
         }
+      }
+
+      // Alias for mobile cart close button
+      function toggleMobileCart() {
+        toggleCart();
       }
 
       // Modal functions
@@ -10236,6 +10334,42 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: { x: { beginAtZero: true } },
+              },
+            });
+          }
+
+          // Sales per Day Chart
+          const ctx7 = document.getElementById("salesPerDayChart");
+          if (ctx7) {
+            const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+            const salesData = [1200, 1500, 800, 1800, 2200, 1600, 900];
+            new Chart(ctx7.getContext("2d"), {
+              type: "bar",
+              data: {
+                labels: days,
+                datasets: [
+                  {
+                    label: "Sales (USD)",
+                    data: salesData,
+                    backgroundColor: "rgba(59, 130, 246, 0.8)",
+                    borderColor: "#3b82f6",
+                    borderWidth: 1,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { 
+                  y: { 
+                    beginAtZero: true,
+                    ticks: {
+                      callback: function(value) {
+                        return '$' + value;
+                      }
+                    }
+                  } 
+                },
               },
             });
           }

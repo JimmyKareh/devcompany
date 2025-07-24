@@ -1849,14 +1849,68 @@
         }
       }
 
-      @media (max-width: 900px) {
+      /* Landscape orientation: keep right panel visible */
+      @media (max-width: 900px) and (orientation: landscape) {
         .inventory-sections {
-          grid-template-columns: 1fr;
+          grid-template-columns: 1fr 300px;
         }
-        .inventory-right-section {
-          display: none;
+
+        /* Make inventory buttons smaller on mobile landscape */
+        .inventory-actions .btn-icon,
+        .ingredients-actions .btn-icon {
+          min-width: 28px !important;
+          height: 28px !important;
+          font-size: 0.75rem;
+        }
+
+        .inventory-right-section .btn-sm {
+          height: 28px !important;
+          padding: 0.25rem 0.5rem !important;
+          font-size: 0.75rem !important;
+        }
+
+        .inventory-right-section .btn-success {
+          height: 32px !important;
+          font-size: 0.75rem !important;
         }
       }
+
+      /* Portrait orientation: stack sections vertically */
+      @media (max-width: 900px) and (orientation: portrait) {
+        .restaurant-inventory-container {
+          overflow: scroll;
+        }
+
+        .inventory-sections {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto auto;
+          gap: 1rem;
+        }
+
+        .inventory-left-section {
+          height: 600px;
+        }
+
+        /* Make inventory buttons smaller on mobile */
+        .inventory-actions .btn-icon,
+        .ingredients-actions .btn-icon {
+          min-width: 28px !important;
+          height: 28px !important;
+          font-size: 0.75rem;
+        }
+
+        .inventory-right-section .btn-sm {
+          height: 28px !important;
+          padding: 0.25rem 0.5rem !important;
+          font-size: 0.75rem !important;
+        }
+
+        .inventory-right-section .btn-success {
+          height: 32px !important;
+          font-size: 0.75rem !important;
+        }
+      }
+
 
       .stat-card {
         background: var(--white);
@@ -3237,6 +3291,8 @@
           z-index: 100;
         }
       }
+
+
 
       /* ---------- Override Product Card Details ---------- */
       .product-card .product-image,
@@ -7714,6 +7770,7 @@
         mobileCartToggle.style.display =
           pageName === "sale" && window.innerWidth <= 700 ? "flex" : "none";
 
+
         // Load page content
         let pageHTML = "";
         try {
@@ -7826,6 +7883,7 @@
         toggleCart();
       }
 
+
       // Modal functions
       function openModal(modalId) {
         document.getElementById(modalId).classList.add("active");
@@ -7843,6 +7901,7 @@
       // Handle window resize
       window.addEventListener("resize", () => {
         const mobileCartToggle = document.getElementById("mobile-cart-toggle");
+        
         if (currentPage === "sale") {
           mobileCartToggle.style.display =
             window.innerWidth <= 700 ? "flex" : "none";

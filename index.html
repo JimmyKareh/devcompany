@@ -658,10 +658,17 @@
       }
 
       .category-card {
-        padding: 0.5rem;
+        padding: 0.25rem;
         flex: 1 1 auto; /* override fixed width */
-        border: none;
+        border: 1px solid var(--gray-200);
+        border-radius: 6px;
         color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 60px;
+        font-size: 0.75rem;
+        text-align: center;
       }
       .category-card:nth-child(1) {
         background: var(--palette-purple);
